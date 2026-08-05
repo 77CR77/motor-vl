@@ -18,6 +18,8 @@
   --border: #e1e8ef;
   --success: #2f9e58;
   --star: #f0a93b;
+  --jp-red: #bc002d;
+  --jp-red-dark: #8f0021;
   --shadow-sm: 0 4px 14px rgba(11, 46, 79, 0.08);
   --shadow-md: 0 10px 30px rgba(11, 46, 79, 0.12);
   --shadow-lg: 0 20px 50px rgba(11, 46, 79, 0.16);
@@ -88,6 +90,8 @@ p { margin: 0 0 16px; }
 .section--navy {
   background: linear-gradient(160deg, var(--navy) 0%, var(--navy-dark) 100%);
   color: #dce8f3;
+  position: relative;
+  overflow: hidden;
 }
 .section--navy h2, .section--navy h3 { color: #ffffff; }
 .section--muted { background: #eef3f8; }
@@ -1000,6 +1004,8 @@ footer.site-footer {
   background: linear-gradient(150deg, var(--navy) 0%, var(--navy-light) 100%);
   color: #fff;
   padding: 52px 0;
+  position: relative;
+  overflow: hidden;
 }
 .page-hero h1 { color: #fff; margin-bottom: 8px; }
 .breadcrumbs { font-size: 15px; color: #b9d1e6; }
@@ -1017,6 +1023,90 @@ footer.site-footer {
 .text-center { text-align: center; }
 .mt-0 { margin-top: 0; }
 .mb-0 { margin-bottom: 0; }
+
+/* ==========================================================================
+   Японские акценты
+   Флаг Японии в виде графики (а не эмодзи — надёжнее отображается везде),
+   волна сэйгайха как деликатный узор и иероглифическая подложка на hero.
+   ========================================================================== */
+
+.flag-jp {
+  --w: 30px;
+  width: var(--w);
+  height: calc(var(--w) * 2 / 3);
+  flex-shrink: 0;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #fff;
+  background-image: radial-gradient(circle at 50% 50%, var(--jp-red) 0 32%, transparent 33%);
+  box-shadow: 0 0 0 1px rgba(11, 46, 79, 0.14);
+}
+.flag-jp--sm { --w: 22px; }
+.flag-jp--lg { --w: 40px; }
+
+.jp-eyebrow-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jp-waves {
+  position: relative;
+}
+.jp-waves::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle at 0 100%, transparent 22px, rgba(255,255,255,.07) 23px, rgba(255,255,255,.07) 25px, transparent 26px),
+    radial-gradient(circle at 50px 100%, transparent 22px, rgba(255,255,255,.07) 23px, rgba(255,255,255,.07) 25px, transparent 26px),
+    radial-gradient(circle at 100px 100%, transparent 22px, rgba(255,255,255,.07) 23px, rgba(255,255,255,.07) 25px, transparent 26px);
+  background-size: 50px 26px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+.jp-waves--light::before {
+  background-image:
+    radial-gradient(circle at 0 100%, transparent 22px, rgba(11,46,79,.05) 23px, rgba(11,46,79,.05) 25px, transparent 26px),
+    radial-gradient(circle at 50px 100%, transparent 22px, rgba(11,46,79,.05) 23px, rgba(11,46,79,.05) 25px, transparent 26px),
+    radial-gradient(circle at 100px 100%, transparent 22px, rgba(11,46,79,.05) 23px, rgba(11,46,79,.05) 25px, transparent 26px);
+}
+
+.jp-kanji-mark {
+  position: absolute;
+  top: -10px;
+  right: 2%;
+  font-size: clamp(120px, 16vw, 260px);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.05);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  letter-spacing: -4px;
+}
+
+.jp-accent-line {
+  width: 56px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--jp-red);
+  margin: 0 auto 20px;
+}
+.jp-accent-line--left { margin: 0 0 20px; }
+
+.jp-strip {
+  height: 34px;
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 0 0, transparent 22px, rgba(11,46,79,.06) 23px, rgba(11,46,79,.06) 25px, transparent 26px),
+    radial-gradient(circle at 50px 0, transparent 22px, rgba(11,46,79,.06) 23px, rgba(11,46,79,.06) 25px, transparent 26px),
+    radial-gradient(circle at 100px 0, transparent 22px, rgba(11,46,79,.06) 23px, rgba(11,46,79,.06) 25px, transparent 26px);
+  background-size: 50px 34px;
+  background-repeat: repeat-x;
+}
 
 /* ==========================================================================
    Responsive

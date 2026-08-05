@@ -65,7 +65,40 @@
 <!-- ================= HERO ================= -->
 <section class="hero jp-waves">
   <span class="jp-kanji-mark">日本</span>
-  <span class="flag-emoji" style="top:-18px; right:-24px; font-size:220px; transform:rotate(11deg);">🇯🇵</span>
+
+  <div class="jp-flag-real" style="top:-34px; left:-50px; width:400px; transform:rotate(-9deg);">
+    <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Флаг Японии">
+      <defs>
+        <linearGradient id="clothA" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="0.55" stop-color="#f2f2f0"/>
+          <stop offset="1" stop-color="#dfded9"/>
+        </linearGradient>
+        <radialGradient id="sunA" cx="34%" cy="30%" r="80%">
+          <stop offset="0" stop-color="#ff5468"/>
+          <stop offset="50%" stop-color="#bc002d"/>
+          <stop offset="100%" stop-color="#78001d"/>
+        </radialGradient>
+        <linearGradient id="sheenA" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.6"/>
+          <stop offset="0.3" stop-color="#ffffff" stop-opacity="0.05"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="foldA" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+          <stop offset="0.7" stop-color="#000000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000000" stop-opacity="0.22"/>
+        </linearGradient>
+      </defs>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="url(#clothA)"/>
+      <circle cx="150" cy="100" r="58" fill="url(#sunA)"/>
+      <circle cx="150" cy="100" r="58" fill="none" stroke="#000000" stroke-opacity="0.06" stroke-width="1"/>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="url(#sheenA)"/>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="url(#foldA)"/>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="none" stroke="#000000" stroke-opacity="0.10" stroke-width="2"/>
+    </svg>
+  </div>
+
   <div class="container hero-grid">
     <div>
       <span class="eyebrow">18 лет на рынке</span>
@@ -74,11 +107,69 @@
       <div class="hero-stats">
         <div class="hero-stat"><b><span data-counter="18">0</span>+</b><span>лет на рынке</span></div>
         <div class="hero-stat"><b><span data-counter="1500">0</span>+</b><span>проданных моторов</span></div>
-        <div class="hero-stat"><b><span data-counter="97">0</span>%</b><span>довольных покупателей</span></div>
       </div>
     </div>
     <div class="hero-media">
-      <img src="https://www.motor-vl.ru/files/images/5e74ca7e23f79.jpg" alt="Лодочные моторы МОТОР-ВЛ во Владивостоке">
+      <div class="hero-illustration">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Иллюстрация в морском стиле: закат над волнами и парусные лодки">
+          <defs>
+            <linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0f2f52"/>
+              <stop offset="55%" stop-color="#0a2440"/>
+              <stop offset="100%" stop-color="#020a16"/>
+            </linearGradient>
+            <radialGradient id="heroSun" cx="50%" cy="45%" r="60%">
+              <stop offset="0" stop-color="#f8e39a"/>
+              <stop offset="45%" stop-color="#d4af37"/>
+              <stop offset="100%" stop-color="#9c7c17"/>
+            </radialGradient>
+            <radialGradient id="heroGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#f3d878" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#f3d878" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="heroSail" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f3d878"/>
+              <stop offset="100%" stop-color="#c9a227"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="0" y="0" width="400" height="320" fill="url(#heroBg)"/>
+
+          <circle cx="300" cy="72" r="150" fill="url(#heroGlow)"/>
+          <circle cx="300" cy="72" r="60" fill="url(#heroSun)"/>
+          <circle cx="300" cy="72" r="66" fill="none" stroke="#f3d878" stroke-opacity="0.35" stroke-width="1.5"/>
+
+          <circle cx="252" cy="40" r="2.4" fill="#ffffff" opacity="0.8"/>
+          <circle cx="336" cy="30" r="1.8" fill="#ffffff" opacity="0.6"/>
+          <circle cx="270" cy="130" r="1.6" fill="#ffffff" opacity="0.5"/>
+
+          <path d="M0,196 Q50,178 100,196 T200,196 T300,196 T400,196 V320 H0 Z" fill="#0f2f52" opacity="0.55"/>
+          <g transform="translate(112,182) scale(0.5)" opacity="0.55">
+            <ellipse cx="0" cy="10" rx="30" ry="8" fill="#7d90a4"/>
+            <line x1="0" y1="10" x2="0" y2="-34" stroke="#7d90a4" stroke-width="3" stroke-linecap="round"/>
+            <polygon points="0,-32 24,4 0,4" fill="#cfc7b4"/>
+          </g>
+
+          <path d="M0,232 Q50,212 100,232 T200,232 T300,232 T400,232 V320 H0 Z" fill="#d4af37" opacity="0.10"/>
+          <g transform="translate(268,214) scale(0.78)" opacity="0.85">
+            <ellipse cx="0" cy="10" rx="30" ry="8" fill="#12518a"/>
+            <line x1="0" y1="10" x2="0" y2="-36" stroke="#12518a" stroke-width="3" stroke-linecap="round"/>
+            <polygon points="0,-34 26,4 0,4" fill="#e3c568"/>
+          </g>
+
+          <path d="M0,266 Q50,246 100,266 T200,266 T300,266 T400,266 V320 H0 Z" fill="#020a16"/>
+
+          <g transform="translate(168,252) scale(1.1)">
+            <ellipse cx="10" cy="46" rx="8" ry="3" fill="#000000" opacity="0.18"/>
+            <ellipse cx="0" cy="12" rx="34" ry="9" fill="#041226"/>
+            <ellipse cx="0" cy="12" rx="34" ry="9" fill="none" stroke="#d4af37" stroke-width="1" stroke-opacity="0.4"/>
+            <line x1="0" y1="12" x2="0" y2="-44" stroke="#041226" stroke-width="3.5" stroke-linecap="round"/>
+            <polygon points="0,-42 30,6 0,6" fill="url(#heroSail)"/>
+            <polygon points="0,-42 12,-10 0,-10" fill="#ffffff" opacity="0.35"/>
+            <polygon points="0,-44 8,-38 0,-34" fill="#bc002d"/>
+          </g>
+        </svg>
+      </div>
       <div class="hero-media__badge">
         <span class="ico">🎥</span>
         <div><b>Фото и видео отчёт</b><span>по каждому мотору перед отправкой</span></div>
@@ -233,7 +324,38 @@
 
 <!-- ================= CTA ================= -->
 <section class="section section--tight section--scatter">
-  <span class="flag-emoji" style="bottom:-40px; left:-20px; font-size:190px; transform:rotate(-14deg);">🇯🇵</span>
+  <div class="jp-flag-real" style="bottom:-48px; right:-56px; width:440px; transform:rotate(10deg);">
+    <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Флаг Японии">
+      <defs>
+        <linearGradient id="clothB" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="0.55" stop-color="#f2f2f0"/>
+          <stop offset="1" stop-color="#dfded9"/>
+        </linearGradient>
+        <radialGradient id="sunB" cx="34%" cy="30%" r="80%">
+          <stop offset="0" stop-color="#ff5468"/>
+          <stop offset="50%" stop-color="#bc002d"/>
+          <stop offset="100%" stop-color="#78001d"/>
+        </radialGradient>
+        <linearGradient id="sheenB" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.6"/>
+          <stop offset="0.3" stop-color="#ffffff" stop-opacity="0.05"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="foldB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+          <stop offset="0.7" stop-color="#000000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000000" stop-opacity="0.22"/>
+        </linearGradient>
+      </defs>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="url(#clothB)"/>
+      <circle cx="150" cy="100" r="58" fill="url(#sunB)"/>
+      <circle cx="150" cy="100" r="58" fill="none" stroke="#000000" stroke-opacity="0.06" stroke-width="1"/>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="url(#sheenB)"/>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="url(#foldB)"/>
+      <rect x="1" y="1" width="298" height="198" rx="14" fill="none" stroke="#000000" stroke-opacity="0.10" stroke-width="2"/>
+    </svg>
+  </div>
   <div class="container">
     <div class="cta-band reveal">
       <div>

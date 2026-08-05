@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оставить заявку — МОТОР-ВЛ</title>
+<meta name="description" content="Оставьте заявку на подбор лодочного мотора или на мотор под заказ из Японии. Ответим и перезвоним в ближайшее время.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar__contacts">
+      <a href="tel:+79084481100">📞 +7 (908) 448-11-00</a>
+      <span>г. Владивосток, ул. Командорская 11, литера А</span>
+      <span>Пн–Пт: 09:00–19:00</span>
+    </div>
+    <div class="topbar__socials">
+      <a href="https://www.instagram.com/motor_vl.ru/?hl=ru" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://vk.com/motorvl" target="_blank" rel="noopener">VK</a>
+      <a href="#" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo__badge">⚓</span>
+      <span class="logo__text">МОТОР-ВЛ<span>Лодочные моторы из Японии</span></span>
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">О компании</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="delivery.html">Доставка и оплата</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="header-phone">
+        <span>Звоните каждый день</span>
+        +7 (908) 448-11-00
+      </div>
+      <a href="order.html" class="btn btn--accent">Оставить заявку</a>
+    </div>
+
+    <button class="nav-toggle" aria-label="Открыть меню"><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav">
+  <div class="mobile-nav__panel">
+    <button class="mobile-nav__close">✕</button>
+    <a href="index.html">О компании</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="delivery.html">Доставка и оплата</a>
+    <a href="contacts.html">Контакты</a>
+    <a href="order.html">Оставить заявку</a>
+    <a href="tel:+79084481100">📞 +7 (908) 448-11-00</a>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumbs"><a href="index.html">Главная</a> / Оставить заявку</div>
+    <h1>Оставить заявку</h1>
+    <p style="color:#d7e6f3; max-width:640px;">Не нашли подходящий мотор в каталоге? Оставьте заявку — подберём
+      и привезём мотор под заказ из Японии, или проконсультируем по любой модели в наличии.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items:flex-start;">
+
+      <div class="form-card reveal">
+        <h2 style="margin-bottom:6px;">Заявка на подбор мотора</h2>
+        <p style="color:var(--text-muted);">Заполните форму — мы перезвоним в ближайшее рабочее время и
+          ответим на все вопросы.</p>
+
+        <form id="orderForm">
+          <div class="form-row">
+            <label for="fieldName">Ваше имя</label>
+            <input class="form-control" type="text" id="fieldName" name="name" placeholder="Например, Александр" required>
+          </div>
+
+          <div class="form-two-col">
+            <div class="form-row">
+              <label for="fieldPhone">Телефон</label>
+              <input class="form-control" type="tel" id="fieldPhone" name="phone" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <div class="form-row">
+              <label for="fieldEmail">E-mail <span style="font-weight:500;color:var(--text-muted);">(необязательно)</span></label>
+              <input class="form-control" type="email" id="fieldEmail" name="email" placeholder="your@email.ru">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="fieldMotor">Какой мотор интересует</label>
+            <input class="form-control" type="text" id="fieldMotor" name="motor" placeholder="Марка, модель или мощность">
+            <div class="hint">Если оставляете заявку на подбор под заказ из Японии — просто опишите пожелания.</div>
+          </div>
+
+          <div class="form-row">
+            <label for="fieldMessage">Комментарий</label>
+            <textarea class="form-control" id="fieldMessage" name="message" placeholder="Расскажите, для какой лодки нужен мотор, какая мощность и бюджет вас интересуют"></textarea>
+          </div>
+
+          <div class="form-row checkbox-row">
+            <input type="checkbox" id="fieldConsent" required>
+            <label for="fieldConsent" style="font-weight:500; margin:0;">Даю согласие на обработку персональных
+              данных в соответствии с политикой конфиденциальности</label>
+          </div>
+
+          <button type="submit" class="btn btn--accent btn--block btn--lg">Отправить заявку</button>
+        </form>
+
+        <div class="form-success" id="orderSuccess">
+          <div class="ico">✓</div>
+          <h3>Спасибо! Заявка отправлена</h3>
+          <p style="color:var(--text-muted);">Мы свяжемся с вами в ближайшее рабочее время. Если вопрос срочный —
+            звоните <a href="tel:+79084481100" style="color:var(--navy); font-weight:800;">+7 (908) 448-11-00</a>.</p>
+        </div>
+      </div>
+
+      <div class="reveal" style="display:grid; gap:22px;">
+        <div class="card">
+          <div class="ico">📞</div>
+          <h3>Быстрее — по телефону</h3>
+          <p>Позвоните нам напрямую, и мы поможем с выбором мотора прямо сейчас:
+            <a href="tel:+79084481100" style="color:var(--navy); font-weight:800;">+7 (908) 448-11-00</a></p>
+        </div>
+        <div class="card">
+          <div class="ico">🇯🇵</div>
+          <h3>Подбор под заказ из Японии</h3>
+          <p>Если в каталоге нет подходящей модели — мы найдём и привезём мотор, лодку, катер или запчасти
+            под ваш запрос напрямую из Японии.</p>
+        </div>
+        <div class="card">
+          <div class="ico">⏱️</div>
+          <h3>Отвечаем быстро</h3>
+          <p>Работаем ежедневно с 09:00 до 19:00 и обычно перезваниваем в течение рабочего дня.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="logo__badge">⚓</span> МОТОР-ВЛ</div>
+        <p>Лодочные моторы б/у из Японии во Владивостоке. Более 18 лет на рынке.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/motor_vl.ru/?hl=ru" target="_blank" rel="noopener">IG</a>
+          <a href="https://vk.com/motorvl" target="_blank" rel="noopener">VK</a>
+          <a href="#" target="_blank" rel="noopener">TG</a>
+        </div>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <ul>
+          <li><a href="index.html">О компании</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="delivery.html">Доставка и оплата</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Бренды</h4>
+        <ul>
+          <li><a href="catalog.html#yamaha">Yamaha</a></li>
+          <li><a href="catalog.html#honda">Honda</a></li>
+          <li><a href="catalog.html#suzuki">Suzuki</a></li>
+          <li><a href="catalog.html#tohatsu">Tohatsu / Mercury</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul>
+          <li>г. Владивосток, ул. Командорская 11, литера А</li>
+          <li><a href="tel:+79084481100">+7 (908) 448-11-00</a></li>
+          <li><a href="mailto:japan-sea@list.ru">japan-sea@list.ru</a></li>
+          <li>Пн–Пт: 09:00–19:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 МОТОР-ВЛ. Все права защищены.</span>
+      <span>Дизайн-концепт сайта</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-call-bar">
+  <a href="tel:+79084481100" class="call">📞 Позвонить</a>
+  <a href="order.html" class="order">Оставить заявку</a>
+</div>
+
+<button class="back-to-top" aria-label="Наверх">↑</button>
+
+<script src="js/order.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

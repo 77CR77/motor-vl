@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Доставка и оплата — МОТОР-ВЛ</title>
-<meta name="description" content="Условия самовывоза, доставки по России, Казахстану и Беларуси, а также порядок оплаты лодочного мотора МОТОР-ВЛ.">
+<title>Каталог лодочных моторов — МОТОР-ВЛ</title>
+<meta name="description" content="Каталог лодочных моторов Yamaha, Honda, Suzuki, Tohatsu и Mercury во Владивостоке. Полные характеристики и цена каждой модели без перехода на другую страницу.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -63,88 +63,51 @@
 </div>
 
 <section class="page-hero jp-waves">
-  <span class="jp-kanji-mark">配送</span>
+  <span class="jp-kanji-mark">船外機</span>
   <div class="container">
-    <div class="breadcrumbs"><a href="index.html">Главная</a> / Доставка и оплата</div>
-    <h1>Доставка и оплата</h1>
-    <p style="max-width:640px;">Прозрачные условия — вы всегда знаете, что и когда оплачиваете.</p>
+    <div class="breadcrumbs"><a href="index.html">Главная</a> / Каталог</div>
+    <h1>Каталог лодочных моторов</h1>
+    <p style="max-width:640px;">Все характеристики и цена каждой модели видны сразу — переходить
+      на другую страницу не нужно. Нажмите на фото, чтобы рассмотреть мотор крупнее.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
 
-    <div class="section-head reveal">
-      <span class="eyebrow">Способ 1</span>
-      <h2>Самовывоз из Владивостока</h2>
-    </div>
-    <div class="steps reveal" style="margin-bottom:56px;">
-      <div class="step-card">
-        <div class="step-card__num">📍</div>
-        <div>
-          <h3>Приезжайте и смотрите мотор вживую</h3>
-          <p>Выбрать понравившийся лодочный мотор и протестировать его вы можете по адресу:
-            г. Владивосток, ул. Командорская 11, литера А.</p>
-          <ul>
-            <li>Оплата наличными</li>
-            <li>Оплата банковской картой</li>
-          </ul>
-        </div>
+    <div class="catalog-note reveal">
+      <span class="ico">⛩️</span>
+      <div>
+        <b>Не нашли подходящую модель?</b> Мы также подбираем дизельные моторы, лодки, катера и запчасти
+        под заказ из Японии. Оставьте заявку — и мы подберём для вас подходящий вариант.
       </div>
     </div>
 
-    <div class="section-head reveal">
-      <span class="eyebrow">Способ 2</span>
-      <h2>Доставка по России, Казахстану и Беларуси</h2>
-    </div>
-    <div class="steps reveal">
-      <div class="step-card">
-        <div class="step-card__num">🚚</div>
-        <div>
-          <h3>Любая удобная транспортная компания</h3>
-          <p>Мы работаем абсолютно с любой транспортной компанией: Деловые Линии, КИТ, ПЭК, Трансинтэк,
-            Энергия, Ратэк, Желдорэкспедиция — или любой другой на ваш выбор.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-card__num">📝</div>
-        <div>
-          <h3>Оформление заказа</h3>
-          <p>При оформлении заказа необходимо указать полное ФИО, серию и номер паспорта, номер телефона.
-            Наши сотрудники рассчитают приблизительную стоимость доставки в ваш регион.</p>
-        </div>
-      </div>
+    <div class="catalog-toolbar reveal">
+      <div class="brand-tabs" id="brandTabs"></div>
+      <select class="sort-select" id="sortSelect">
+        <option value="default">По популярности</option>
+        <option value="price-asc">Сначала дешевле</option>
+        <option value="price-desc">Сначала дороже</option>
+      </select>
     </div>
 
-    <div class="section-head reveal" style="margin-top:56px;">
-      <span class="eyebrow">Оплата заказа</span>
-      <h2>Как проходит оплата при доставке</h2>
-      <p>Перевод — на рабочую банковскую карту Сбербанка через Сбербанк-онлайн.</p>
-    </div>
+    <p id="resultsCount" style="color:var(--text-muted); font-weight:700; margin-bottom:24px;"></p>
 
-    <div class="steps reveal">
-      <div class="step-card">
-        <div class="step-card__num">1</div>
-        <div>
-          <h3>Предоплата 10%</h3>
-          <p>После предоплаты в размере 10% от стоимости товара груз упаковывается и доставляется в
-            транспортную компанию, выбранную покупателем для отправки.</p>
-        </div>
+    <div class="motor-grid" id="motorGrid"></div>
+
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>Не нашли мотор своей мечты?</h2>
+        <p>Оставьте заявку — подберём и привезём подходящую модель под заказ прямо из Японии.</p>
       </div>
-      <div class="step-card">
-        <div class="step-card__num">2</div>
-        <div>
-          <h3>Оставшиеся 90% — после передачи груза</h3>
-          <p>По факту передачи груза в транспортную компанию и получения транспортной накладной на имя
-            получателя, покупатель оплачивает оставшуюся часть в размере 90% в течение 3 (трёх) дней.</p>
-        </div>
-      </div>
+      <a href="order.html?type=japan" class="btn btn--navy btn--lg">Оставить заявку на подбор</a>
     </div>
-
-    <div class="payment-note reveal">
-      ⚠️ Обращаем внимание: отгрузка/отправка товара в другие города России производится только после предоплаты.
-    </div>
-
   </div>
 </section>
 
@@ -191,6 +154,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 МОТОР-ВЛ. Все права защищены.</span>
+      <span>Дизайн-концепт сайта</span>
     </div>
   </div>
 </footer>
@@ -202,6 +166,14 @@
 
 <button class="back-to-top" aria-label="Наверх">↑</button>
 
+<div class="lightbox">
+  <button class="lightbox__close" aria-label="Закрыть">✕</button>
+  <img src="" alt="Фото мотора">
+  <div class="lightbox__caption"></div>
+</div>
+
+<script src="js/catalog-data.js"></script>
+<script src="js/catalog.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

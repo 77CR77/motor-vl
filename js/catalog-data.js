@@ -385,14 +385,14 @@ var MOTORS = [
     title: "Румпель для лодочного мотора Yamaha F25",
     price: 10000,
     img: "https://www.motor-vl.ru/media/85/images/thumb/wJuZraNM.jpeg",
-    specs: [["Совместимость", "Yamaha F25"]]
+    specs: [["Совместимость", "Yamaha F25"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
     title: "Угловые колонки и транцевые узлы",
     price: 11111,
     img: "https://www.motor-vl.ru/media/53/images/thumb/2t9OAA2S.jpeg",
-    specs: [["Подходит", "Volvo Penta 290/280, MerCruiser Alpha One/Bravo 2, Yanmar, Yamaha"]]
+    specs: [["Подходит", "Volvo Penta 290/280, MerCruiser Alpha One/Bravo 2, Yanmar, Yamaha"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
@@ -406,21 +406,21 @@ var MOTORS = [
     title: "Мультирумпель Yamaha F30-F40, F50-F70, F80-F115",
     price: 15000,
     img: "https://www.motor-vl.ru/media/54/images/thumb/79v2lMHw.jpeg",
-    specs: [["Совместимость", "Yamaha F30-F40, F50-F70, F80-F115"]]
+    specs: [["Совместимость", "Yamaha F30-F40, F50-F70, F80-F115"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
     title: "Мультирумпель Suzuki DF40, DF50, DF60",
     price: 20000,
     img: "https://www.motor-vl.ru/media/105/images/thumb/uxsutKWb.jpeg",
-    specs: [["Совместимость", "Suzuki DF40, DF50, DF60"]]
+    specs: [["Совместимость", "Suzuki DF40, DF50, DF60"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
     title: "Мультирумпель Honda BF75, BF90",
     price: 30000,
     img: "https://www.motor-vl.ru/media/52/images/thumb/VQWgugho.jpeg",
-    specs: [["Совместимость", "Honda BF75, BF90"]]
+    specs: [["Совместимость", "Honda BF75, BF90"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
@@ -434,7 +434,7 @@ var MOTORS = [
     title: "Дейдвуд Yamaha F40, F60",
     price: 35000,
     img: "https://www.motor-vl.ru/media/56/images/thumb/PYzAkL30.jpeg",
-    specs: [["Артикул", "67C-45111-21-4D / 67C-45111-21-8D"]]
+    specs: [["Артикул", "67C-45111-21-4D / 67C-45111-21-8D"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
@@ -490,14 +490,14 @@ var MOTORS = [
     title: "Угловая колонка Yanmar SZ110",
     price: 120000,
     img: "https://www.motor-vl.ru/media/61/images/thumb/uRQcCPiD.jpeg",
-    specs: [["В комплекте", "транцевый узел"]]
+    specs: [["В комплекте", "транцевый узел"], ["Наличие", "во Владивостоке"]]
   },
   {
     brand: "parts", brandLabel: "Запчасти",
     title: "Колонка Volvo Penta DP290",
     price: 300000,
     img: "https://www.motor-vl.ru/media/83/images/thumb/M9oHvYM8.jpeg",
-    specs: [["В комплекте", "два винта, транцевый узел с гидроцилиндрами, масляный насос гидроподъёма"]]
+    specs: [["В комплекте", "два винта, транцевый узел с гидроцилиндрами, масляный насос гидроподъёма"], ["Наличие", "во Владивостоке"]]
   }
 ];
 

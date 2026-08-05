@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (currentSort === "price-desc") list.sort(function (a, b) { return b.price - a.price; });
 
     if (resultsCount) {
-      resultsCount.textContent = "Найдено моторов: " + list.length;
+      resultsCount.textContent = "Найдено позиций: " + list.length;
     }
 
     grid.innerHTML = list.map(function (m, i) {
@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ? '<span class="motor-card__badge' + (m.badge === "Новый" ? " motor-card__badge--new" : "") + '">' + m.badge + "</span>"
         : "";
 
-      var orderUrl = "order.html?motor=" + encodeURIComponent(m.title);
-
       return (
         '<div class="motor-card reveal in">' +
           '<div class="motor-card__media">' +
@@ -61,12 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
           "</div>" +
           '<div class="motor-card__body">' +
             '<p class="motor-card__title">' + m.title + "</p>" +
-            '<div class="motor-card__price">' + formatPrice(m.price) + "<span>Цена, готов к работе</span></div>" +
+            '<div class="motor-card__price">' + formatPrice(m.price) + "<span>Цена</span></div>" +
             '<div class="spec-list">' + specsHtml + "</div>" +
-            '<div class="motor-card__actions">' +
-              '<a class="btn btn--outline" href="' + orderUrl + '">Уточнить наличие</a>' +
-              '<a class="btn btn--accent" href="' + orderUrl + '">Оставить заявку</a>' +
-            "</div>" +
           "</div>" +
         "</div>"
       );

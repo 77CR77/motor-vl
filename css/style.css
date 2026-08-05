@@ -663,8 +663,8 @@ nav.main-nav a.active {
 
 .motor-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
 .motor-card {
@@ -1056,35 +1056,20 @@ footer.site-footer {
 
 /* ==========================================================================
    Японские акценты
-   Флаг Японии в виде графики (а не эмодзи — надёжнее отображается везде),
+   Один крупный флаг Японии (настоящий эмодзи-флаг) как акцент на главной,
    волна сэйгайха как деликатный узор и иероглифическая подложка на hero.
    ========================================================================== */
 
-.flag-jp {
-  --w: 30px;
-  width: var(--w);
-  height: calc(var(--w) * 2 / 3);
-  flex-shrink: 0;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #fff;
-  background-image: radial-gradient(circle at 50% 50%, var(--jp-red) 0 32%, transparent 33%);
-  box-shadow: 0 0 0 1px rgba(6, 26, 48, 0.14);
-}
-.flag-jp--sm { --w: 22px; }
-.flag-jp--lg { --w: 40px; }
-.flag-jp--xl { --w: 64px; }
-.flag-jp--xxl { --w: 92px; }
-
-/* Разбросанные декоративные флаги — по всему сайту, в свободном порядке */
-.flag-scatter {
-  position: relative;
-}
-.flag-scatter > .flag-jp {
+.flag-emoji {
   position: absolute;
+  display: inline-block;
+  line-height: 1;
   z-index: 1;
-  filter: drop-shadow(0 10px 18px rgba(2,10,22,.35));
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 18px 30px rgba(2,10,22,.45));
 }
+
 .section--scatter {
   position: relative;
   overflow: hidden;
@@ -1222,7 +1207,7 @@ footer.site-footer {
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .process { grid-template-columns: repeat(2, 1fr); }
   .brand-links { grid-template-columns: repeat(3, 1fr); }
-  .motor-grid { grid-template-columns: 1fr; }
+  .motor-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .trust-bar .container { grid-template-columns: repeat(2, 1fr); }
@@ -1247,6 +1232,7 @@ footer.site-footer {
   body { padding-bottom: 76px; }
   .catalog-toolbar { flex-direction: column; align-items: stretch; }
   .brand-tabs { justify-content: center; }
+  .motor-grid { grid-template-columns: 1fr; }
 }
 
 /* Mobile nav drawer */

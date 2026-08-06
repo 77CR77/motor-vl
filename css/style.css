@@ -134,6 +134,8 @@ p { margin: 0 0 16px; }
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color .15s ease;
   min-height: 56px;
   line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .btn:active { transform: scale(0.98); }
 
@@ -200,12 +202,19 @@ header.site-header {
   top: 0;
   z-index: 500;
 }
+header.site-header .container {
+  max-width: 1440px;
+}
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 14px 0;
   gap: 24px;
+}
+.header-inner .logo,
+.header-inner nav.main-nav {
+  flex-shrink: 0;
 }
 .logo {
   display: flex;
@@ -275,6 +284,7 @@ nav.main-nav a.active {
   padding-right: 6px;
   margin-right: 6px;
   border-right: 1px solid var(--border);
+  flex-shrink: 0;
 }
 .header-socials a {
   width: 34px;
@@ -298,6 +308,7 @@ nav.main-nav a.active {
   font-weight: 800;
   font-size: 19px;
   color: var(--navy-dark);
+  flex-shrink: 0;
 }
 .header-phone span {
   font-weight: 600;

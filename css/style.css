@@ -384,7 +384,7 @@ nav.main-nav a.active {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: var(--navy-dark);
+  background: var(--navy);
   color: #fff;
   padding: 68px 0 90px;
   position: relative;

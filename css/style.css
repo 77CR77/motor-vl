@@ -662,7 +662,10 @@ nav.main-nav a.active {
   gap: 32px;
   flex-wrap: wrap;
   box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
 }
+.cta-band > div, .cta-band > a.btn { position: relative; z-index: 1; }
 .cta-band h2 { color: #fff; margin-bottom: 8px; }
 .cta-band p { color: #fff3e2; margin: 0; font-size: 18px; }
 .cta-band .btn--navy { box-shadow: 0 12px 24px rgba(0,0,0,.2); }

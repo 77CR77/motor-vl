@@ -245,12 +245,12 @@ header.site-header .container {
   flex-shrink: 0;
 }
 .footer-logo-img {
-  height: 40px;
+  height: 30px;
   width: auto;
   display: block;
   background: #fff;
-  padding: 6px 10px;
-  border-radius: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
 .logo__text span { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); }
 
@@ -1233,39 +1233,40 @@ textarea.form-control { min-height: 130px; resize: vertical; }
 footer.site-footer {
   background: var(--navy-dark);
   color: #c9c2b0;
-  padding: 56px 0 26px;
+  padding: 32px 0 16px;
   position: relative;
   overflow: hidden;
 }
 .footer-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1.1fr;
-  gap: 40px;
-  padding-bottom: 36px;
+  gap: 28px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(255,255,255,.1);
 }
-.footer-grid h4 { color: #fff; font-size: 17px; margin-bottom: 18px; }
-.footer-grid a, .footer-grid p, .footer-grid li { color: #b7ae98; font-size: 15px; }
-.footer-grid li { margin-bottom: 10px; }
+.footer-grid h4 { color: #fff; font-size: 13.5px; margin-bottom: 10px; }
+.footer-grid a, .footer-grid p, .footer-grid li { color: #b7ae98; font-size: 13px; }
+.footer-grid p { margin-bottom: 10px; }
+.footer-grid li { margin-bottom: 6px; }
 .footer-grid a:hover { color: var(--accent-light); }
-.footer-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 22px; color: #fff; margin-bottom: 14px; }
+.footer-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 16px; color: #fff; margin-bottom: 8px; }
 .footer-bottom {
   display: flex;
   justify-content: space-between;
-  padding-top: 24px;
-  font-size: 14px;
+  padding-top: 12px;
+  font-size: 12px;
   color: #8f8672;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
-.footer-socials { display: flex; gap: 10px; flex-wrap: wrap; }
+.footer-socials { display: flex; gap: 8px; flex-wrap: wrap; }
 .footer-socials a {
-  height: 40px;
-  padding: 0 18px;
+  height: 30px;
+  padding: 0 13px;
   border-radius: 100px;
   background: rgba(255,255,255,.06);
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
 }

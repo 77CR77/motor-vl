@@ -5,9 +5,9 @@
    ========================================================================== */
 
 :root {
-  --navy: #061a30;
-  --navy-dark: #020a16;
-  --navy-light: #0f2f52;
+  --navy: #051426;
+  --navy-dark: #051426;
+  --navy-light: #051426;
   --accent: #d4af37;
   --accent-dark: #a8841f;
   --accent-light: #f3d878;
@@ -384,7 +384,7 @@ nav.main-nav a.active {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: #051426;
+  background: var(--navy-dark);
   color: #fff;
   padding: 68px 0 90px;
   position: relative;

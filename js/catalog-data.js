@@ -9,7 +9,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F25 (S), румпельное управление",
-    price: 250000, badge: "Хит продаж",
+    price: 220000, badge: "Хит продаж",
     img: "https://www.motor-vl.ru/media/38/images/thumb/91M0tfSx.png",
     specs: [
       ["Год", "2008"], ["Тактность", "4-тактный"], ["Цилиндров", "2"],
@@ -20,7 +20,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F25 (S), гидравлика, пульт управления",
-    price: 270000,
+    price: 250000,
     img: "https://www.motor-vl.ru/media/37/images/thumb/eFiTTmsZ.png",
     specs: [
       ["Год", "2008"], ["Тактность", "4-тактный"], ["Цилиндров", "2"],
@@ -42,7 +42,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F25 (S), гидроподъём, пульт управления",
-    price: 350000,
+    price: 340000,
     img: "https://www.motor-vl.ru/media/76/images/thumb/nvJaBjdE.jpeg",
     specs: [
       ["Год", "2018"], ["Тактность", "4-тактный"], ["Цилиндров", "2"],
@@ -53,7 +53,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F60 (L), гидравлика, пульт управления",
-    price: 380000,
+    price: 370000,
     img: "https://www.motor-vl.ru/media/103/images/thumb/3gOvJDFx.jpeg",
     specs: [
       ["Год", "2008"], ["Тактность", "4-тактный"], ["Цилиндров", "4"],
@@ -97,17 +97,18 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F60 EFI (L), гидравлика, пульт управления",
-    price: 460000,
+    price: 450000,
     img: "https://www.motor-vl.ru/media/89/images/thumb/fzsa4oKt.jpeg",
     specs: [
       ["Год", "2012"], ["Подъём мотора", "гидравлический"], ["Длина ноги", "L (508 мм)"],
-      ["Управление", "дистанционное"], ["Компрессия", "15 / 15 / 15 / 15"], ["Наработка", "825 моточасов"]
+      ["Управление", "дистанционное"], ["Компрессия", "15 / 15 / 15 / 15"], ["Наработка", "825 моточасов"],
+      ["Особенность", "можно установить мультирумпель"]
     ]
   },
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F30 EFI (L), пульт управления",
-    price: 470000,
+    price: 450000,
     img: "https://www.motor-vl.ru/media/63/images/thumb/QLWd18se.jpeg",
     specs: [
       ["Год", "2017"], ["Тактность", "4-тактный"], ["Цилиндров", "3"],
@@ -151,7 +152,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F90 EFI (L), гидравлика",
-    price: 520000,
+    price: 490000,
     img: "https://www.motor-vl.ru/media/86/images/thumb/8T3_y5g5.jpeg",
     specs: [
       ["Год", "2012"], ["Тактность", "4-тактный"], ["Длина ноги", "L (508 мм)"],
@@ -162,7 +163,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F90 EFI (L), гидравлика",
-    price: 520000,
+    price: 490000,
     img: "https://www.motor-vl.ru/media/88/images/thumb/8IZE9Pej.jpeg",
     specs: [
       ["Год", "2011"], ["Тактность", "4-тактный"], ["Цилиндров", "4"],
@@ -183,7 +184,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F115 EFI (X)",
-    price: 650000,
+    price: 620000,
     img: "https://www.motor-vl.ru/media/79/images/thumb/DVVOYJUF.png",
     specs: [
       ["Год", "2013"], ["Тактность", "4-тактный"], ["Цилиндров", "4"],
@@ -194,7 +195,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F115 (X), гидравлика, пульт управления",
-    price: 670000,
+    price: 590000,
     img: "https://www.motor-vl.ru/media/94/images/thumb/1ByXI8QA.png",
     specs: [
       ["Год", "2010"], ["Подъём мотора", "гидравлический"], ["Длина ноги", "X (635 мм)"],
@@ -204,7 +205,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F40 EFI (L), новый мотор из Японии",
-    price: 690000, badge: "Новый",
+    price: 670000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/100/images/thumb/Mqq3VMFq.jpeg",
     specs: [
       ["Год", "2024"], ["Тактность", "4-тактный"], ["Цилиндров", "3"],
@@ -215,7 +216,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F60 EFI (L), новый лодочный мотор",
-    price: 740000, badge: "Новый",
+    price: 720000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/49/images/thumb/huTnmVc0.jpeg",
     specs: [
       ["Год", "2025"], ["Тактность", "4-тактный"], ["Цилиндров", "4"],
@@ -247,7 +248,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F200 (X), гидравлика",
-    price: 840000,
+    price: 790000,
     img: "https://www.motor-vl.ru/media/90/images/thumb/wa5wWMJr.jpeg",
     specs: [
       ["Год", "2010"], ["Тактность", "4-тактный"], ["Подъём мотора", "гидравлический"],
@@ -279,7 +280,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F90 EFI (L), новый мотор",
-    price: 1150000, badge: "Новый",
+    price: 1050000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/95/images/thumb/od5CRLE4.jpeg",
     specs: [
       ["Состояние", "новый, из японского дилерского центра"], ["Тактность", "4-тактный"],
@@ -289,7 +290,7 @@ var MOTORS = [
   {
     brand: "yamaha", brandLabel: "Yamaha",
     title: "Yamaha F150 EFI (X), новый мотор",
-    price: 1450000, badge: "Новый",
+    price: 1350000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/93/images/thumb/ukHSOg8C.jpeg",
     specs: [
       ["Год", "2023"], ["Тактность", "4-тактный"], ["Длина ноги", "X (635 мм)"],
@@ -312,7 +313,7 @@ var MOTORS = [
   {
     brand: "honda", brandLabel: "Honda",
     title: "Honda BF75 EFI (L), гидравлика, пульт управления",
-    price: 570000,
+    price: 550000,
     img: "https://www.motor-vl.ru/media/33/images/thumb/y3WrhUIp.jpeg",
     specs: [
       ["Год", "2017"], ["Тактность", "4-тактный"], ["Цилиндров", "4"],

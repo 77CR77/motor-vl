@@ -799,8 +799,8 @@ nav.main-nav a.active {
 
 .spec-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 18px;
+  grid-template-columns: 1fr;
+  gap: 10px;
   font-size: 14.5px;
   color: var(--text);
   background: #f3f0e8;
@@ -810,26 +810,27 @@ nav.main-nav a.active {
 }
 .spec-list div {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
   min-width: 0;
   border-bottom: 1px dashed var(--border);
   padding-bottom: 6px;
 }
-.spec-list div:last-child:nth-child(odd) { border-bottom: none; }
-.spec-list b {
-  color: var(--navy-dark);
-  font-weight: 700;
-  text-align: left;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
+.spec-list div:last-child { border-bottom: none; padding-bottom: 0; }
 .spec-list em {
   font-style: normal;
   color: var(--text-muted);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.spec-list b {
+  color: var(--navy-dark);
+  font-weight: 700;
+  text-align: right;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .motor-card__actions {

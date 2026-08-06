@@ -118,14 +118,7 @@ p { margin: 0 0 16px; }
   text-align: center;
 }
 .section-head p { color: var(--text-muted); font-size: 19px; }
-.section-flag {
-  display: inline-block;
-  font-size: 0.75em;
-  transform: rotate(-10deg);
-  margin-right: 14px;
-  vertical-align: middle;
-  filter: drop-shadow(0 6px 14px rgba(2,10,22,.4));
-}
+.section--navy .container { position: relative; z-index: 1; }
 
 /* ---------- Buttons ---------- */
 .btn {

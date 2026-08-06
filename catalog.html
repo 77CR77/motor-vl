@@ -60,7 +60,7 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section section--catalog">
   <div class="container">
 
     <div class="catalog-toolbar reveal">
@@ -146,9 +146,20 @@
 <button class="back-to-top" aria-label="Наверх">↑</button>
 
 <div class="lightbox">
-  <button class="lightbox__close" aria-label="Закрыть">✕</button>
-  <img src="" alt="Фото мотора">
-  <div class="lightbox__caption"></div>
+  <div class="lightbox__box">
+    <button class="lightbox__close" aria-label="Закрыть">✕</button>
+    <div class="lightbox__stage">
+      <button class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее фото">‹</button>
+      <img src="" alt="Фото мотора">
+      <button class="lightbox__nav lightbox__nav--next" aria-label="Следующее фото">›</button>
+      <div class="lightbox__counter"></div>
+    </div>
+    <div class="lightbox__panel">
+      <div class="lightbox__caption"></div>
+      <div class="lightbox__thumbs"></div>
+      <div class="lightbox__videos"></div>
+    </div>
+  </div>
 </div>
 
 <script src="js/catalog-data.js"></script>

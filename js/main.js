@@ -121,20 +121,77 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* ---------- Лайтбокс для фото моторов ---------- */
+  /* ---------- Лайтбокс: фотогалерея и видео мотора ---------- */
   var lightbox = document.querySelector(".lightbox");
   if (lightbox) {
-    var lightboxImg = lightbox.querySelector("img");
-    var lightboxCaption = lightbox.querySelector(".lightbox__caption");
+    var stageImg = lightbox.querySelector(".lightbox__stage img");
+    var counterEl = lightbox.querySelector(".lightbox__counter");
+    var captionEl = lightbox.querySelector(".lightbox__caption");
+    var thumbsEl = lightbox.querySelector(".lightbox__thumbs");
+    var videosEl = lightbox.querySelector(".lightbox__videos");
     var closeBtn = lightbox.querySelector(".lightbox__close");
+    var prevBtn = lightbox.querySelector(".lightbox__nav--prev");
+    var nextBtn = lightbox.querySelector(".lightbox__nav--next");
+
+    var state = { photos: [], index: 0 };
+
+    function renderStage() {
+      if (!state.photos.length) return;
+      stageImg.src = state.photos[state.index];
+      counterEl.textContent = state.photos.length > 1 ? (state.index + 1) + " / " + state.photos.length : "";
+      thumbsEl.querySelectorAll(".lightbox__thumb").forEach(function (t, i) {
+        t.classList.toggle("active", i === state.index);
+      });
+    }
+
+    function openWith(trigger) {
+      var caption = trigger.getAttribute("data-caption") || "";
+      var sourceUrl = trigger.getAttribute("data-source") || "";
+      var photos = [];
+      var videos = [];
+      try { photos = JSON.parse(trigger.getAttribute("data-photos") || "[]"); } catch (e) {}
+      try { videos = JSON.parse(trigger.getAttribute("data-videos") || "[]"); } catch (e) {}
+      if (!photos.length) photos = [trigger.getAttribute("data-lightbox")];
+
+      state.photos = photos;
+      state.index = 0;
+      captionEl.textContent = caption;
+
+      thumbsEl.innerHTML = photos.length > 1
+        ? photos.map(function (src, i) {
+            return '<button class="lightbox__thumb" data-i="' + i + '"><img src="' + src + '" alt=""></button>';
+          }).join("")
+        : "";
+      thumbsEl.querySelectorAll(".lightbox__thumb").forEach(function (t) {
+        t.addEventListener("click", function () {
+          state.index = parseInt(t.getAttribute("data-i"), 10);
+          renderStage();
+        });
+      });
+
+      if (videos.length) {
+        videosEl.innerHTML =
+          '<div class="lightbox__videos-title">Видео технического состояния (' + videos.length + ')</div>' +
+          '<div class="lightbox__videos-list">' +
+          videos.map(function (name) {
+            return '<a class="lightbox__video-chip" href="' + sourceUrl + '" target="_blank" rel="noopener">▶ ' + name + '</a>';
+          }).join("") +
+          "</div>" +
+          (sourceUrl ? '<div class="lightbox__videos-note">Ролики воспроизводятся на карточке мотора на сайте-источнике motor-vl.ru — переход по клику</div>' : "");
+      } else {
+        videosEl.innerHTML = "";
+      }
+
+      prevBtn.style.display = photos.length > 1 ? "" : "none";
+      nextBtn.style.display = photos.length > 1 ? "" : "none";
+
+      renderStage();
+      lightbox.classList.add("open");
+    }
 
     document.addEventListener("click", function (e) {
       var trigger = e.target.closest("[data-lightbox]");
-      if (trigger) {
-        lightboxImg.src = trigger.getAttribute("data-lightbox");
-        lightboxCaption.textContent = trigger.getAttribute("data-caption") || "";
-        lightbox.classList.add("open");
-      }
+      if (trigger) openWith(trigger);
     });
     closeBtn.addEventListener("click", function () {
       lightbox.classList.remove("open");
@@ -142,8 +199,21 @@ document.addEventListener("DOMContentLoaded", function () {
     lightbox.addEventListener("click", function (e) {
       if (e.target === lightbox) lightbox.classList.remove("open");
     });
+    prevBtn.addEventListener("click", function () {
+      if (!state.photos.length) return;
+      state.index = (state.index - 1 + state.photos.length) % state.photos.length;
+      renderStage();
+    });
+    nextBtn.addEventListener("click", function () {
+      if (!state.photos.length) return;
+      state.index = (state.index + 1) % state.photos.length;
+      renderStage();
+    });
     document.addEventListener("keydown", function (e) {
+      if (!lightbox.classList.contains("open")) return;
       if (e.key === "Escape") lightbox.classList.remove("open");
+      if (e.key === "ArrowLeft") prevBtn.click();
+      if (e.key === "ArrowRight") nextBtn.click();
     });
   }
 

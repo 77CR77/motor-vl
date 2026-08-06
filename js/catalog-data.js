@@ -11,6 +11,8 @@ var MOTORS = [
     title: "Yamaha F25 (S), румпель (1043580)",
     price: 220000, badge: "Хит продаж",
     img: "https://www.motor-vl.ru/media/38/images/thumb/91M0tfSx.png",
+    photos: ["https://www.motor-vl.ru/media/38/images/thumb/91M0tfSx.png", "https://www.motor-vl.ru/media/38/images/thumb/NL5FgBQw.png", "https://www.motor-vl.ru/media/38/images/thumb/xGo7FON6.png", "https://www.motor-vl.ru/media/38/images/thumb/q0U2aXwR.png", "https://www.motor-vl.ru/media/38/images/thumb/UVZChXj9.png", "https://www.motor-vl.ru/media/38/images/thumb/wm4I3TWl.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Давление масла"],
     specs: [
       ["Год", "2008"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "2"],
       ["Система подъема мотора", "ручная"], ["Длина ноги", "S (381 мм)"],
@@ -22,6 +24,8 @@ var MOTORS = [
     title: "Yamaha F25 (S), гидравлика, пульт управления (1042495)",
     price: 250000,
     img: "https://www.motor-vl.ru/media/37/images/thumb/eFiTTmsZ.png",
+    photos: ["https://www.motor-vl.ru/media/37/images/thumb/8JSYt5Pn.png", "https://www.motor-vl.ru/media/37/images/thumb/eFiTTmsZ.png", "https://www.motor-vl.ru/media/37/images/thumb/qgXTODQQ.png", "https://www.motor-vl.ru/media/37/images/thumb/ITF5Bfbl.png", "https://www.motor-vl.ru/media/37/images/thumb/boD9QQwa.png", "https://www.motor-vl.ru/media/37/images/thumb/7Eh13tpt.png", "https://www.motor-vl.ru/media/37/images/thumb/yzYtUdxn.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2008"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "2"],
       ["Подъем", "гидравлический"], ["Длина ноги", "S (381 мм)"],
@@ -33,6 +37,8 @@ var MOTORS = [
     title: "Yamaha F25 (S), румпель, гидродемпфер (1039199)",
     price: 270000,
     img: "https://www.motor-vl.ru/media/73/images/thumb/ITVB1rfv.jpeg",
+    photos: ["https://www.motor-vl.ru/media/73/images/thumb/PB1JFY2Y.jpeg", "https://www.motor-vl.ru/media/73/images/thumb/ITVB1rfv.jpeg", "https://www.motor-vl.ru/media/73/images/thumb/TPC5NvdW.jpeg", "https://www.motor-vl.ru/media/73/images/thumb/9tcFQ6Cb.jpeg", "https://www.motor-vl.ru/media/73/images/thumb/zk5RLSYR.jpeg", "https://www.motor-vl.ru/media/73/images/thumb/dkagpBV0.jpeg", "https://www.motor-vl.ru/media/73/images/thumb/ctkPEYxp.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Давление масла", "Проверка гидродемпфера"],
     specs: [
       ["Год", "2019"], ["Тактность", "4-тактный"], ["Кол-во цилиндров", "2"],
       ["Система подъема мотора", "ручная (гидродемпфер)"], ["Длина ноги", "S (381 мм)"],
@@ -44,6 +50,8 @@ var MOTORS = [
     title: "Yamaha F25 (S), гидроподъем, пульт управления (1033771)",
     price: 340000,
     img: "https://www.motor-vl.ru/media/76/images/thumb/nvJaBjdE.jpeg",
+    photos: ["https://www.motor-vl.ru/media/76/images/thumb/nvJaBjdE.jpeg", "https://www.motor-vl.ru/media/76/images/thumb/MLmvNjfv.jpeg", "https://www.motor-vl.ru/media/76/images/thumb/vodM0xLN.jpeg", "https://www.motor-vl.ru/media/76/images/thumb/jTaatH_q.jpeg", "https://www.motor-vl.ru/media/76/images/thumb/WBtDY-Ap.jpeg"],
+    videos: ["Запуск двигателя", "Запуск с кикстартера", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2018"], ["Тактность", "4-тактный"], ["Кол-во цилиндров", "2"],
       ["Управление", "дистанционное"], ["Подъем", "гидравлический"], ["Длина ноги", "S (381 мм)"],
@@ -55,6 +63,8 @@ var MOTORS = [
     title: "Yamaha F60 (L), гидравлика, пульт управления (1044089)",
     price: 370000,
     img: "https://www.motor-vl.ru/media/103/images/thumb/3gOvJDFx.jpeg",
+    photos: ["https://www.motor-vl.ru/media/103/images/thumb/3gOvJDFx.jpeg", "https://www.motor-vl.ru/media/103/images/thumb/VLSJ9xwx.jpeg", "https://www.motor-vl.ru/media/103/images/thumb/GsK1s5yC.jpeg", "https://www.motor-vl.ru/media/103/images/thumb/ZusLWNSN.jpeg", "https://www.motor-vl.ru/media/103/images/thumb/2_kdeoFT.jpeg", "https://www.motor-vl.ru/media/103/images/thumb/LwnL8PjJ.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Проверка гидроподъема", "Синхронизация карбюраторов", "Давление масла"],
     specs: [
       ["Год", "2008"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Подъем", "гидравлический"], ["Длина ноги", "L (508 мм)"],
@@ -66,6 +76,8 @@ var MOTORS = [
     title: "Yamaha F25 EFI (L), гидродемпфер (1073672)",
     price: 390000,
     img: "https://www.motor-vl.ru/media/30/images/thumb/QsLNLtS8.jpeg",
+    photos: ["https://www.motor-vl.ru/media/30/images/thumb/QsLNLtS8.jpeg", "https://www.motor-vl.ru/media/30/images/thumb/d1naO_FW.jpeg", "https://www.motor-vl.ru/media/30/images/thumb/ExTrghNu.jpeg", "https://www.motor-vl.ru/media/30/images/thumb/sBJg63Nn.jpeg", "https://www.motor-vl.ru/media/30/images/thumb/x4jJFkro.jpeg", "https://www.motor-vl.ru/media/30/images/thumb/bw9XAi5L.jpeg", "https://www.motor-vl.ru/media/30/images/thumb/dKVDh7_l.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Давление масла", "Проверка гидродемпфера"],
     specs: [
       ["Год", "2023"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "3"],
       ["Длина ноги", "L (508 мм)"], ["Особенность", "можно переделать в ногу S"], ["Компрессия", "14/14"],
@@ -77,6 +89,8 @@ var MOTORS = [
     title: "Yamaha F80 (L), гидравлика, пульт управления (1096286)",
     price: 430000,
     img: "https://www.motor-vl.ru/media/51/images/thumb/l4JxVrAF.jpeg",
+    photos: ["https://www.motor-vl.ru/media/51/images/thumb/l4JxVrAF.jpeg", "https://www.motor-vl.ru/media/51/images/thumb/6SArzevC.jpeg", "https://www.motor-vl.ru/media/51/images/thumb/WRFt4lsR.jpeg", "https://www.motor-vl.ru/media/51/images/thumb/V3QwMquR.jpeg", "https://www.motor-vl.ru/media/51/images/thumb/SSF5i5BH.jpeg", "https://www.motor-vl.ru/media/51/images/thumb/LsaHmLWN.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2008"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"],
@@ -88,6 +102,8 @@ var MOTORS = [
     title: "Yamaha F30 EFI (L) пульт управления (1070478)",
     price: 450000,
     img: "https://www.motor-vl.ru/media/63/images/thumb/QLWd18se.jpeg",
+    photos: ["https://www.motor-vl.ru/media/63/images/thumb/QLWd18se.jpeg", "https://www.motor-vl.ru/media/63/images/thumb/4y98zDWZ.jpeg", "https://www.motor-vl.ru/media/63/images/thumb/fdOa4-At.jpeg", "https://www.motor-vl.ru/media/63/images/thumb/SX5DL9BD.jpeg", "https://www.motor-vl.ru/media/63/images/thumb/oZyKnyuk.jpeg", "https://www.motor-vl.ru/media/63/images/thumb/Ew-vqXdg.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2017"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "3"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"],
@@ -99,6 +115,8 @@ var MOTORS = [
     title: "Yamaha F60 EFI (L), гидравлика, пульт управления (1053686)",
     price: 450000,
     img: "https://www.motor-vl.ru/media/89/images/thumb/fzsa4oKt.jpeg",
+    photos: ["https://www.motor-vl.ru/media/89/images/thumb/DPLY7FHc.jpeg", "https://www.motor-vl.ru/media/89/images/thumb/fzsa4oKt.jpeg", "https://www.motor-vl.ru/media/89/images/thumb/0bYtQGvh.jpeg", "https://www.motor-vl.ru/media/89/images/thumb/gRxr2Wko.jpeg", "https://www.motor-vl.ru/media/89/images/thumb/QP_Gl09s.jpeg", "https://www.motor-vl.ru/media/89/images/thumb/7E7l8DsW.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2012"], ["Система подъема мотора", "гидравлика"], ["Длина ноги", "L (508 мм)"],
       ["Состояние", "протестирован, компрессия 15/15/15/15 кг, состояние хорошее"],
@@ -111,6 +129,8 @@ var MOTORS = [
     title: "Yamaha F30 EFI (S), гидравлика, машинка (1016399)",
     price: 460000,
     img: "https://www.motor-vl.ru/media/26/images/thumb/otp8Jy52.png",
+    photos: ["https://www.motor-vl.ru/media/26/images/thumb/B2h8_kya.png", "https://www.motor-vl.ru/media/26/images/thumb/FGoFIQy5.png", "https://www.motor-vl.ru/media/26/images/thumb/otp8Jy52.png", "https://www.motor-vl.ru/media/26/images/thumb/CU-yDPGT.png", "https://www.motor-vl.ru/media/26/images/thumb/MxNEX6Oq.png", "https://www.motor-vl.ru/media/26/images/thumb/ZbQFIn8a.png"],
+    videos: ["Запуск двигателя", "Проверка гидроподъема", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Давление масла"],
     specs: [
       ["Год", "2017"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "3"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "S (381 мм)"],
@@ -123,6 +143,8 @@ var MOTORS = [
     title: "Yamaha F30 EFI (S), гидродемпфер, пульт управления (1001729)",
     price: 470000,
     img: "https://www.motor-vl.ru/media/75/images/thumb/mm0qBOBG.png",
+    photos: ["https://www.motor-vl.ru/media/75/images/thumb/_0O4RsRi.png", "https://www.motor-vl.ru/media/75/images/thumb/mm0qBOBG.png", "https://www.motor-vl.ru/media/75/images/thumb/czEcH0ik.png", "https://www.motor-vl.ru/media/75/images/thumb/3ZFcUQKn.png", "https://www.motor-vl.ru/media/75/images/thumb/0_tgvSik.png", "https://www.motor-vl.ru/media/75/images/thumb/cZFbdBqO.png"],
+    videos: ["Запуск двигателя", "Компрессия 2 цилиндр", "Давление масла", "Проверка гидродемпфера"],
     specs: [
       ["Год", "2018"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "3"],
       ["Компрессия", "15/15/15"], ["Система подъема мотора", "ручная (гидродемпфер)"],
@@ -135,6 +157,8 @@ var MOTORS = [
     title: "Yamaha F90 EFI (L), гидравлика (1050413)",
     price: 490000,
     img: "https://www.motor-vl.ru/media/86/images/thumb/8T3_y5g5.jpeg",
+    photos: ["https://www.motor-vl.ru/media/86/images/thumb/fLH_j2qb.jpeg", "https://www.motor-vl.ru/media/86/images/thumb/8T3_y5g5.jpeg", "https://www.motor-vl.ru/media/86/images/thumb/CYeTI7f9.jpeg", "https://www.motor-vl.ru/media/86/images/thumb/fli9orwE.jpeg", "https://www.motor-vl.ru/media/86/images/thumb/S694YR3u.jpeg", "https://www.motor-vl.ru/media/86/images/thumb/jdePv6w-.jpeg", "https://www.motor-vl.ru/media/86/images/thumb/PxotFl6q.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2012"], ["Тактность", "4-х тактный"], ["Длина ноги", "L (508 мм)"],
       ["Управление", "дистанционное"], ["Подъем", "гидравлический"],
@@ -146,6 +170,8 @@ var MOTORS = [
     title: "Yamaha F90 EFI (L), гидравлика (1050195)",
     price: 490000,
     img: "https://www.motor-vl.ru/media/88/images/thumb/8IZE9Pej.jpeg",
+    photos: ["https://www.motor-vl.ru/media/88/images/thumb/8IZE9Pej.jpeg", "https://www.motor-vl.ru/media/88/images/thumb/dHVNa575.jpeg", "https://www.motor-vl.ru/media/88/images/thumb/oRgC37Mn.jpeg", "https://www.motor-vl.ru/media/88/images/thumb/Z8f-MiQf.jpeg", "https://www.motor-vl.ru/media/88/images/thumb/LsAzkI5g.jpeg", "https://www.motor-vl.ru/media/88/images/thumb/W8o2zAeg.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2011"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Компрессия", "16/16/16/16"],
@@ -157,6 +183,8 @@ var MOTORS = [
     title: "Yamaha F40 EFI (S) гидроподъем, пульт управления (1002997)",
     price: 490000,
     img: "https://www.motor-vl.ru/media/92/images/thumb/WY6L_aO4.jpeg",
+    photos: ["https://www.motor-vl.ru/media/92/images/thumb/WY6L_aO4.jpeg", "https://www.motor-vl.ru/media/92/images/thumb/SFkm6eTO.jpeg", "https://www.motor-vl.ru/media/92/images/thumb/teu_puF1.jpeg", "https://www.motor-vl.ru/media/92/images/thumb/WnkYRVBi.jpeg", "https://www.motor-vl.ru/media/92/images/thumb/GlBYrbd7.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2019"], ["Тактность", "4-х тактный"], ["Длина ноги", "S (381 мм)"],
       ["Управление", "дистанционное"], ["Подъем", "гидравлический"],
@@ -168,6 +196,8 @@ var MOTORS = [
     title: "Yamaha F40 EFI (S), гидравлика, пульт управления (1002954)",
     price: 500000,
     img: "https://www.motor-vl.ru/media/24/images/thumb/t7dr0J99.jpeg",
+    photos: ["https://www.motor-vl.ru/media/24/images/thumb/nWlwVVUj.jpeg", "https://www.motor-vl.ru/media/24/images/thumb/k67KbXY9.jpeg", "https://www.motor-vl.ru/media/24/images/thumb/t7dr0J99.jpeg", "https://www.motor-vl.ru/media/24/images/thumb/fh1r5Fts.jpeg", "https://www.motor-vl.ru/media/24/images/thumb/78xYk4JP.jpeg", "https://www.motor-vl.ru/media/24/images/thumb/FavvhSk9.jpeg", "https://www.motor-vl.ru/media/24/images/thumb/kKXTyqn_.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Проверка гидроподъема", "Давление масла"],
     specs: [
       ["Год", "2019"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "3"],
       ["Длина ноги", "S (381 мм)"], ["Управление", "дистанционное"], ["Подъем", "гидравлический"],
@@ -179,6 +209,8 @@ var MOTORS = [
     title: "Yamaha F115 (X), гидравлика, пульт управления (1114470)",
     price: 590000,
     img: "https://www.motor-vl.ru/media/94/images/thumb/1ByXI8QA.png",
+    photos: ["https://www.motor-vl.ru/media/94/images/thumb/YSFki7wr.png", "https://www.motor-vl.ru/media/94/images/thumb/AuaqCf3_.png", "https://www.motor-vl.ru/media/94/images/thumb/1ByXI8QA.png", "https://www.motor-vl.ru/media/94/images/thumb/1yCCKMOg.png", "https://www.motor-vl.ru/media/94/images/thumb/0NIPVyvj.png", "https://www.motor-vl.ru/media/94/images/thumb/M4HeQw0r.png", "https://www.motor-vl.ru/media/94/images/thumb/WA9ngECH.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема", "Компьютерная диагностика"],
     specs: [
       ["Год", "2010"], ["Тактность", "4-х тактный"], ["Система подъема мотора", "гидравлическая"],
       ["Длина ноги", "X (635 мм)"], ["Управление", "дистанционное"], ["Компрессия", "16/16/16/16"],
@@ -190,6 +222,8 @@ var MOTORS = [
     title: "Yamaha F115 EFI (X) (1151611)",
     price: 620000,
     img: "https://www.motor-vl.ru/media/79/images/thumb/DVVOYJUF.png",
+    photos: ["https://www.motor-vl.ru/media/79/images/thumb/Kk01oH47.png", "https://www.motor-vl.ru/media/79/images/thumb/DVVOYJUF.png", "https://www.motor-vl.ru/media/79/images/thumb/eFCWHiAE.png", "https://www.motor-vl.ru/media/79/images/thumb/DJi2HvAY.png", "https://www.motor-vl.ru/media/79/images/thumb/TQenVBPM.png", "https://www.motor-vl.ru/media/79/images/thumb/rGpBYLy0.png", "https://www.motor-vl.ru/media/79/images/thumb/y6obgPO-.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема", "Компьютерная диагностика"],
     specs: [
       ["Год", "2013"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "X (635 мм)"],
@@ -201,6 +235,8 @@ var MOTORS = [
     title: "Yamaha F90 EFI (L), гидравлика, пульт управления (1084298)",
     price: 650000,
     img: "https://www.motor-vl.ru/media/50/images/thumb/A3_1DHjZ.png",
+    photos: ["https://www.motor-vl.ru/media/50/images/thumb/C20Tm5jj.png", "https://www.motor-vl.ru/media/50/images/thumb/A3_1DHjZ.png", "https://www.motor-vl.ru/media/50/images/thumb/PWTUxUzy.png", "https://www.motor-vl.ru/media/50/images/thumb/rkGkaoLy.png", "https://www.motor-vl.ru/media/50/images/thumb/RUJErih6.png", "https://www.motor-vl.ru/media/50/images/thumb/EIF-GwvU.png", "https://www.motor-vl.ru/media/50/images/thumb/r-JyXJ1_.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2016"], ["Тактность", "4-х тактный"], ["Система подъема мотора", "гидравлическая"],
       ["Длина ноги", "L (508 мм)"], ["Компрессия", "16/16/16/16"], ["Управление", "дистанционное"],
@@ -212,6 +248,8 @@ var MOTORS = [
     title: "Yamaha F40 EFI (L) НОВЫЙ МОТОР ИЗ ЯПОНИИ",
     price: 670000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/100/images/thumb/Mqq3VMFq.jpeg",
+    photos: ["https://www.motor-vl.ru/media/100/images/thumb/Mqq3VMFq.jpeg", "https://www.motor-vl.ru/media/100/images/thumb/sZ1GNIX7.jpeg", "https://www.motor-vl.ru/media/100/images/thumb/TXZIBA22.jpeg"],
+    videos: [],
     specs: [
       ["Год", "2024"], ["Тактность", "4-тактный"], ["Кол-во цилиндров", "3"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"],
@@ -224,6 +262,8 @@ var MOTORS = [
     title: "НОВЫЙ ЛОДОЧНЫЙ МОТОР Yamaha F60 EFI (L)",
     price: 720000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/49/images/thumb/huTnmVc0.jpeg",
+    photos: ["https://www.motor-vl.ru/media/49/images/thumb/huTnmVc0.jpeg", "https://www.motor-vl.ru/media/49/images/thumb/hzuWDf9y.jpeg", "https://www.motor-vl.ru/media/49/images/thumb/W4-2hGjj.jpeg"],
+    videos: [],
     specs: [
       ["Год", "2025"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"], ["Управление", "дистанционное"]
@@ -234,6 +274,8 @@ var MOTORS = [
     title: "Yamaha F130 EFI (X) (1008122)",
     price: 780000,
     img: "https://www.motor-vl.ru/media/62/images/thumb/XwPbk3kn.jpeg",
+    photos: ["https://www.motor-vl.ru/media/62/images/thumb/XwPbk3kn.jpeg", "https://www.motor-vl.ru/media/62/images/thumb/iQjqPztO.jpeg", "https://www.motor-vl.ru/media/62/images/thumb/M_r-nLW7.jpeg", "https://www.motor-vl.ru/media/62/images/thumb/9ct11lTv.jpeg", "https://www.motor-vl.ru/media/62/images/thumb/pH6JT1PW.jpeg", "https://www.motor-vl.ru/media/62/images/thumb/pemiFM_r.jpeg", "https://www.motor-vl.ru/media/62/images/thumb/vF69vC-T.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2019"], ["Тактность", "4-тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "X (635 мм)"],
@@ -245,6 +287,8 @@ var MOTORS = [
     title: "Yamaha F150 (X) (1152107)",
     price: 790000,
     img: "https://www.motor-vl.ru/media/29/images/thumb/i3tK8dO1.jpeg",
+    photos: ["https://www.motor-vl.ru/media/29/images/thumb/biS_nPUK.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/i3tK8dO1.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/q5nUbxFU.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/IQH1VLJV.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/ZN8n53D-.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/OcwmbHAW.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/PQY_nb1c.jpeg", "https://www.motor-vl.ru/media/29/images/thumb/tibJEc99.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Проверка гидроподъема", "Компьютерная диагностика"],
     specs: [
       ["Год", "2014"], ["Тактность", "4-х тактный"], ["Система подъема мотора", "гидравлическая"],
       ["Длина ноги", "X (635мм)"], ["Управление", "дистанционное"], ["Наработка", "975 моточасов"],
@@ -256,6 +300,8 @@ var MOTORS = [
     title: "Yamaha F200 (X), гидравлика (1012892)",
     price: 790000,
     img: "https://www.motor-vl.ru/media/90/images/thumb/wa5wWMJr.jpeg",
+    photos: ["https://www.motor-vl.ru/media/90/images/thumb/IPKK5Wbs.jpeg", "https://www.motor-vl.ru/media/90/images/thumb/wa5wWMJr.jpeg", "https://www.motor-vl.ru/media/90/images/thumb/-n8bpxdq.jpeg", "https://www.motor-vl.ru/media/90/images/thumb/pt61WCHc.jpeg", "https://www.motor-vl.ru/media/90/images/thumb/XpY4-RxK.jpeg", "https://www.motor-vl.ru/media/90/images/thumb/m5-pfYZk.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Компрессия 5 цилиндр", "Компрессия 6 цилиндр", "Проверка гидроподъема", "Давление масла и компьютерная диагностика"],
     specs: [
       ["Год", "2010"], ["Тактность", "4-тактный"], ["Система подъема мотора", "гидравлическая"],
       ["Длина ноги", "X (635 мм)"], ["Управление", "дистанционное"], ["Наработка", "857 моточаса"],
@@ -267,6 +313,8 @@ var MOTORS = [
     title: "Yamaha F150 (L), гидравлика (1152924)",
     price: 850000,
     img: "https://www.motor-vl.ru/media/25/images/thumb/pgWrcYVa.jpeg",
+    photos: ["https://www.motor-vl.ru/media/25/images/thumb/gO3jH7GI.jpeg", "https://www.motor-vl.ru/media/25/images/thumb/RuaidQJZ.jpeg", "https://www.motor-vl.ru/media/25/images/thumb/pgWrcYVa.jpeg", "https://www.motor-vl.ru/media/25/images/thumb/FNJV8AuM.jpeg", "https://www.motor-vl.ru/media/25/images/thumb/ohKOpm9X.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Компьютерная диагностика и давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2014"], ["Длина ноги", "L (508 мм)"], ["Управление", "дистанционное"],
       ["Подъем", "гидравлический"], ["Компрессия", "15/15/15/15"]
@@ -277,6 +325,8 @@ var MOTORS = [
     title: "Yamaha F150 (L), гидравлика (1152947)",
     price: 850000,
     img: "https://www.motor-vl.ru/media/48/images/thumb/YEaQXb09.png",
+    photos: ["https://www.motor-vl.ru/media/48/images/thumb/4Pdmt80Q.png", "https://www.motor-vl.ru/media/48/images/thumb/YEaQXb09.png", "https://www.motor-vl.ru/media/48/images/thumb/n-g2U3FJ.png", "https://www.motor-vl.ru/media/48/images/thumb/zLHKKOQS.png", "https://www.motor-vl.ru/media/48/images/thumb/beGV8HUu.png", "https://www.motor-vl.ru/media/48/images/thumb/j2FsCY8w.png", "https://www.motor-vl.ru/media/48/images/thumb/fqy5kjNd.png", "https://www.motor-vl.ru/media/48/images/thumb/zrFlB93B.png"],
+    videos: ["Компрессия 1 цилиндр", "Запуск двигателя", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Проверка гидроподъема", "Компьютерная диагностика"],
     specs: [
       ["Год", "2014"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"],
@@ -288,6 +338,8 @@ var MOTORS = [
     title: "НОВЫЙ МОТОР Yamaha F90 EFI (L)",
     price: 1050000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/95/images/thumb/od5CRLE4.jpeg",
+    photos: ["https://www.motor-vl.ru/media/95/images/thumb/od5CRLE4.jpeg", "https://www.motor-vl.ru/media/95/images/thumb/nMExjmCK.jpeg", "https://www.motor-vl.ru/media/95/images/thumb/FtIfgHyf.jpeg", "https://www.motor-vl.ru/media/95/images/thumb/dV4g-nPp.jpeg", "https://www.motor-vl.ru/media/95/images/thumb/0F1LGSAl.jpeg", "https://www.motor-vl.ru/media/95/images/thumb/Brue97uM.jpeg"],
+    videos: [],
     specs: [
       ["Состояние", "новый лодочный мотор, из японского дилерского центра"], ["Тактность", "4-х тактный"],
       ["Длина ноги", "L (508 мм)"], ["Управление", "дистанционное"], ["Наработка", "0 моточасов"]
@@ -298,6 +350,8 @@ var MOTORS = [
     title: "НОВЫЙ МОТОР Yamaha F150 EFI (X)",
     price: 1350000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/93/images/thumb/ukHSOg8C.jpeg",
+    photos: ["https://www.motor-vl.ru/media/93/images/thumb/ukHSOg8C.jpeg", "https://www.motor-vl.ru/media/93/images/thumb/W6N9-tcw.jpeg", "https://www.motor-vl.ru/media/93/images/thumb/GfqWbKIb.jpeg", "https://www.motor-vl.ru/media/93/images/thumb/WxzRzfCd.jpeg", "https://www.motor-vl.ru/media/93/images/thumb/itSeoDr6.jpeg"],
+    videos: [],
     specs: [
       ["Год", "2023"], ["Тактность", "4-х тактный"], ["Длина ноги", "X (635 мм)"],
       ["Подъем", "гидравлический"], ["Управление", "дистанционное"], ["Винт", "из нержавейки"]
@@ -310,6 +364,8 @@ var MOTORS = [
     title: "Honda BF75 (L), гидравлика, пульт управления (1200313)",
     price: 520000,
     img: "https://www.motor-vl.ru/media/34/images/thumb/rehurjC1.jpeg",
+    photos: ["https://www.motor-vl.ru/media/34/images/thumb/TieC9A6M.jpeg", "https://www.motor-vl.ru/media/34/images/thumb/rehurjC1.jpeg", "https://www.motor-vl.ru/media/34/images/thumb/xrknrN-J.jpeg", "https://www.motor-vl.ru/media/34/images/thumb/8I9zzaBC.jpeg", "https://www.motor-vl.ru/media/34/images/thumb/560Evi8H.jpeg", "https://www.motor-vl.ru/media/34/images/thumb/FBzKnTS_.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 4 цилиндр", "Проверка гидроподъема", "Давление масла", "Компрессия 3 цилиндр"],
     specs: [
       ["Год", "2015"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"],
@@ -321,6 +377,8 @@ var MOTORS = [
     title: "Honda BF75 EFI (L), гидравлика, пульт управления (1206547)",
     price: 550000,
     img: "https://www.motor-vl.ru/media/33/images/thumb/y3WrhUIp.jpeg",
+    photos: ["https://www.motor-vl.ru/media/33/images/thumb/4EnJHVKv.jpeg", "https://www.motor-vl.ru/media/33/images/thumb/Je8T6CPX.jpeg", "https://www.motor-vl.ru/media/33/images/thumb/y3WrhUIp.jpeg", "https://www.motor-vl.ru/media/33/images/thumb/tfFIAF1M.jpeg", "https://www.motor-vl.ru/media/33/images/thumb/UplLB9p2.jpeg", "https://www.motor-vl.ru/media/33/images/thumb/VsMuyaO5.jpeg"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Проверка генератора", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2017"], ["Тактность", "4-тактный"], ["Кол-во цилиндров", "4"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "L (508 мм)"],
@@ -332,6 +390,8 @@ var MOTORS = [
     title: "НОВЫЙ ЛОДОЧНЫЙ МОТОР ИЗ ЯПОНИИ Honda BF50",
     price: 680000, badge: "Новый",
     img: "https://www.motor-vl.ru/media/70/images/thumb/DyKbxOyV.png",
+    photos: ["https://www.motor-vl.ru/media/70/images/thumb/dpxi8r6v.png", "https://www.motor-vl.ru/media/70/images/thumb/DyKbxOyV.png", "https://www.motor-vl.ru/media/70/images/thumb/4B2YLQiT.png"],
+    videos: [],
     specs: [
       ["Год", "2026"], ["Тактность", "4-тактный"], ["Длина ноги", "L (508 мм)"], ["Управление", "дистанционное"]
     ]
@@ -343,6 +403,8 @@ var MOTORS = [
     title: "Suzuki DF30 EFI (S), гидродемпфер (911065)",
     price: 390000,
     img: "https://www.motor-vl.ru/media/41/images/thumb/Y1TJDBxJ.png",
+    photos: ["https://www.motor-vl.ru/media/41/images/thumb/A6PmrnIF.png", "https://www.motor-vl.ru/media/41/images/thumb/Y1TJDBxJ.png", "https://www.motor-vl.ru/media/41/images/thumb/aZVksCio.png", "https://www.motor-vl.ru/media/41/images/thumb/k_om25e0.png", "https://www.motor-vl.ru/media/41/images/thumb/Bv3aDcDp.png", "https://www.motor-vl.ru/media/41/images/thumb/cNAezT-Q.png", "https://www.motor-vl.ru/media/41/images/thumb/2tEFM62n.png", "https://www.motor-vl.ru/media/41/images/thumb/luxWHpHX.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Давление масла", "Проверка гидродемпфера"],
     specs: [
       ["Год", "2018"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "3"],
       ["Система подъема мотора", "ручная (демпфер)"], ["Длина ноги", "S (381 мм)"],
@@ -355,6 +417,8 @@ var MOTORS = [
     title: "Suzuki DF100A (X), гидравлика (310115)",
     price: 590000,
     img: "https://www.motor-vl.ru/media/98/images/thumb/remaocuT.png",
+    photos: ["https://www.motor-vl.ru/media/98/images/thumb/qBwJMxe-.png", "https://www.motor-vl.ru/media/98/images/thumb/remaocuT.png", "https://www.motor-vl.ru/media/98/images/thumb/faDxn5gg.png", "https://www.motor-vl.ru/media/98/images/thumb/tH5jIlNy.png", "https://www.motor-vl.ru/media/98/images/thumb/aA2PBBnp.png", "https://www.motor-vl.ru/media/98/images/thumb/7WNnjjW0.png"],
+    videos: ["Запуск двигателя", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Компрессия 3 цилиндр", "Компрессия 4 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2012"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "4"],
       ["Длина ноги", "X (635 мм)"], ["Подъем", "гидравлический"],
@@ -368,6 +432,8 @@ var MOTORS = [
     title: "Tohatsu 15 (S), гидравлика, румпель (033996)",
     price: 180000,
     img: "https://www.motor-vl.ru/media/32/images/thumb/1zwCXwHC.jpeg",
+    photos: ["https://www.motor-vl.ru/media/32/images/thumb/1zwCXwHC.jpeg", "https://www.motor-vl.ru/media/32/images/thumb/2xlj1wDG.jpeg", "https://www.motor-vl.ru/media/32/images/thumb/oXXhLgxI.jpeg", "https://www.motor-vl.ru/media/32/images/thumb/hUHb6tVV.jpeg", "https://www.motor-vl.ru/media/32/images/thumb/2g7A-NKF.jpeg", "https://www.motor-vl.ru/media/32/images/thumb/XB1zqIb8.jpeg"],
+    videos: ["Запуск двигателя", "Запуск с кикстартера", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Проверка гидроподъема", "Давление масла"],
     specs: [
       ["Год", "2011"], ["Тактность", "4-тактный"], ["Система подъема мотора", "гидравлическая"],
       ["Длина ноги", "S (381 мм)"], ["Управление", "румпельное"],
@@ -379,6 +445,8 @@ var MOTORS = [
     title: "Tohatsu 15 (S), гидравлика, румпель (033998)",
     price: 180000,
     img: "https://www.motor-vl.ru/media/64/images/thumb/jRpDQr3v.jpeg",
+    photos: ["https://www.motor-vl.ru/media/64/images/thumb/aQkElH1_.jpeg", "https://www.motor-vl.ru/media/64/images/thumb/jRpDQr3v.jpeg", "https://www.motor-vl.ru/media/64/images/thumb/C-n2qnON.jpeg", "https://www.motor-vl.ru/media/64/images/thumb/VBBSTPRe.jpeg", "https://www.motor-vl.ru/media/64/images/thumb/JfQkYRAj.jpeg"],
+    videos: ["Запуск двигателя", "Запуск с ручного стартера", "Компрессия 1 цилиндр", "Компрессия 2 цилиндр", "Давление масла", "Проверка гидроподъема"],
     specs: [
       ["Год", "2010"], ["Тактность", "4-х тактный"], ["Кол-во цилиндров", "2"],
       ["Система подъема мотора", "гидравлическая"], ["Длина ноги", "S (381 мм)"],

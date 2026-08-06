@@ -51,11 +51,26 @@ document.addEventListener("DOMContentLoaded", function () {
         ? '<span class="motor-card__badge' + (m.badge === "Новый" ? " motor-card__badge--new" : "") + '">' + m.badge + "</span>"
         : "";
 
+      var photos = (m.photos && m.photos.length) ? m.photos : [m.img];
+      var videos = m.videos || [];
+      var idMatch = m.img.match(/\/media\/(\d+)\//);
+      var sourceUrl = idMatch ? "https://www.motor-vl.ru/category/item?id=" + idMatch[1] : "";
+
+      var metaChips = "";
+      if (photos.length > 1) metaChips += '<span class="motor-card__meta-chip">📷 ' + photos.length + "</span>";
+      if (videos.length) metaChips += '<span class="motor-card__meta-chip">🎬 ' + videos.length + "</span>";
+      var metaHtml = metaChips ? '<div class="motor-card__meta">' + metaChips + "</div>" : "";
+
       return (
         '<div class="motor-card reveal in">' +
           '<div class="motor-card__media">' +
             badgeHtml +
-            '<img src="' + m.img + '" alt="' + m.title + '" loading="lazy" data-lightbox="' + m.img + '" data-caption="' + m.title + '">' +
+            metaHtml +
+            '<img src="' + m.img + '" alt="' + m.title + '" loading="lazy" ' +
+              'data-lightbox="' + m.img + '" data-caption="' + m.title + '" ' +
+              "data-photos='" + JSON.stringify(photos).replace(/'/g, "&#39;") + "' " +
+              "data-videos='" + JSON.stringify(videos).replace(/'/g, "&#39;") + "' " +
+              'data-source="' + sourceUrl + '">' +
           "</div>" +
           '<div class="motor-card__body">' +
             '<p class="motor-card__title">' + m.title + "</p>" +

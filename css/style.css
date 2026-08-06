@@ -1093,6 +1093,22 @@ textarea.form-control { min-height: 130px; resize: vertical; }
   position: absolute; left: 0; color: var(--success); font-weight: 800;
 }
 
+.delivery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.step-card--sm {
+  padding: 22px 24px;
+  gap: 18px;
+}
+.step-card--sm .step-card__num {
+  width: 46px; height: 46px;
+  font-size: 19px;
+}
+.step-card--sm h3 { font-size: 18px; margin-bottom: 6px; }
+.step-card--sm p { font-size: 15.5px; }
+
 .payment-note {
   background: #eaf5ee;
   border: 1px solid #bfe3cc;
@@ -1449,6 +1465,7 @@ footer.site-footer {
   .grid-2 { grid-template-columns: 1fr; }
   .cta-band { flex-direction: column; text-align: center; padding: 36px 26px; }
   .form-two-col { grid-template-columns: 1fr; }
+  .delivery-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .mobile-call-bar { display: flex; }
   body { padding-bottom: 76px; }

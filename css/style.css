@@ -203,7 +203,7 @@ header.site-header {
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 14px 0;
   gap: 24px;
 }
@@ -266,7 +266,30 @@ nav.main-nav a.active {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-left: auto;
 }
+.header-socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 6px;
+  margin-right: 6px;
+  border-right: 1px solid var(--border);
+}
+.header-socials a {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(212,175,55,.10);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.header-socials a:hover { background: var(--accent); color: #fff; }
+.header-socials svg { width: 17px; height: 17px; }
+.header-socials span { font-size: 12px; font-weight: 800; }
 .header-phone {
   display: flex;
   align-items: baseline;
@@ -348,20 +371,11 @@ nav.main-nav a.active {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(155deg, var(--navy-dark) 0%, var(--navy) 55%, var(--navy-light) 100%);
+  background: var(--navy-dark);
   color: #fff;
   padding: 68px 0 90px;
   position: relative;
   overflow: hidden;
-}
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 88% 12%, rgba(212,175,55,.35), transparent 40%),
-    radial-gradient(circle at 96% 28%, rgba(188,0,45,.22), transparent 38%);
-  pointer-events: none;
 }
 .hero-grid {
   display: grid;
@@ -396,15 +410,15 @@ nav.main-nav a.active {
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent-light);
-  opacity: 0.85;
+  color: #ffffff;
+  opacity: 0.6;
 }
 .hero-stats {
   display: flex;
   gap: 36px;
   margin-top: 0;
   padding-top: 18px;
-  border-top: 1px solid rgba(243, 216, 120, 0.18);
+  border-top: 1px solid rgba(255,255,255,.14);
   flex-wrap: wrap;
 }
 .hero-stat {
@@ -414,7 +428,7 @@ nav.main-nav a.active {
   display: block;
   font-size: 38px;
   font-weight: 800;
-  color: var(--accent-light);
+  color: #ffffff;
 }
 .hero-stat span { font-size: 15px; color: #d8cba0; }
 
@@ -1253,6 +1267,7 @@ footer.site-footer {
   nav.main-nav { display: none; }
   .nav-toggle { display: flex; }
   .header-phone { display: none; }
+  .header-socials { display: none; }
   .header-actions .btn { display: none; }
   .hero { padding: 40px 0 60px; }
   .hero-actions .btn { width: 100%; }

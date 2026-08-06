@@ -1162,31 +1162,64 @@ textarea.form-control { min-height: 130px; resize: vertical; }
   grid-template-columns: 1fr 1fr;
   gap: 40px;
 }
-.contact-info-list { display: grid; gap: 12px; }
-.contact-info-item {
+.contact-plain p {
   display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  background: #fff;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-  padding: 16px 18px;
+  align-items: baseline;
+  gap: 9px;
+  font-size: 16.5px;
+  color: var(--text);
+  margin: 0 0 16px;
 }
-.contact-info-item .ico {
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  background: rgba(10,38,71,.08);
+.contact-plain p b { color: var(--navy-dark); flex-shrink: 0; }
+.contact-emoji { font-size: 19px; flex-shrink: 0; }
+.contact-plain a {
   color: var(--navy);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(6,26,48,.28);
+  text-underline-offset: 3px;
+}
+.contact-plain a:hover { color: var(--accent-dark); text-decoration-color: var(--accent); }
+.contact-plain__label {
+  display: block;
+  font-size: 16px;
+  color: var(--navy-dark);
+  margin: 22px 0 12px;
+}
+.social-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.social-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+}
+.social-chip__ico {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(212,175,55,.12);
+  color: var(--accent-dark);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 19px;
   flex-shrink: 0;
 }
-.contact-info-item b { display: block; font-size: 16px; color: var(--navy-dark); margin-bottom: 3px; }
-.contact-info-item a, .contact-info-item span { color: var(--text-muted); font-size: 15.5px; }
-.contact-social-list { display: flex; flex-direction: column; gap: 3px; margin-top: 1px; }
-.contact-social-list a { display: block; }
+.social-chip__ico svg { width: 18px; height: 18px; }
+.social-chip__ico span { font-size: 12px; font-weight: 800; }
+.social-chip:hover .social-chip__ico { background: var(--accent); color: #fff; }
+.social-chip > span:last-child {
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: rgba(6,26,48,.28);
+  text-underline-offset: 3px;
+}
+.social-chip:hover > span:last-child { color: var(--accent-dark); text-decoration-color: var(--accent); }
 .map-embed {
   border-radius: var(--radius-md);
   overflow: hidden;

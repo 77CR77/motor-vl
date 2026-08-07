@@ -257,20 +257,24 @@ header.site-header .container {
 nav.main-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 nav.main-nav a {
   padding: 12px 18px;
   border-radius: 100px;
   font-weight: 700;
   font-size: 17px;
-  color: var(--navy-dark);
+  color: #fff;
+  background: var(--accent);
   white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(212, 175, 55, 0.28);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 nav.main-nav a:hover,
 nav.main-nav a.active {
-  background: rgba(6, 26, 48, 0.08);
-  color: var(--navy);
+  background: var(--accent-dark);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(212, 175, 55, 0.38);
 }
 
 .header-actions {

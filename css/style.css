@@ -1511,30 +1511,25 @@ footer.site-footer .container { max-width: 1360px; }
   .nav-toggle { display: flex; }
   .header-actions { display: none; }
 
-  /* Шапка: логотип+бургер в первой строке, три кнопки быстрого доступа — во второй */
-  .header-inner { padding: 12px 0 10px; flex-wrap: wrap; row-gap: 10px; }
-  .logo-img { height: 36px; }
+  /* Шапка: максимально просто — логотип, кнопка «Каталог», иконка меню, всё в одну строку */
+  .header-inner { padding: 14px 0; }
+  .logo-img { height: 38px; }
   .header-mobile-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
-    width: 100%;
-    order: 3;
-    margin-left: 0;
+    gap: 8px;
+    margin-left: auto;
   }
   .header-mobile-link {
-    flex: 1;
-    text-align: center;
-    padding: 9px 4px;
+    padding: 10px 16px;
     border-radius: 100px;
-    background: rgba(6,26,48,.07);
-    color: var(--navy-dark);
+    background: var(--accent);
+    color: #fff;
     font-weight: 700;
-    font-size: 12.5px;
+    font-size: 14px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
+  .nav-toggle { margin-left: 4px; }
   .jp-waves--light::before { display: none; }
 
   /* Общая компактность: меньше воздуха между блоками на мобильном */
@@ -1604,13 +1599,46 @@ footer.site-footer .container { max-width: 1360px; }
   padding: 26px;
   overflow-y: auto;
 }
-.mobile-nav__panel a {
+.mobile-nav__link {
   display: block;
-  padding: 16px 6px;
+  padding: 14px 16px;
   font-weight: 700;
-  font-size: 19px;
+  font-size: 17px;
   color: var(--navy-dark);
   border-bottom: 1px solid var(--border);
+}
+.mobile-nav__link--primary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(212,175,55,.10);
+  border-radius: var(--radius-sm);
+  border-bottom: none;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+.mobile-nav__cta {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 100px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 17px;
+  box-shadow: 0 10px 22px rgba(212,175,55,.3);
+}
+.mobile-nav__phone {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 100px;
+  background: rgba(6,26,48,.06);
+  color: var(--navy-dark);
+  font-weight: 700;
+  font-size: 16px;
 }
 .mobile-nav__close {
   width: 44px; height: 44px;

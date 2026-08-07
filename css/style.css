@@ -1515,15 +1515,9 @@ footer.site-footer .container { max-width: 1360px; }
   .nav-toggle { display: flex; }
   .header-actions { display: none; }
 
-  /* Шапка: логотип + иконка меню в первой строке, три одинаковые золотые кнопки — во второй */
+  /* Шапка: логотип на белом фоне + иконка меню в первой строке, две одинаковые золотые кнопки на всю ширину — во второй */
   .header-inner { padding: 12px 0 10px; flex-wrap: wrap; row-gap: 10px; }
-  .logo {
-    background: var(--navy-dark);
-    padding: 6px 10px;
-    border-radius: 8px;
-    line-height: 0;
-  }
-  .logo-img { height: 26px; }
+  .logo-img { height: 32px; }
   .header-mobile-actions {
     display: flex;
     align-items: center;
@@ -1535,12 +1529,12 @@ footer.site-footer .container { max-width: 1360px; }
   .header-mobile-link {
     flex: 1;
     text-align: center;
-    padding: 10px 6px;
+    padding: 11px 10px;
     border-radius: 100px;
     background: var(--accent);
     color: #fff;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.25;
   }
   .nav-toggle {

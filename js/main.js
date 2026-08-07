@@ -123,7 +123,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* ---------- Лайтбокс: фотогалерея и видео мотора ---------- */
   var lightbox = document.querySelector(".lightbox");
-  if (lightbox) {
+  var lightboxReady = lightbox &&
+    lightbox.querySelector(".lightbox__stage img") &&
+    lightbox.querySelector(".lightbox__close") &&
+    lightbox.querySelector(".lightbox__nav--prev") &&
+    lightbox.querySelector(".lightbox__nav--next");
+  if (lightboxReady) {
     var stageImg = lightbox.querySelector(".lightbox__stage img");
     var counterEl = lightbox.querySelector(".lightbox__counter");
     var captionEl = lightbox.querySelector(".lightbox__caption");

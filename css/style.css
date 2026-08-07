@@ -1530,6 +1530,16 @@ footer.site-footer .container { max-width: 1360px; }
   .motor-card__media img { height: 220px; min-height: 0; }
   .lightbox__stage img { max-height: 36vh; }
   .lightbox__nav { width: 40px; height: 40px; font-size: 22px; }
+
+  /* Декоративные крупные флаги и водяные знаки — убираем на мобильных, чтобы не перекрывали текст */
+  .flag-emoji { display: none; }
+  .jp-kanji-mark { font-size: 100px; }
+  .sort-select { width: 100%; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .trust-bar .container { grid-template-columns: 1fr; }
 }
 
 /* Mobile nav drawer */

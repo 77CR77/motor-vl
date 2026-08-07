@@ -279,6 +279,7 @@ nav.main-nav a.active {
   gap: 16px;
   margin-left: auto;
 }
+.header-mobile-actions { display: none; }
 .header-socials {
   display: flex;
   align-items: center;
@@ -1508,9 +1509,36 @@ footer.site-footer .container { max-width: 1360px; }
   .topbar__socials { display: none; }
   nav.main-nav { display: none; }
   .nav-toggle { display: flex; }
-  .header-phone { display: none; }
-  .header-socials { display: none; }
-  .header-actions .btn { display: none; }
+  .header-actions { display: none; }
+  .header-inner { padding: 16px 0; }
+  .header-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .header-mobile-call {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .header-mobile-contacts {
+    padding: 10px 14px;
+    border-radius: 100px;
+    background: rgba(6,26,48,.08);
+    color: var(--navy-dark);
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .jp-waves--light::before { display: none; }
   .hero { padding: 40px 0 60px; }
   .hero-actions .btn { width: 100%; }
   .hero-stats { gap: 22px; }

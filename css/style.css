@@ -1505,54 +1505,70 @@ footer.site-footer .container { max-width: 1360px; }
 }
 
 @media (max-width: 760px) {
-  body { font-size: 17px; }
+  body { font-size: 16.5px; }
   .topbar__socials { display: none; }
   nav.main-nav { display: none; }
   .nav-toggle { display: flex; }
   .header-actions { display: none; }
-  .header-inner { padding: 16px 0; }
+
+  /* Шапка: логотип+бургер в первой строке, три кнопки быстрого доступа — во второй */
+  .header-inner { padding: 12px 0 10px; flex-wrap: wrap; row-gap: 10px; }
+  .logo-img { height: 36px; }
   .header-mobile-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-left: auto;
+    gap: 6px;
+    width: 100%;
+    order: 3;
+    margin-left: 0;
   }
-  .header-mobile-call {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .header-mobile-contacts {
-    padding: 10px 14px;
+  .header-mobile-link {
+    flex: 1;
+    text-align: center;
+    padding: 9px 4px;
     border-radius: 100px;
-    background: rgba(6,26,48,.08);
+    background: rgba(6,26,48,.07);
     color: var(--navy-dark);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 12.5px;
     white-space: nowrap;
-    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .jp-waves--light::before { display: none; }
-  .hero { padding: 40px 0 60px; }
+
+  /* Общая компактность: меньше воздуха между блоками на мобильном */
+  .section { padding: 34px 0; }
+  .section--tight { padding: 24px 0; }
+  .section-head { margin: 0 auto 24px; }
+  .eyebrow { margin-bottom: 10px; }
+  h1 { margin-bottom: 10px; }
+  h2 { margin-bottom: 10px; }
+  h3 { margin-bottom: 6px; }
+  p { margin-bottom: 12px; }
+  .grid-3 .card p, .card p { margin-bottom: 0; }
+
+  .hero { padding: 26px 0 32px; }
   .hero-actions .btn { width: 100%; }
-  .hero-stats { gap: 22px; }
-  .grid-3, .grid-4, .brand-links { grid-template-columns: 1fr 1fr; }
+  .hero-stats-label { margin-top: 22px; margin-bottom: 10px; }
+  .hero-stats { gap: 22px; padding-top: 12px; }
+  .grid-3, .grid-4, .brand-links { grid-template-columns: 1fr 1fr; gap: 14px; }
   .grid-2 { grid-template-columns: 1fr; }
-  .cta-band { flex-direction: column; text-align: center; padding: 36px 26px; }
+  .card { padding: 20px 18px; }
+  .process { gap: 10px; }
+  .process-step { padding: 16px 18px; gap: 14px; }
+  .process-step h3 { margin-bottom: 3px; }
+  .cta-band { flex-direction: column; text-align: center; padding: 28px 22px; }
   .form-two-col { grid-template-columns: 1fr; }
   .delivery-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .text-page p { margin-bottom: 14px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 18px; padding-bottom: 14px; }
+  .footer-col--brands { display: none; }
   .mobile-call-bar { display: flex; }
   body { padding-bottom: 76px; }
-  .catalog-toolbar { flex-direction: column; align-items: stretch; }
+  .catalog-toolbar { flex-direction: column; align-items: stretch; margin-bottom: 18px; }
   .brand-tabs { justify-content: center; }
-  .motor-grid { grid-template-columns: 1fr; }
+  .motor-grid { grid-template-columns: 1fr; gap: 16px; }
   .motor-card { flex-direction: column; }
   .motor-card__media { width: 100%; }
   .motor-card__media img { height: 220px; min-height: 0; }

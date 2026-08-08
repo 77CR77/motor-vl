@@ -7,6 +7,18 @@ in a browser.
 
 **Live demo:** https://sprightly-panda-5bb1d0.netlify.app
 
+## Business objectives
+
+The redesign was driven by concrete business goals, not just visual polish:
+
+- **Increase sales** by making the buying path shorter and removing friction between browsing and ordering.
+- **Attract new clients** with a modern, trustworthy first impression instead of the outdated original site.
+- **Build customer trust** through clear, transparent information about the company, pricing, and delivery terms.
+- **Grow social media following** by surfacing Instagram, VK, and Telegram prominently on every page.
+- **Give customers fast, convenient access to the product catalog**, with brand filters and sorting by price.
+- **Simplify communication between the company and clients** via a minimalist, intuitive interface anyone can navigate — including an older, less tech-savvy audience.
+- **Streamline staff workflow**, since adding a new motor or updating specs only requires editing one structured data file, no CMS training needed.
+
 ## Stack
 
 - HTML5, CSS3 (no preprocessors), vanilla JavaScript (ES5-compatible)

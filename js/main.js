@@ -175,14 +175,20 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (videos.length) {
+        // Поддержка двух форматов: новые записи — объекты {label, url} (добавленные
+        // через админ-панель со ссылкой на реальное видео), старые — просто строки
+        // с названием, которые вели на карточку товара на сайте-источнике.
+        var hasRealVideo = videos.some(function (v) { return v && typeof v === "object" && v.url; });
         videosEl.innerHTML =
           '<div class="lightbox__videos-title">Видео технического состояния (' + videos.length + ')</div>' +
           '<div class="lightbox__videos-list">' +
-          videos.map(function (name) {
-            return '<a class="lightbox__video-chip" href="' + sourceUrl + '" target="_blank" rel="noopener">▶ ' + name + '</a>';
+          videos.map(function (v) {
+            var label = typeof v === "string" ? v : (v.label || "Видео");
+            var href = (typeof v === "object" && v.url) ? v.url : sourceUrl;
+            return '<a class="lightbox__video-chip" href="' + href + '" target="_blank" rel="noopener">▶ ' + label + '</a>';
           }).join("") +
           "</div>" +
-          (sourceUrl ? '<div class="lightbox__videos-note">Ролики воспроизводятся на карточке мотора на сайте-источнике motor-vl.ru — переход по клику</div>' : "");
+          (!hasRealVideo && sourceUrl ? '<div class="lightbox__videos-note">Ролики воспроизводятся на карточке мотора на сайте-источнике motor-vl.ru — переход по клику</div>' : "");
       } else {
         videosEl.innerHTML = "";
       }

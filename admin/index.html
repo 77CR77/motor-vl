@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Админ-панель — МОТОР-ВЛ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+<div id="loginScreen" class="admin-login">
+  <div class="admin-login__box">
+    <h1>МОТОР-ВЛ</h1>
+    <p>Панель управления каталогом. Только для администратора.</p>
+    <input type="password" id="passwordInput" class="form-control" placeholder="Пароль" autocomplete="current-password">
+    <button id="loginBtn" class="btn btn--accent btn--block">Войти</button>
+    <div id="loginError" class="admin-login__error"></div>
+  </div>
+</div>
+
+<div id="adminApp" class="admin-app" style="display:none;">
+
+  <header class="admin-header">
+    <div class="admin-header__title">
+      <span>МОТОР-ВЛ</span> · Каталог моторов
+    </div>
+    <div class="admin-header__actions">
+      <a href="../catalog.html" target="_blank" class="admin-link">Открыть сайт ↗</a>
+      <button id="logoutBtn" class="admin-link admin-link--btn">Выйти</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+
+    <div id="listView">
+      <div class="admin-toolbar">
+        <span id="motorCount" class="admin-toolbar__count"></span>
+        <button id="newMotorBtn" class="btn btn--accent">+ Новый мотор</button>
+      </div>
+      <div id="statusMsg" class="admin-status"></div>
+      <div id="motorList" class="admin-list"></div>
+    </div>
+
+    <div id="formView" style="display:none;">
+      <button id="backBtn" class="admin-back">← Назад к списку</button>
+      <h2 id="formTitle">Новый мотор</h2>
+
+      <form id="motorForm" class="admin-form">
+        <input type="hidden" id="fId">
+
+        <div class="admin-form__row">
+          <label>Бренд</label>
+          <select id="fBrand" class="form-control" required>
+            <option value="yamaha">Yamaha</option>
+            <option value="honda">Honda</option>
+            <option value="suzuki">Suzuki</option>
+            <option value="tohatsu">Tohatsu / Mercury</option>
+            <option value="parts">Запчасти</option>
+          </select>
+        </div>
+
+        <div class="admin-form__row">
+          <label>Название (с номером/артикулом)</label>
+          <input type="text" id="fTitle" class="form-control" placeholder="Например: Yamaha F25 (S), румпель (1043580)" required>
+        </div>
+
+        <div class="admin-form__row-2">
+          <div class="admin-form__row">
+            <label>Цена, ₽</label>
+            <input type="number" id="fPrice" class="form-control" placeholder="220000" required>
+          </div>
+          <div class="admin-form__row">
+            <label>Плашка (необязательно)</label>
+            <input type="text" id="fBadge" class="form-control" placeholder="Хит продаж / Новый">
+          </div>
+        </div>
+
+        <div class="admin-form__row">
+          <label>Фотографии</label>
+          <div id="photoDrop" class="admin-dropzone">
+            Перетащите фото сюда или нажмите, чтобы выбрать
+            <input type="file" id="photoInput" accept="image/*" multiple hidden>
+          </div>
+          <div id="photoList" class="admin-photo-list"></div>
+          <div class="admin-hint">Отметьте звёздочкой главную фотографию — она будет показываться в каталоге</div>
+        </div>
+
+        <div class="admin-form__row">
+          <label>Видео</label>
+          <div id="videoList" class="admin-video-list"></div>
+          <button type="button" id="addVideoBtn" class="admin-add-row">+ добавить видео</button>
+          <div class="admin-hint">Название ролика и, если есть — ссылка на YouTube/VK Видео. Без ссылки видео будет просто подписью.</div>
+        </div>
+
+        <div class="admin-form__row">
+          <label>Характеристики</label>
+          <div id="specList" class="admin-spec-list"></div>
+          <button type="button" id="addSpecBtn" class="admin-add-row">+ добавить характеристику</button>
+        </div>
+
+        <div class="admin-form__actions">
+          <button type="submit" class="btn btn--accent btn--lg">Сохранить</button>
+          <button type="button" id="deleteBtn" class="admin-delete-btn" style="display:none;">Удалить мотор</button>
+        </div>
+      </form>
+    </div>
+
+  </main>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

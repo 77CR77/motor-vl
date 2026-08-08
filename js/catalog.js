@@ -1,4 +1,6 @@
 // ===== МОТОР-ВЛ: логика страницы каталога =====
+// Данные каталога подгружаются из data/motors.json и data/brands.json —
+// это позволяет обновлять каталог через админ-панель (/admin) без правки кода.
 
 document.addEventListener("DOMContentLoaded", function () {
   var grid = document.getElementById("motorGrid");
@@ -7,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var resultsCount = document.getElementById("resultsCount");
   if (!grid || !tabsWrap) return;
 
+  var MOTORS = [];
+  var BRANDS = [];
   var currentBrand = "all";
   var currentSort = "default";
 
@@ -89,12 +93,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Если пришли по ссылке с якорем бренда, например catalog.html#honda
-  var hashBrand = location.hash.replace("#", "");
-  if (BRANDS.some(function (b) { return b.key === hashBrand; })) {
-    currentBrand = hashBrand;
-  }
+  grid.innerHTML = '<p style="color:var(--text-muted);">Загружаем каталог…</p>';
 
-  renderTabs();
-  renderGrid();
+  Promise.all([
+    fetch("data/motors.json").then(function (r) { return r.json(); }),
+    fetch("data/brands.json").then(function (r) { return r.json(); })
+  ]).then(function (results) {
+    MOTORS = results[0];
+    BRANDS = results[1];
+
+    // Если пришли по ссылке с якорем бренда, например catalog.html#honda
+    var hashBrand = location.hash.replace("#", "");
+    if (BRANDS.some(function (b) { return b.key === hashBrand; })) {
+      currentBrand = hashBrand;
+    }
+
+    renderTabs();
+    renderGrid();
+  }).catch(function () {
+    grid.innerHTML = '<p style="color:var(--jp-red);">Не удалось загрузить каталог. Попробуйте обновить страницу.</p>';
+  });
 });

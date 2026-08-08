@@ -1,0 +1,26 @@
+[
+  {
+    "key": "all",
+    "label": "Все"
+  },
+  {
+    "key": "yamaha",
+    "label": "Yamaha"
+  },
+  {
+    "key": "honda",
+    "label": "Honda"
+  },
+  {
+    "key": "suzuki",
+    "label": "Suzuki"
+  },
+  {
+    "key": "tohatsu",
+    "label": "Tohatsu / Mercury"
+  },
+  {
+    "key": "parts",
+    "label": "Запчасти"
+  }
+]

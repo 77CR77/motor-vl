@@ -1052,6 +1052,29 @@ textarea.form-control { min-height: 130px; resize: vertical; }
   color: var(--text-muted);
 }
 .checkbox-row input { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; }
+.required-mark { color: var(--jp-red); font-weight: 800; }
+
+.phone-input-group { display: flex; width: 100%; }
+.phone-code-select {
+  flex-shrink: 0;
+  width: 108px;
+  padding: 16px 8px;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  border: 2px solid var(--border);
+  border-right: none;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--text);
+  background: #faf8f3;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.phone-code-select:focus { outline: none; border-color: var(--navy-light); background: #fff; }
+.phone-number-input {
+  flex: 1;
+  min-width: 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+}
 
 .form-success {
   display: none;

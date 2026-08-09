@@ -85,7 +85,23 @@
           <div class="form-two-col">
             <div class="form-row">
               <label for="fieldPhone">Телефон</label>
-              <input class="form-control" type="tel" id="fieldPhone" name="phone" placeholder="+7 (___) ___-__-__" required>
+              <div class="phone-input-group">
+                <select id="fieldPhoneCode" class="phone-code-select" aria-label="Код страны">
+                  <option value="+7">🇷🇺 +7</option>
+                  <option value="+7">🇰🇿 +7</option>
+                  <option value="+375">🇧🇾 +375</option>
+                  <option value="+380">🇺🇦 +380</option>
+                  <option value="+998">🇺🇿 +998</option>
+                  <option value="+996">🇰🇬 +996</option>
+                  <option value="+992">🇹🇯 +992</option>
+                  <option value="+993">🇹🇲 +993</option>
+                  <option value="+994">🇦🇿 +994</option>
+                  <option value="+374">🇦🇲 +374</option>
+                  <option value="+995">🇬🇪 +995</option>
+                  <option value="+373">🇲🇩 +373</option>
+                </select>
+                <input class="form-control phone-number-input" type="tel" id="fieldPhone" name="phone" placeholder="(___) ___-__-__" required>
+              </div>
             </div>
             <div class="form-row">
               <label for="fieldEmail">E-mail <span style="font-weight:500;color:var(--text-muted);">(необязательно)</span></label>
@@ -107,7 +123,7 @@
           <div class="form-row checkbox-row">
             <input type="checkbox" id="fieldConsent" required>
             <label for="fieldConsent" style="font-weight:500; margin:0;">Даю согласие на обработку персональных
-              данных в соответствии с политикой конфиденциальности</label>
+              данных в соответствии с политикой конфиденциальности <span class="required-mark">*</span></label>
           </div>
 
           <button type="submit" class="btn btn--accent btn--block btn--lg">Отправить заявку</button>

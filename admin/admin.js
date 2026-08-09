@@ -6,6 +6,7 @@
   "use strict";
 
   var API_URL = "/.netlify/functions/motors";
+  var LEADS_URL = "/.netlify/functions/leads";
   var SESSION_KEY = "motorvl_admin_password";
 
   var loginScreen = document.getElementById("loginScreen");
@@ -14,6 +15,14 @@
   var loginBtn = document.getElementById("loginBtn");
   var loginError = document.getElementById("loginError");
   var logoutBtn = document.getElementById("logoutBtn");
+
+  var tabMotors = document.getElementById("tabMotors");
+  var tabLeads = document.getElementById("tabLeads");
+  var leadsBadge = document.getElementById("leadsBadge");
+  var leadsView = document.getElementById("leadsView");
+  var leadsList = document.getElementById("leadsList");
+  var leadsCount = document.getElementById("leadsCount");
+  var leadsStatusMsg = document.getElementById("leadsStatusMsg");
 
   var listView = document.getElementById("listView");
   var formView = document.getElementById("formView");
@@ -41,6 +50,7 @@
   var addSpecBtn = document.getElementById("addSpecBtn");
 
   var currentMotors = [];
+  var currentLeads = [];
   var photoState = [];   // [{type:'existing'|'new', url|dataBase64, filename, isMain}]
   var videoState = [];   // [{label, url}]
   var specState = [];    // [[key, value]]
@@ -99,12 +109,29 @@
     loginScreen.style.display = "none";
     adminApp.style.display = "block";
     renderList();
+    loadLeads();
   }
 
   // Автовход, если пароль уже сохранён в этой вкладке браузера
   if (password()) {
     tryLogin(password());
   }
+
+  // ---------- Переключение вкладок ----------
+  tabMotors.addEventListener("click", function () {
+    tabMotors.classList.add("active");
+    tabLeads.classList.remove("active");
+    leadsView.style.display = "none";
+    renderList();
+  });
+  tabLeads.addEventListener("click", function () {
+    tabLeads.classList.add("active");
+    tabMotors.classList.remove("active");
+    listView.style.display = "none";
+    formView.style.display = "none";
+    leadsView.style.display = "block";
+    renderLeads();
+  });
 
   // ---------- Список моторов ----------
   function renderList() {
@@ -136,6 +163,105 @@
     statusMsg.textContent = text;
     statusMsg.className = "admin-status " + (isError ? "admin-status--error" : "admin-status--ok");
     setTimeout(function () { statusMsg.textContent = ""; }, 4000);
+  }
+
+  // ---------- Заявки ----------
+  function loadLeads() {
+    fetch(LEADS_URL, { headers: { "x-admin-password": password() } })
+      .then(function (res) { return res.ok ? res.json() : { leads: [] }; })
+      .then(function (data) {
+        currentLeads = data.leads || [];
+        updateLeadsBadge();
+        if (leadsView.style.display !== "none") renderLeads();
+      })
+      .catch(function () {});
+  }
+
+  function updateLeadsBadge() {
+    var unread = currentLeads.filter(function (l) { return !l.viewed; }).length;
+    if (unread > 0) {
+      leadsBadge.textContent = unread;
+      leadsBadge.style.display = "inline-block";
+    } else {
+      leadsBadge.style.display = "none";
+    }
+  }
+
+  function formatDate(iso) {
+    try {
+      return new Date(iso).toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    } catch (e) { return ""; }
+  }
+
+  function showLeadsStatus(text, isError) {
+    leadsStatusMsg.textContent = text;
+    leadsStatusMsg.className = "admin-status " + (isError ? "admin-status--error" : "admin-status--ok");
+    setTimeout(function () { leadsStatusMsg.textContent = ""; }, 4000);
+  }
+
+  function renderLeads() {
+    leadsCount.textContent = "Всего заявок: " + currentLeads.length;
+    leadsList.innerHTML = currentLeads.map(function (l) {
+      return (
+        '<div class="admin-lead' + (l.viewed ? "" : " is-new") + '" data-id="' + l.id + '">' +
+          '<div class="admin-lead__top">' +
+            '<div><span class="admin-lead__name">' + l.name + "</span>" +
+              (l.viewed ? "" : '<span class="admin-lead__new-tag">новая</span>') +
+            "</div>" +
+            '<div class="admin-lead__date">' + formatDate(l.createdAt) + "</div>" +
+          "</div>" +
+          '<div class="admin-lead__row">📞 <a href="tel:' + l.phone + '">' + l.phone + "</a></div>" +
+          (l.email ? '<div class="admin-lead__row">✉️ <a href="mailto:' + l.email + '">' + l.email + "</a></div>" : "") +
+          (l.motor ? '<div class="admin-lead__row">🛥️ ' + l.motor + "</div>" : "") +
+          (l.message ? '<div class="admin-lead__message">' + l.message + "</div>" : "") +
+          '<div class="admin-lead__actions">' +
+            '<button class="admin-lead__btn admin-lead__btn--toggle" data-id="' + l.id + '" data-viewed="' + (!l.viewed) + '">' +
+              (l.viewed ? "Отметить непросмотренной" : "Отметить просмотренной") +
+            "</button>" +
+            '<button class="admin-lead__btn admin-lead__btn--delete" data-id="' + l.id + '">Удалить</button>' +
+          "</div>" +
+        "</div>"
+      );
+    }).join("") || '<p style="color:var(--text-muted);">Заявок пока нет.</p>';
+
+    leadsList.querySelectorAll(".admin-lead__btn--toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        var viewed = btn.getAttribute("data-viewed") === "true";
+        fetch(LEADS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: password(), action: "markViewed", id: id, viewed: viewed })
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            currentLeads = data.leads || currentLeads;
+            updateLeadsBadge();
+            renderLeads();
+          })
+          .catch(function () { showLeadsStatus("Ошибка обновления", true); });
+      });
+    });
+
+    leadsList.querySelectorAll(".admin-lead__btn--delete").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (!confirm("Удалить эту заявку?")) return;
+        var id = btn.getAttribute("data-id");
+        fetch(LEADS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: password(), action: "delete", id: id })
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            currentLeads = data.leads || currentLeads;
+            updateLeadsBadge();
+            renderLeads();
+            showLeadsStatus("Заявка удалена");
+          })
+          .catch(function () { showLeadsStatus("Ошибка удаления", true); });
+      });
+    });
   }
 
   // ---------- Форма ----------

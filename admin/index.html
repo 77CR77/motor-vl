@@ -26,7 +26,7 @@
 
   <header class="admin-header">
     <div class="admin-header__title">
-      <span>МОТОР-ВЛ</span> · Каталог моторов
+      <span>МОТОР-ВЛ</span> · Панель управления
     </div>
     <div class="admin-header__actions">
       <a href="../catalog.html" target="_blank" class="admin-link">Открыть сайт ↗</a>
@@ -36,6 +36,11 @@
 
   <main class="admin-main">
 
+    <div class="admin-tabs">
+      <button id="tabMotors" class="admin-tab active">Моторы</button>
+      <button id="tabLeads" class="admin-tab">Заявки <span id="leadsBadge" class="admin-tab__badge" style="display:none;"></span></button>
+    </div>
+
     <div id="listView">
       <div class="admin-toolbar">
         <span id="motorCount" class="admin-toolbar__count"></span>
@@ -43,6 +48,14 @@
       </div>
       <div id="statusMsg" class="admin-status"></div>
       <div id="motorList" class="admin-list"></div>
+    </div>
+
+    <div id="leadsView" style="display:none;">
+      <div class="admin-toolbar">
+        <span id="leadsCount" class="admin-toolbar__count"></span>
+      </div>
+      <div id="leadsStatusMsg" class="admin-status"></div>
+      <div id="leadsList" class="admin-list"></div>
     </div>
 
     <div id="formView" style="display:none;">

@@ -44,6 +44,44 @@
 
 .admin-main { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
 
+/* ---------- Вкладки ---------- */
+.admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.admin-tab {
+  background: none; border: none; cursor: pointer; font-family: inherit;
+  padding: 10px 16px; font-weight: 700; font-size: 14.5px; color: var(--text-muted);
+  border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 8px;
+}
+.admin-tab.active { color: var(--navy-dark); border-bottom-color: var(--accent); }
+.admin-tab__badge {
+  background: var(--jp-red); color: #fff; font-size: 11px; font-weight: 800;
+  border-radius: 100px; padding: 2px 7px; min-width: 18px; text-align: center;
+}
+
+/* ---------- Заявки ---------- */
+.admin-lead {
+  background: #fff; border-radius: 12px; box-shadow: var(--shadow-sm, 0 4px 14px rgba(2,10,22,.12));
+  padding: 16px 18px; position: relative; border-left: 3px solid transparent;
+}
+.admin-lead.is-new { border-left-color: var(--accent); }
+.admin-lead__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.admin-lead__name { font-weight: 800; font-size: 15.5px; color: var(--navy-dark); }
+.admin-lead__new-tag {
+  background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 800;
+  border-radius: 100px; padding: 2px 8px; margin-left: 8px; vertical-align: middle;
+}
+.admin-lead__date { color: var(--text-muted); font-size: 12.5px; white-space: nowrap; }
+.admin-lead__row { font-size: 13.5px; color: var(--text); margin-bottom: 4px; }
+.admin-lead__row a { color: var(--navy); font-weight: 700; }
+.admin-lead__message { font-size: 13.5px; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); white-space: pre-wrap; }
+.admin-lead__actions { display: flex; gap: 10px; margin-top: 12px; }
+.admin-lead__btn {
+  background: rgba(6,26,48,.06); border: none; border-radius: 100px; padding: 7px 14px;
+  font-size: 12.5px; font-weight: 700; color: var(--navy-dark); cursor: pointer;
+}
+.admin-lead__btn:hover { background: rgba(6,26,48,.12); }
+.admin-lead__btn--delete { background: rgba(188,0,45,.08); color: var(--jp-red); }
+.admin-lead__btn--delete:hover { background: rgba(188,0,45,.16); }
+
 /* ---------- Список моторов ---------- */
 .admin-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .admin-toolbar__count { color: var(--text-muted); font-weight: 700; }

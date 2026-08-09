@@ -1,10 +1,10 @@
 [
   {
-    "id": "m38",
     "brand": "yamaha",
     "brandLabel": "Yamaha",
     "title": "Yamaha F25 (S), румпель (1043580)",
     "price": 220000,
+    "badge": "Хит продаж",
     "img": "https://www.motor-vl.ru/media/38/images/thumb/91M0tfSx.png",
     "photos": [
       "https://www.motor-vl.ru/media/38/images/thumb/91M0tfSx.png",
@@ -66,7 +66,7 @@
         "электрический и ручной"
       ]
     ],
-    "badge": "Хит продаж"
+    "id": "m38"
   },
   {
     "brand": "yamaha",

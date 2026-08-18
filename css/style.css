@@ -1058,6 +1058,8 @@ nav.main-nav a.active {
   transform: translateX(-50%);
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   gap: 4px;
   padding: 5px 8px;
   border-radius: 100px;
@@ -1097,6 +1099,8 @@ nav.main-nav a.active {
   top: 16px;
   left: 50%;
   transform: translateX(-50%);
+  max-width: calc(100% - 40px);
+  text-align: center;
   color: #9fb0c2;
   font-size: 12px;
   background: rgba(6, 26, 48, .6);

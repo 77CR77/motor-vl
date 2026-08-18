@@ -110,6 +110,16 @@ python3 tools/sync_fallback.py                      # после любой пр
 
 `tools/normalize_specs.py` is the one-off migration that produced this layout.
 
+## After editing css/js
+
+Browsers cache `style.css` and `main.js` by filename, which means a stale copy can
+survive reloads and make the page look broken in ways the source does not explain.
+Stamp the asset links with a content hash so a changed file always gets a fresh URL:
+
+```bash
+python3 tools/stamp_assets.py
+```
+
 ## Photos
 
 All catalog photos are hosted by this repository — nothing is hot-linked from the

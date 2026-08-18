@@ -1145,6 +1145,7 @@ nav.main-nav a.active {
      кнопка «Во весь экран» убирает панель совсем. */
   max-height: 36vh;
 }
+
 /* Режим «во весь экран»: панель убирается, сцена занимает весь лайтбокс. */
 .lightbox__box.panel-hidden .lightbox__panel { display: none; }
 .lightbox__expand {
@@ -1294,14 +1295,53 @@ nav.main-nav a.active {
 button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; }
 .lightbox__video-chip.playing { background: var(--accent); color: #241c04; }
 /* Плеер занимает то же место на сцене, что и фото. */
+/* Видео 1280x720 меньше сцены, а max-width/max-height только ограничивают,
+   но не растягивают — поэтому ролик оставался маленьким посреди пустоты.
+   Задаём размер по сцене, object-fit: contain сохраняет пропорции.
+   Фон прозрачный: чёрные поля по краям сливались бы в большой чёрный прямоугольник. */
 .lightbox__player {
-  max-width: 100%;
-  max-height: 50vh;
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
-  background: #000;
-  box-shadow: var(--shadow-md);
+  background: transparent;
 }
 .lightbox__videos-note { color: #9fb0c2; font-size: 12.5px; margin-top: 10px; }
+
+/* На широком экране фото и список — рядом, а не друг под другом.
+   Фотографии моторов почти всегда вертикальные: если отдать им всю ширину
+   окна, по бокам остаются огромные пустые поля, а панель на 1400 px
+   выглядит развалившейся. Колонкой справа ширина расходуется по делу,
+   и снимок становится выше во всю высоту окна. */
+@media (min-width: 900px) {
+  .lightbox__box { flex-direction: row; }
+  .lightbox__stage { padding: 24px; }
+  .lightbox__panel {
+    width: 340px;
+    flex: 0 0 340px;
+    max-height: none;
+    border-top: none;
+    border-left: 1px solid rgba(255,255,255,.08);
+    padding: 24px 22px;
+  }
+  /* В узкой колонке миниатюры удобнее сеткой, а ролики — списком. */
+  .lightbox__thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    overflow-x: visible;
+  }
+  .lightbox__videos-list {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: 1fr 1fr;
+    overflow-x: visible;
+  }
+  /* Кнопки держим над фото, левее панели, чтобы не накрывали её содержимое.
+*/
+  .lightbox__close { right: 372px; }
+  .lightbox__expand { right: 426px; }
+  .lightbox__box.panel-hidden .lightbox__close { right: 16px; }
+  .lightbox__box.panel-hidden .lightbox__expand { right: 70px; }
+}
 
 /* ---------- Forms ---------- */
 .form-card {

@@ -58,8 +58,12 @@ copy an existing block and update the values. See the in-file comments for detai
 
 ## Lightbox
 
-Clicking a photo opens it nearly full-screen; the bottom panel stays compact and
-«Во весь экран» hides it entirely so the image gets the whole window.
+Clicking a photo opens it nearly full-screen. From 900px up the box is two columns —
+the photo on the left, the caption / thumbnails / video tiles as a right-hand column.
+Motor photos are almost always vertical, so a full-width stage left huge empty margins
+and a 1400px-wide panel looked broken; as a side column the width earns its keep and the
+photo reaches ~91% of the window height. Below 900px the panel goes back under the stage.
+«Во весь экран» hides the panel entirely so the image gets the whole window.
 
 Zooming works on photos **and** on a playing video, since the transform is applied to
 whichever element is on stage:

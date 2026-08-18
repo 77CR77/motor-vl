@@ -206,6 +206,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }).join("");
   }
 
+  // Дописывает каждому ролику обложку и длительность из data/video-meta.json.
+  function applyVideoMeta(motors, meta) {
+    var items = meta && meta.items;
+    if (!items) return;
+    motors.forEach(function (m) {
+      (m.videos || []).forEach(function (v) {
+        if (!v || typeof v !== "object" || !v.url) return;
+        var info = items[v.url];
+        if (!info) return;
+        v.poster = info.poster || "";
+        v.duration = info.duration || null;
+      });
+    });
+  }
+
   function startCatalog(motors, brands) {
     MOTORS = motors;
     BRANDS = brands;
@@ -227,8 +242,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   Promise.all([
     fetch("data/motors.json").then(function (r) { return r.json(); }),
-    fetch("data/brands.json").then(function (r) { return r.json(); })
+    fetch("data/brands.json").then(function (r) { return r.json(); }),
+    // Обложки и длительность роликов лежат отдельно (их делает tools/make_posters.py).
+    // Файла может не быть — тогда плитки видео просто останутся без картинки.
+    fetch("data/video-meta.json").then(function (r) { return r.json(); }).catch(function () { return null; })
   ]).then(function (results) {
+    applyVideoMeta(results[0], results[2]);
     startCatalog(results[0], results[1]);
   }).catch(function () {
     // Если страница открыта двойным кликом (файл file://, без веб-сервера), браузер блокирует

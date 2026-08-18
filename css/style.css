@@ -977,18 +977,19 @@ nav.main-nav a.active {
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(5, 15, 28, 0.94);
+  background: rgba(5, 15, 28, 0.97);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 24px;
+  padding: 16px;
 }
 .lightbox.open { display: flex; }
 .lightbox__box {
   position: relative;
-  width: min(920px, 100%);
-  max-height: 92vh;
+  width: min(1500px, 100%);
+  height: calc(100vh - 32px);
+  max-height: calc(100vh - 32px);
   background: var(--navy-dark);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -1016,17 +1017,95 @@ nav.main-nav a.active {
   align-items: center;
   justify-content: center;
   background: #0b1e34;
-  padding: 24px;
-  min-height: 240px;
+  padding: 20px;
+  /* Сцена забирает всю свободную высоту: фото открывается почти во весь экран,
+     а панель снизу занимает столько, сколько ей реально нужно. */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
 }
-.lightbox__stage img {
+/* Окно просмотра: содержимое масштабируется внутри и не вылезает за края. */
+.lightbox__viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+}
+.lightbox__stage img,
+.lightbox__player {
   max-width: 100%;
-  max-height: 50vh;
+  max-height: 100%;
   border-radius: 12px;
   object-fit: contain;
-  background: #fff;
   box-shadow: var(--shadow-md);
+  transform-origin: 0 0;
+  will-change: transform;
 }
+.lightbox__stage img { background: #fff; cursor: zoom-in; }
+.lightbox__viewport.zoomed img { cursor: grab; }
+.lightbox__viewport.dragging img,
+.lightbox__viewport.dragging .lightbox__player { cursor: grabbing; }
+
+/* Управление масштабом */
+.lightbox__zoom {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border-radius: 100px;
+  background: rgba(6, 26, 48, .72);
+  backdrop-filter: blur(6px);
+  z-index: 5;
+}
+.lightbox__zoom-btn {
+  min-width: 32px; height: 32px;
+  border: none;
+  border-radius: 100px;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0 10px;
+}
+.lightbox__zoom-btn:hover { background: var(--accent); color: #241c04; }
+.lightbox__zoom-btn--reset { font-size: 12.5px; font-weight: 700; }
+.lightbox__zoom-level {
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 700;
+  min-width: 46px;
+  text-align: center;
+}
+/* Когда играет видео, панель зума уходит наверх: внизу — родные кнопки плеера. */
+.lightbox__stage.video-mode .lightbox__zoom {
+  top: 20px;
+  bottom: auto;
+  left: 20px;
+  transform: none;
+}
+.lightbox__zoom-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #9fb0c2;
+  font-size: 12px;
+  background: rgba(6, 26, 48, .6);
+  padding: 5px 12px;
+  border-radius: 100px;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.lightbox__zoom-hint.hidden { opacity: 0; }
 .lightbox__counter {
   position: absolute;
   top: 14px;
@@ -1056,20 +1135,47 @@ nav.main-nav a.active {
 .lightbox__nav--prev { left: 14px; }
 .lightbox__nav--next { right: 14px; }
 .lightbox__panel {
-  padding: 20px 26px 24px;
+  padding: 14px 24px 16px;
   overflow-y: auto;
   background: var(--navy-dark);
   border-top: 1px solid rgba(255,255,255,.08);
+  flex: 0 0 auto;
+  /* Панель компактная, но её высоты хватает, чтобы названия роликов
+     были видны целиком, а не обрезались. Нужно всё место под фото —
+     кнопка «Во весь экран» убирает панель совсем. */
+  max-height: 36vh;
 }
-.lightbox__caption { color: #fff; font-weight: 800; font-size: 18px; margin-bottom: 14px; }
+/* Режим «во весь экран»: панель убирается, сцена занимает весь лайтбокс. */
+.lightbox__box.panel-hidden .lightbox__panel { display: none; }
+.lightbox__expand {
+  position: absolute;
+  top: 16px;
+  right: 70px;
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 100px;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  z-index: 6;
+}
+.lightbox__expand:hover { background: var(--accent); color: #241c04; }
+.lightbox__caption { color: #fff; font-weight: 800; font-size: 17px; margin-bottom: 10px; }
 .lightbox__thumbs {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
+  overflow-x: auto;
+  margin-bottom: 14px;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
 }
 .lightbox__thumb {
-  width: 58px; height: 58px;
+  width: 50px; height: 50px;
+  flex: 0 0 auto;
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid transparent;
@@ -1089,7 +1195,90 @@ nav.main-nav a.active {
   text-transform: uppercase;
   letter-spacing: .04em;
 }
-.lightbox__videos-list { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Плитки видео: обложка + название, как у фотографий */
+.lightbox__videos-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 148px;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+.lightbox__video-tile {
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lightbox__video-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0b1e34;
+  border: 2px solid rgba(255,255,255,.1);
+}
+.lightbox__video-cover img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: .85;
+  transition: opacity .2s, transform .2s;
+}
+.lightbox__video-tile:hover .lightbox__video-cover img { opacity: 1; transform: scale(1.04); }
+.lightbox__video-cover--empty::after {
+  content: "🎬";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  opacity: .5;
+}
+.lightbox__video-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(6, 26, 48, .72);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  padding-left: 3px;
+}
+.lightbox__video-tile:hover .lightbox__video-play { background: var(--accent); color: #241c04; }
+.lightbox__video-time {
+  position: absolute;
+  right: 6px; bottom: 6px;
+  background: rgba(6, 26, 48, .82);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+.lightbox__video-name {
+  color: #dce6f0;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.lightbox__video-tile.playing .lightbox__video-cover { border-color: var(--accent); }
+.lightbox__video-tile.playing .lightbox__video-name { color: var(--accent); }
 .lightbox__video-chip {
   display: inline-flex;
   align-items: center;
@@ -1739,9 +1928,13 @@ footer.site-footer .container { max-width: 1360px; }
   .motor-card { flex-direction: column; }
   .motor-card__media { width: 100%; }
   .motor-card__media img { height: 220px; min-height: 0; }
-  .lightbox__stage img { max-height: 36vh; }
-  .lightbox__player { max-height: 36vh; }
+  .lightbox { padding: 0; }
+  .lightbox__box { height: 100vh; max-height: 100vh; border-radius: 0; }
+  .lightbox__stage { padding: 8px; }
+  .lightbox__panel { max-height: 46vh; padding: 12px 16px 16px; }
   .lightbox__nav { width: 40px; height: 40px; font-size: 22px; }
+  .lightbox__zoom-hint { display: none; }
+  .lightbox__videos-list { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 
   /* Декоративные крупные флаги и водяные знаки — убираем на мобильных, чтобы не перекрывали текст */
   .flag-emoji { display: none; }

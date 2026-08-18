@@ -1,0 +1,761 @@
+{
+  "_comment": "Обложки и длительность видео. Обложки лежат в media/<id>/video/poster/ и в git идут (сами ролики — нет). Пересоздать: python3 tools/make_posters.py",
+  "items": {
+    "/media/38/video/DSVC8zj1.mp4": {
+      "poster": "/media/38/video/poster/DSVC8zj1.jpg",
+      "duration": 141
+    },
+    "/media/38/video/HRmC4gLt.mp4": {
+      "poster": "/media/38/video/poster/HRmC4gLt.jpg",
+      "duration": 28
+    },
+    "/media/38/video/HLt8-ROL.mp4": {
+      "poster": "/media/38/video/poster/HLt8-ROL.jpg",
+      "duration": 23
+    },
+    "/media/38/video/uV90LLM2.mp4": {
+      "poster": "/media/38/video/poster/uV90LLM2.jpg",
+      "duration": 62
+    },
+    "/media/37/video/4-5sOnWp.mp4": {
+      "poster": "/media/37/video/poster/4-5sOnWp.jpg",
+      "duration": 142
+    },
+    "/media/37/video/VlR_9_-M.mp4": {
+      "poster": "/media/37/video/poster/VlR_9_-M.jpg",
+      "duration": 29
+    },
+    "/media/37/video/-vMIl-DI.mp4": {
+      "poster": "/media/37/video/poster/-vMIl-DI.jpg",
+      "duration": 24
+    },
+    "/media/37/video/9bbMXtNq.mp4": {
+      "poster": "/media/37/video/poster/9bbMXtNq.jpg",
+      "duration": 62
+    },
+    "/media/37/video/5Nh1QrPt.mp4": {
+      "poster": "/media/37/video/poster/5Nh1QrPt.jpg",
+      "duration": 44
+    },
+    "/media/73/video/rBGxWu8J.mp4": {
+      "poster": "/media/73/video/poster/rBGxWu8J.jpg",
+      "duration": 137
+    },
+    "/media/73/video/IwdASDT3.mp4": {
+      "poster": "/media/73/video/poster/IwdASDT3.jpg",
+      "duration": 66
+    },
+    "/media/73/video/bgeZ8V6a.mp4": {
+      "poster": "/media/73/video/poster/bgeZ8V6a.jpg",
+      "duration": 62
+    },
+    "/media/73/video/WVRmOTnl.mp4": {
+      "poster": "/media/73/video/poster/WVRmOTnl.jpg",
+      "duration": 74
+    },
+    "/media/76/video/rSCoTqLB.mp4": {
+      "poster": "/media/76/video/poster/rSCoTqLB.jpg",
+      "duration": 158
+    },
+    "/media/76/video/nEVl3fnf.mp4": {
+      "poster": "/media/76/video/poster/nEVl3fnf.jpg",
+      "duration": 29
+    },
+    "/media/76/video/seLCqZO6.mp4": {
+      "poster": "/media/76/video/poster/seLCqZO6.jpg",
+      "duration": 31
+    },
+    "/media/76/video/DTQYQYh0.mp4": {
+      "poster": "/media/76/video/poster/DTQYQYh0.jpg",
+      "duration": 31
+    },
+    "/media/76/video/g6qflPiF.mp4": {
+      "poster": "/media/76/video/poster/g6qflPiF.jpg",
+      "duration": 58
+    },
+    "/media/76/video/Aj_GwhFV.mp4": {
+      "poster": "/media/76/video/poster/Aj_GwhFV.jpg",
+      "duration": 44
+    },
+    "/media/103/video/Zict9POI.mp4": {
+      "poster": "/media/103/video/poster/Zict9POI.jpg",
+      "duration": 156
+    },
+    "/media/103/video/DOYP0hCy.mp4": {
+      "poster": "/media/103/video/poster/DOYP0hCy.jpg",
+      "duration": 30
+    },
+    "/media/103/video/vb-Wu4d_.mp4": {
+      "poster": "/media/103/video/poster/vb-Wu4d_.jpg",
+      "duration": 24
+    },
+    "/media/103/video/J1P9QPQV.mp4": {
+      "poster": "/media/103/video/poster/J1P9QPQV.jpg",
+      "duration": 22
+    },
+    "/media/103/video/wod60BVl.mp4": {
+      "poster": "/media/103/video/poster/wod60BVl.jpg",
+      "duration": 22
+    },
+    "/media/103/video/IeOkzMtn.mp4": {
+      "poster": "/media/103/video/poster/IeOkzMtn.jpg",
+      "duration": 41
+    },
+    "/media/103/video/osZrIbX7.mp4": {
+      "poster": "/media/103/video/poster/osZrIbX7.jpg",
+      "duration": 51
+    },
+    "/media/103/video/vonv6U0b.mp4": {
+      "poster": "/media/103/video/poster/vonv6U0b.jpg",
+      "duration": 83
+    },
+    "/media/30/video/fW3RKQG6.mp4": {
+      "poster": "/media/30/video/poster/fW3RKQG6.jpg",
+      "duration": 136
+    },
+    "/media/30/video/5uRjUgZM.mp4": {
+      "poster": "/media/30/video/poster/5uRjUgZM.jpg",
+      "duration": 34
+    },
+    "/media/30/video/hu7_lSXv.mp4": {
+      "poster": "/media/30/video/poster/hu7_lSXv.jpg",
+      "duration": 25
+    },
+    "/media/30/video/v5Qm5KfF.mp4": {
+      "poster": "/media/30/video/poster/v5Qm5KfF.jpg",
+      "duration": 56
+    },
+    "/media/30/video/ZXMxDjSh.mp4": {
+      "poster": "/media/30/video/poster/ZXMxDjSh.jpg",
+      "duration": 68
+    },
+    "/media/51/video/J48VpW0p.mp4": {
+      "poster": "/media/51/video/poster/J48VpW0p.jpg",
+      "duration": 112
+    },
+    "/media/51/video/f6GA8s78.mp4": {
+      "poster": "/media/51/video/poster/f6GA8s78.jpg",
+      "duration": 36
+    },
+    "/media/51/video/bxxDzVgL.mp4": {
+      "poster": "/media/51/video/poster/bxxDzVgL.jpg",
+      "duration": 34
+    },
+    "/media/51/video/_WSn5pGG.mp4": {
+      "poster": "/media/51/video/poster/_WSn5pGG.jpg",
+      "duration": 36
+    },
+    "/media/51/video/-xRrGBU-.mp4": {
+      "poster": "/media/51/video/poster/-xRrGBU-.jpg",
+      "duration": 37
+    },
+    "/media/51/video/LyG7Ra3d.mp4": {
+      "poster": "/media/51/video/poster/LyG7Ra3d.jpg",
+      "duration": 57
+    },
+    "/media/51/video/ELsc_Yjt.mp4": {
+      "poster": "/media/51/video/poster/ELsc_Yjt.jpg",
+      "duration": 61
+    },
+    "/media/63/video/QaftLGjw.mp4": {
+      "poster": "/media/63/video/poster/QaftLGjw.jpg",
+      "duration": 177
+    },
+    "/media/63/video/WzNz4pGz.mp4": {
+      "poster": "/media/63/video/poster/WzNz4pGz.jpg",
+      "duration": 26
+    },
+    "/media/63/video/mNdViLG-.mp4": {
+      "poster": "/media/63/video/poster/mNdViLG-.jpg",
+      "duration": 23
+    },
+    "/media/63/video/ibDL9_e2.mp4": {
+      "poster": "/media/63/video/poster/ibDL9_e2.jpg",
+      "duration": 25
+    },
+    "/media/63/video/j2EpLkWS.mp4": {
+      "poster": "/media/63/video/poster/j2EpLkWS.jpg",
+      "duration": 72
+    },
+    "/media/63/video/j6bfTLXk.mp4": {
+      "poster": "/media/63/video/poster/j6bfTLXk.jpg",
+      "duration": 50
+    },
+    "/media/89/video/vwEQsLBy.mp4": {
+      "poster": "/media/89/video/poster/vwEQsLBy.jpg",
+      "duration": 121
+    },
+    "/media/89/video/aX7gofff.mp4": {
+      "poster": "/media/89/video/poster/aX7gofff.jpg",
+      "duration": 30
+    },
+    "/media/89/video/LxAnbRw3.mp4": {
+      "poster": "/media/89/video/poster/LxAnbRw3.jpg",
+      "duration": 35
+    },
+    "/media/89/video/MyYUxWXQ.mp4": {
+      "poster": "/media/89/video/poster/MyYUxWXQ.jpg",
+      "duration": 34
+    },
+    "/media/89/video/NISdf-oz.mp4": {
+      "poster": "/media/89/video/poster/NISdf-oz.jpg",
+      "duration": 37
+    },
+    "/media/89/video/zQw4_d_P.mp4": {
+      "poster": "/media/89/video/poster/zQw4_d_P.jpg",
+      "duration": 52
+    },
+    "/media/89/video/i8g5pr0e.mp4": {
+      "poster": "/media/89/video/poster/i8g5pr0e.jpg",
+      "duration": 48
+    },
+    "/media/26/video/zAxr5T36.mp4": {
+      "poster": "/media/26/video/poster/zAxr5T36.jpg",
+      "duration": 156
+    },
+    "/media/26/video/16wVVvnT.mp4": {
+      "poster": "/media/26/video/poster/16wVVvnT.jpg",
+      "duration": 49
+    },
+    "/media/26/video/Xnp7jlJV.mp4": {
+      "poster": "/media/26/video/poster/Xnp7jlJV.jpg",
+      "duration": 27
+    },
+    "/media/26/video/uccBoT8c.mp4": {
+      "poster": "/media/26/video/poster/uccBoT8c.jpg",
+      "duration": 26
+    },
+    "/media/26/video/TbmDtNNL.mp4": {
+      "poster": "/media/26/video/poster/TbmDtNNL.jpg",
+      "duration": 25
+    },
+    "/media/26/video/dUnB7Iuc.mp4": {
+      "poster": "/media/26/video/poster/dUnB7Iuc.jpg",
+      "duration": 59
+    },
+    "/media/75/video/664e68hm.mp4": {
+      "poster": "/media/75/video/poster/664e68hm.jpg",
+      "duration": 156
+    },
+    "/media/75/video/Aqq8kU2O.mp4": {
+      "poster": "/media/75/video/poster/Aqq8kU2O.jpg",
+      "duration": 22
+    },
+    "/media/75/video/nwkkgzZY.mp4": {
+      "poster": "/media/75/video/poster/nwkkgzZY.jpg",
+      "duration": 66
+    },
+    "/media/75/video/X6csDnVx.mp4": {
+      "poster": "/media/75/video/poster/X6csDnVx.jpg",
+      "duration": 59
+    },
+    "/media/86/video/PCA4vQuC.mp4": {
+      "poster": "/media/86/video/poster/PCA4vQuC.jpg",
+      "duration": 127
+    },
+    "/media/86/video/KrMfTC4t.mp4": {
+      "poster": "/media/86/video/poster/KrMfTC4t.jpg",
+      "duration": 32
+    },
+    "/media/86/video/r_r-D0nA.mp4": {
+      "poster": "/media/86/video/poster/r_r-D0nA.jpg",
+      "duration": 31
+    },
+    "/media/86/video/myRv48_t.mp4": {
+      "poster": "/media/86/video/poster/myRv48_t.jpg",
+      "duration": 34
+    },
+    "/media/86/video/MhFvv2F1.mp4": {
+      "poster": "/media/86/video/poster/MhFvv2F1.jpg",
+      "duration": 40
+    },
+    "/media/86/video/WIegKScD.mp4": {
+      "poster": "/media/86/video/poster/WIegKScD.jpg",
+      "duration": 63
+    },
+    "/media/86/video/5fDJMWnp.mp4": {
+      "poster": "/media/86/video/poster/5fDJMWnp.jpg",
+      "duration": 55
+    },
+    "/media/88/video/LPnAxlar.mp4": {
+      "poster": "/media/88/video/poster/LPnAxlar.jpg",
+      "duration": 118
+    },
+    "/media/88/video/K8ANTYPt.mp4": {
+      "poster": "/media/88/video/poster/K8ANTYPt.jpg",
+      "duration": 29
+    },
+    "/media/88/video/gJ9CdV3W.mp4": {
+      "poster": "/media/88/video/poster/gJ9CdV3W.jpg",
+      "duration": 31
+    },
+    "/media/88/video/KW_ZV3Jz.mp4": {
+      "poster": "/media/88/video/poster/KW_ZV3Jz.jpg",
+      "duration": 31
+    },
+    "/media/88/video/F3F_b2Oi.mp4": {
+      "poster": "/media/88/video/poster/F3F_b2Oi.jpg",
+      "duration": 33
+    },
+    "/media/88/video/_g8kGYln.mp4": {
+      "poster": "/media/88/video/poster/_g8kGYln.jpg",
+      "duration": 50
+    },
+    "/media/88/video/111SvPI_.mp4": {
+      "poster": "/media/88/video/poster/111SvPI_.jpg",
+      "duration": 55
+    },
+    "/media/92/video/AhMk5Jhd.mp4": {
+      "poster": "/media/92/video/poster/AhMk5Jhd.jpg",
+      "duration": 170
+    },
+    "/media/92/video/h_ynbIQi.mp4": {
+      "poster": "/media/92/video/poster/h_ynbIQi.jpg",
+      "duration": 31
+    },
+    "/media/92/video/sYp0P9r2.mp4": {
+      "poster": "/media/92/video/poster/sYp0P9r2.jpg",
+      "duration": 21
+    },
+    "/media/92/video/LbJm3wnJ.mp4": {
+      "poster": "/media/92/video/poster/LbJm3wnJ.jpg",
+      "duration": 22
+    },
+    "/media/92/video/V6Qv99se.mp4": {
+      "poster": "/media/92/video/poster/V6Qv99se.jpg",
+      "duration": 66
+    },
+    "/media/92/video/c-BoIZvR.mp4": {
+      "poster": "/media/92/video/poster/c-BoIZvR.jpg",
+      "duration": 43
+    },
+    "/media/24/video/KaDLwLDy.mp4": {
+      "poster": "/media/24/video/poster/KaDLwLDy.jpg",
+      "duration": 185
+    },
+    "/media/24/video/FYIov2pi.mp4": {
+      "poster": "/media/24/video/poster/FYIov2pi.jpg",
+      "duration": 30
+    },
+    "/media/24/video/BdQZqxkw.mp4": {
+      "poster": "/media/24/video/poster/BdQZqxkw.jpg",
+      "duration": 27
+    },
+    "/media/24/video/fx8Hmrf5.mp4": {
+      "poster": "/media/24/video/poster/fx8Hmrf5.jpg",
+      "duration": 25
+    },
+    "/media/24/video/YWRzWLcr.mp4": {
+      "poster": "/media/24/video/poster/YWRzWLcr.jpg",
+      "duration": 47
+    },
+    "/media/24/video/JTuIlPnh.mp4": {
+      "poster": "/media/24/video/poster/JTuIlPnh.jpg",
+      "duration": 73
+    },
+    "/media/94/video/73fgQCdz.mp4": {
+      "poster": "/media/94/video/poster/73fgQCdz.jpg",
+      "duration": 163
+    },
+    "/media/94/video/58nDeqOJ.mp4": {
+      "poster": "/media/94/video/poster/58nDeqOJ.jpg",
+      "duration": 34
+    },
+    "/media/94/video/7WzbEyd0.mp4": {
+      "poster": "/media/94/video/poster/7WzbEyd0.jpg",
+      "duration": 26
+    },
+    "/media/94/video/pcvEn52D.mp4": {
+      "poster": "/media/94/video/poster/pcvEn52D.jpg",
+      "duration": 25
+    },
+    "/media/94/video/E7u8_AbX.mp4": {
+      "poster": "/media/94/video/poster/E7u8_AbX.jpg",
+      "duration": 25
+    },
+    "/media/94/video/_KzEaUnY.mp4": {
+      "poster": "/media/94/video/poster/_KzEaUnY.jpg",
+      "duration": 56
+    },
+    "/media/94/video/fdsHfX3h.mp4": {
+      "poster": "/media/94/video/poster/fdsHfX3h.jpg",
+      "duration": 51
+    },
+    "/media/94/video/MsYlBQZk.mp4": {
+      "poster": "/media/94/video/poster/MsYlBQZk.jpg",
+      "duration": 142
+    },
+    "/media/79/video/1HbABMVB.mp4": {
+      "poster": "/media/79/video/poster/1HbABMVB.jpg",
+      "duration": 160
+    },
+    "/media/79/video/c7aR4R76.mp4": {
+      "poster": "/media/79/video/poster/c7aR4R76.jpg",
+      "duration": 29
+    },
+    "/media/79/video/qMYjY5Sf.mp4": {
+      "poster": "/media/79/video/poster/qMYjY5Sf.jpg",
+      "duration": 20
+    },
+    "/media/79/video/b5tztol7.mp4": {
+      "poster": "/media/79/video/poster/b5tztol7.jpg",
+      "duration": 41
+    },
+    "/media/79/video/X0jl7Dkz.mp4": {
+      "poster": "/media/79/video/poster/X0jl7Dkz.jpg",
+      "duration": 59
+    },
+    "/media/79/video/AprJBbHK.mp4": {
+      "poster": "/media/79/video/poster/AprJBbHK.jpg",
+      "duration": 46
+    },
+    "/media/79/video/H0jdn8GM.mp4": {
+      "poster": "/media/79/video/poster/H0jdn8GM.jpg",
+      "duration": 152
+    },
+    "/media/50/video/Z2kVgfW8.mp4": {
+      "poster": "/media/50/video/poster/Z2kVgfW8.jpg",
+      "duration": 158
+    },
+    "/media/50/video/1hbRXQ7R.mp4": {
+      "poster": "/media/50/video/poster/1hbRXQ7R.jpg",
+      "duration": 26
+    },
+    "/media/50/video/ViFO-5US.mp4": {
+      "poster": "/media/50/video/poster/ViFO-5US.jpg",
+      "duration": 25
+    },
+    "/media/50/video/FfMUs9EN.mp4": {
+      "poster": "/media/50/video/poster/FfMUs9EN.jpg",
+      "duration": 29
+    },
+    "/media/50/video/idvzSx1U.mp4": {
+      "poster": "/media/50/video/poster/idvzSx1U.jpg",
+      "duration": 28
+    },
+    "/media/50/video/qdNZmFSz.mp4": {
+      "poster": "/media/50/video/poster/qdNZmFSz.jpg",
+      "duration": 67
+    },
+    "/media/50/video/5CIrNgM2.mp4": {
+      "poster": "/media/50/video/poster/5CIrNgM2.jpg",
+      "duration": 48
+    },
+    "/media/62/video/lUBxFklH.mp4": {
+      "poster": "/media/62/video/poster/lUBxFklH.jpg",
+      "duration": 160
+    },
+    "/media/62/video/LmA91ohU.mp4": {
+      "poster": "/media/62/video/poster/LmA91ohU.jpg",
+      "duration": 32
+    },
+    "/media/62/video/epwx3xaB.mp4": {
+      "poster": "/media/62/video/poster/epwx3xaB.jpg",
+      "duration": 25
+    },
+    "/media/62/video/csMjfFtm.mp4": {
+      "poster": "/media/62/video/poster/csMjfFtm.jpg",
+      "duration": 28
+    },
+    "/media/62/video/UGbfsrc_.mp4": {
+      "poster": "/media/62/video/poster/UGbfsrc_.jpg",
+      "duration": 26
+    },
+    "/media/62/video/iDcqpzpi.mp4": {
+      "poster": "/media/62/video/poster/iDcqpzpi.jpg",
+      "duration": 67
+    },
+    "/media/62/video/zIOz41eA.mp4": {
+      "poster": "/media/62/video/poster/zIOz41eA.jpg",
+      "duration": 54
+    },
+    "/media/29/video/r0af7_DX.mp4": {
+      "poster": "/media/29/video/poster/r0af7_DX.jpg",
+      "duration": 163
+    },
+    "/media/29/video/RCkCj4Gs.mp4": {
+      "poster": "/media/29/video/poster/RCkCj4Gs.jpg",
+      "duration": 38
+    },
+    "/media/29/video/PdDytLUh.mp4": {
+      "poster": "/media/29/video/poster/PdDytLUh.jpg",
+      "duration": 30
+    },
+    "/media/29/video/R9Xd_XN9.mp4": {
+      "poster": "/media/29/video/poster/R9Xd_XN9.jpg",
+      "duration": 31
+    },
+    "/media/29/video/Bplw0as3.mp4": {
+      "poster": "/media/29/video/poster/Bplw0as3.jpg",
+      "duration": 28
+    },
+    "/media/29/video/7BU55g-m.mp4": {
+      "poster": "/media/29/video/poster/7BU55g-m.jpg",
+      "duration": 49
+    },
+    "/media/29/video/tzup_r4b.mp4": {
+      "poster": "/media/29/video/poster/tzup_r4b.jpg",
+      "duration": 206
+    },
+    "/media/90/video/VlMsMWAG.mp4": {
+      "poster": "/media/90/video/poster/VlMsMWAG.jpg",
+      "duration": 172
+    },
+    "/media/90/video/IVY__IEy.mp4": {
+      "poster": "/media/90/video/poster/IVY__IEy.jpg",
+      "duration": 40
+    },
+    "/media/90/video/iPUC1ONJ.mp4": {
+      "poster": "/media/90/video/poster/iPUC1ONJ.jpg",
+      "duration": 27
+    },
+    "/media/90/video/PN8pRtt7.mp4": {
+      "poster": "/media/90/video/poster/PN8pRtt7.jpg",
+      "duration": 28
+    },
+    "/media/90/video/ppg7OEdN.mp4": {
+      "poster": "/media/90/video/poster/ppg7OEdN.jpg",
+      "duration": 33
+    },
+    "/media/90/video/HJLcmYlY.mp4": {
+      "poster": "/media/90/video/poster/HJLcmYlY.jpg",
+      "duration": 31
+    },
+    "/media/90/video/-s8jN1TY.mp4": {
+      "poster": "/media/90/video/poster/-s8jN1TY.jpg",
+      "duration": 31
+    },
+    "/media/90/video/xwBnivle.mp4": {
+      "poster": "/media/90/video/poster/xwBnivle.jpg",
+      "duration": 60
+    },
+    "/media/90/video/DuLCFrQJ.mp4": {
+      "poster": "/media/90/video/poster/DuLCFrQJ.jpg",
+      "duration": 176
+    },
+    "/media/25/video/ScPJ_Svy.mp4": {
+      "poster": "/media/25/video/poster/ScPJ_Svy.jpg",
+      "duration": 116
+    },
+    "/media/25/video/szK7Dy-Q.mp4": {
+      "poster": "/media/25/video/poster/szK7Dy-Q.jpg",
+      "duration": 34
+    },
+    "/media/25/video/0POZmnUt.mp4": {
+      "poster": "/media/25/video/poster/0POZmnUt.jpg",
+      "duration": 33
+    },
+    "/media/25/video/4zkyIae8.mp4": {
+      "poster": "/media/25/video/poster/4zkyIae8.jpg",
+      "duration": 36
+    },
+    "/media/25/video/EtISzBqu.mp4": {
+      "poster": "/media/25/video/poster/EtISzBqu.jpg",
+      "duration": 35
+    },
+    "/media/25/video/tB93haeF.mp4": {
+      "poster": "/media/25/video/poster/tB93haeF.jpg",
+      "duration": 125
+    },
+    "/media/25/video/pYftE9g4.mp4": {
+      "poster": "/media/25/video/poster/pYftE9g4.jpg",
+      "duration": 51
+    },
+    "/media/48/video/B4qJb1Wr.mp4": {
+      "poster": "/media/48/video/poster/B4qJb1Wr.jpg",
+      "duration": 32
+    },
+    "/media/48/video/dWsPp4jG.mp4": {
+      "poster": "/media/48/video/poster/dWsPp4jG.jpg",
+      "duration": 168
+    },
+    "/media/48/video/fVq-ostl.mp4": {
+      "poster": "/media/48/video/poster/fVq-ostl.jpg",
+      "duration": 24
+    },
+    "/media/48/video/VeTAHfS0.mp4": {
+      "poster": "/media/48/video/poster/VeTAHfS0.jpg",
+      "duration": 28
+    },
+    "/media/48/video/zWXRtw4t.mp4": {
+      "poster": "/media/48/video/poster/zWXRtw4t.jpg",
+      "duration": 30
+    },
+    "/media/48/video/-_nAYOvv.mp4": {
+      "poster": "/media/48/video/poster/-_nAYOvv.jpg",
+      "duration": 46
+    },
+    "/media/48/video/xpCbhV4e.mp4": {
+      "poster": "/media/48/video/poster/xpCbhV4e.jpg",
+      "duration": 177
+    },
+    "/media/34/video/sizE6QzM.mp4": {
+      "poster": "/media/34/video/poster/sizE6QzM.jpg",
+      "duration": 206
+    },
+    "/media/34/video/nOVxW9Z2.mp4": {
+      "poster": "/media/34/video/poster/nOVxW9Z2.jpg",
+      "duration": 39
+    },
+    "/media/34/video/iTqfNLik.mp4": {
+      "poster": "/media/34/video/poster/iTqfNLik.jpg",
+      "duration": 25
+    },
+    "/media/34/video/ni0yYVoi.mp4": {
+      "poster": "/media/34/video/poster/ni0yYVoi.jpg",
+      "duration": 21
+    },
+    "/media/34/video/gN4s4_Qs.mp4": {
+      "poster": "/media/34/video/poster/gN4s4_Qs.jpg",
+      "duration": 68
+    },
+    "/media/34/video/NTzcWGwZ.mp4": {
+      "poster": "/media/34/video/poster/NTzcWGwZ.jpg",
+      "duration": 64
+    },
+    "/media/34/video/dFrlnuMv.mp4": {
+      "poster": "/media/34/video/poster/dFrlnuMv.jpg",
+      "duration": 24
+    },
+    "/media/33/video/sP7RaKpB.mp4": {
+      "poster": "/media/33/video/poster/sP7RaKpB.jpg",
+      "duration": 118
+    },
+    "/media/33/video/Q2VUWDvJ.mp4": {
+      "poster": "/media/33/video/poster/Q2VUWDvJ.jpg",
+      "duration": 32
+    },
+    "/media/33/video/zma7KT5v.mp4": {
+      "poster": "/media/33/video/poster/zma7KT5v.jpg",
+      "duration": 32
+    },
+    "/media/33/video/bgr7QZv5.mp4": {
+      "poster": "/media/33/video/poster/bgr7QZv5.jpg",
+      "duration": 31
+    },
+    "/media/33/video/gnmndRxB.mp4": {
+      "poster": "/media/33/video/poster/gnmndRxB.jpg",
+      "duration": 39
+    },
+    "/media/33/video/KdzjCSiJ.mp4": {
+      "poster": "/media/33/video/poster/KdzjCSiJ.jpg",
+      "duration": 62
+    },
+    "/media/33/video/whxAKoSf.mp4": {
+      "poster": "/media/33/video/poster/whxAKoSf.jpg",
+      "duration": 62
+    },
+    "/media/33/video/udyMZo5M.mp4": {
+      "poster": "/media/33/video/poster/udyMZo5M.jpg",
+      "duration": 52
+    },
+    "/media/41/video/qKI0-DJ1.mp4": {
+      "poster": "/media/41/video/poster/qKI0-DJ1.jpg",
+      "duration": 163
+    },
+    "/media/41/video/AzeBrJK2.mp4": {
+      "poster": "/media/41/video/poster/AzeBrJK2.jpg",
+      "duration": 30
+    },
+    "/media/41/video/h8eLdwUn.mp4": {
+      "poster": "/media/41/video/poster/h8eLdwUn.jpg",
+      "duration": 23
+    },
+    "/media/41/video/66l9tKaH.mp4": {
+      "poster": "/media/41/video/poster/66l9tKaH.jpg",
+      "duration": 27
+    },
+    "/media/41/video/rUqoB_D-.mp4": {
+      "poster": "/media/41/video/poster/rUqoB_D-.jpg",
+      "duration": 60
+    },
+    "/media/41/video/mS6-AiQT.mp4": {
+      "poster": "/media/41/video/poster/mS6-AiQT.jpg",
+      "duration": 90
+    },
+    "/media/98/video/BZI0td54.mp4": {
+      "poster": "/media/98/video/poster/BZI0td54.jpg",
+      "duration": 130
+    },
+    "/media/98/video/evFe0DPR.mp4": {
+      "poster": "/media/98/video/poster/evFe0DPR.jpg",
+      "duration": 36
+    },
+    "/media/98/video/asNP9Uoz.mp4": {
+      "poster": "/media/98/video/poster/asNP9Uoz.jpg",
+      "duration": 35
+    },
+    "/media/98/video/rlCsk-Ar.mp4": {
+      "poster": "/media/98/video/poster/rlCsk-Ar.jpg",
+      "duration": 36
+    },
+    "/media/98/video/38C6lJ4m.mp4": {
+      "poster": "/media/98/video/poster/38C6lJ4m.jpg",
+      "duration": 42
+    },
+    "/media/98/video/muc3ar6T.mp4": {
+      "poster": "/media/98/video/poster/muc3ar6T.jpg",
+      "duration": 67
+    },
+    "/media/98/video/-oNgfUTE.mp4": {
+      "poster": "/media/98/video/poster/-oNgfUTE.jpg",
+      "duration": 57
+    },
+    "/media/32/video/l9UdTSMQ.mp4": {
+      "poster": "/media/32/video/poster/l9UdTSMQ.jpg",
+      "duration": 156
+    },
+    "/media/32/video/ZO77uUuI.mp4": {
+      "poster": "/media/32/video/poster/ZO77uUuI.jpg",
+      "duration": 22
+    },
+    "/media/32/video/4FEHwicE.mp4": {
+      "poster": "/media/32/video/poster/4FEHwicE.jpg",
+      "duration": 31
+    },
+    "/media/32/video/0lJrO3Ej.mp4": {
+      "poster": "/media/32/video/poster/0lJrO3Ej.jpg",
+      "duration": 27
+    },
+    "/media/32/video/X39U6KGE.mp4": {
+      "poster": "/media/32/video/poster/X39U6KGE.jpg",
+      "duration": 36
+    },
+    "/media/32/video/qy07WHc_.mp4": {
+      "poster": "/media/32/video/poster/qy07WHc_.jpg",
+      "duration": 54
+    },
+    "/media/64/video/kimxoytM.mp4": {
+      "poster": "/media/64/video/poster/kimxoytM.jpg",
+      "duration": 116
+    },
+    "/media/64/video/6DskqDPA.mp4": {
+      "poster": "/media/64/video/poster/6DskqDPA.jpg",
+      "duration": 43
+    },
+    "/media/64/video/USPOmMMv.mp4": {
+      "poster": "/media/64/video/poster/USPOmMMv.jpg",
+      "duration": 39
+    },
+    "/media/64/video/mGc9iai0.mp4": {
+      "poster": "/media/64/video/poster/mGc9iai0.jpg",
+      "duration": 48
+    },
+    "/media/64/video/5PYlqHlP.mp4": {
+      "poster": "/media/64/video/poster/5PYlqHlP.jpg",
+      "duration": 66
+    },
+    "/media/64/video/38dtKPmA.mp4": {
+      "poster": "/media/64/video/poster/38dtKPmA.jpg",
+      "duration": 44
+    },
+    "/media/47/video/9jCvUuP1.mp4": {
+      "poster": "/media/47/video/poster/9jCvUuP1.jpg",
+      "duration": 84
+    },
+    "/media/47/video/wXjozSqX.mp4": {
+      "poster": "/media/47/video/poster/wXjozSqX.jpg",
+      "duration": 61
+    }
+  }
+}

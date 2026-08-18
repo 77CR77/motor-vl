@@ -39,6 +39,8 @@ motor-vl/
 ├── media/<id>/images/    Motor photos: /thumb/ — 300x400 previews for cards,
 │                         the folder itself — 900x1200 originals for the lightbox
 ├── media/<id>/video/     Technical-condition clips (not in git)
+├── media/<id>/video/poster/  Cover frames for the clips (in git, ~44 KB each)
+├── data/video-meta.json  Cover path + duration per clip
 ├── tools/serve.py        Local server with Range support (video seeking)
 ├── data/specs-extra.json Specs moved out of the 11-point template (restorable)
 └── js/
@@ -53,6 +55,22 @@ motor-vl/
 Every motor is defined in `js/catalog-data.js` — one object per motor inside the
 `MOTORS` array (brand, title, price, photos, videos, specs). To add a new one,
 copy an existing block and update the values. See the in-file comments for details.
+
+## Lightbox
+
+Clicking a photo opens it nearly full-screen; the bottom panel stays compact and
+«Во весь экран» hides it entirely so the image gets the whole window.
+
+Zooming works on photos **and** on a playing video, since the transform is applied to
+whichever element is on stage:
+
+- wheel — zoom towards the cursor; click — 250% at the clicked point; click again — back
+- drag — pan while zoomed; two-finger pinch on touch screens
+- `+` / `−` / `0` on the keyboard, or the on-screen controls
+- panning is clamped so the image can never be dragged off into empty space
+
+While a video plays the zoom controls move to the top-left corner — the bottom belongs to
+the player's own buttons.
 
 ## Motor specifications
 
@@ -115,7 +133,16 @@ The label-to-file pairing comes from the source site's own item pages, so a clip
 "Компрессия 2 цилиндр" really is that clip — 189 videos across 30 motors. The remaining
 21 motors have no videos on the source site either.
 
-The clips are **not** in git (3.3 GB — see `.gitignore`); they sit in the working copy and
+Each clip has a cover frame and a duration, so the video list looks like the photo
+strip: cover, play badge, running time, title. Covers are generated from the clips
+themselves and live in `media/<id>/video/poster/` — at ~44 KB each they *are* committed,
+so the published site shows them even without the videos:
+
+```bash
+python3 tools/make_posters.py     # обложки + data/video-meta.json
+```
+
+The clips themselves are **not** in git (3.3 GB — see `.gitignore`); they sit in the working copy and
 are served locally. Publishing the site online will need them in separate storage
 (S3/R2/video hosting) with `videos[].url` pointing there — any URL that is not a local
 `/media/...` path still falls back to opening the source site's card.

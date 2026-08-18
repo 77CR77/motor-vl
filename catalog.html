@@ -155,11 +155,21 @@
 <div class="lightbox">
   <div class="lightbox__box">
     <button class="lightbox__close" aria-label="Закрыть">✕</button>
+    <button type="button" class="lightbox__expand">Во весь экран</button>
     <div class="lightbox__stage">
       <button class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее фото">‹</button>
-      <img src="" alt="Фото мотора">
+      <div class="lightbox__viewport">
+        <img src="" alt="Фото мотора">
+      </div>
       <button class="lightbox__nav lightbox__nav--next" aria-label="Следующее фото">›</button>
       <div class="lightbox__counter"></div>
+      <div class="lightbox__zoom">
+        <button type="button" class="lightbox__zoom-btn" data-zoom="out" aria-label="Уменьшить">−</button>
+        <span class="lightbox__zoom-level">100%</span>
+        <button type="button" class="lightbox__zoom-btn" data-zoom="in" aria-label="Увеличить">+</button>
+        <button type="button" class="lightbox__zoom-btn lightbox__zoom-btn--reset" data-zoom="reset">Сбросить</button>
+      </div>
+      <div class="lightbox__zoom-hint">Колесо мыши или клик — приблизить, перетаскивание — двигать</div>
     </div>
     <div class="lightbox__panel">
       <div class="lightbox__caption"></div>

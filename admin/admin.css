@@ -154,6 +154,12 @@
 .admin-video-list, .admin-spec-list { display: flex; flex-direction: column; gap: 8px; }
 .admin-video-row, .admin-spec-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
 .admin-video-row input, .admin-spec-row input { padding: 10px 12px; }
+/* Пункты шаблона: название слева фиксировано, справа выбор или ввод. */
+.admin-spec-row--fixed { grid-template-columns: 260px 1fr; }
+.admin-spec-label { font-weight: 700; font-size: 13.5px; color: var(--navy); }
+.admin-spec-control { display: flex; flex-direction: column; gap: 6px; }
+.admin-spec-control select { padding: 10px 12px; }
+.admin-spec-row--custom { border-top: 1px dashed rgba(6,26,48,.14); padding-top: 8px; }
 .admin-row-remove {
   width: 32px; height: 32px; border-radius: 8px; border: none; background: rgba(188,0,45,.08);
   color: var(--jp-red); font-weight: 800; cursor: pointer; flex-shrink: 0;
@@ -169,6 +175,7 @@
 @media (max-width: 600px) {
   .admin-form__row-2 { grid-template-columns: 1fr; }
   .admin-video-row, .admin-spec-row { grid-template-columns: 1fr; }
+  .admin-spec-row--fixed { grid-template-columns: 1fr; gap: 4px; }
   .admin-main { padding: 16px 14px 40px; }
   .admin-form { padding: 18px; }
 }

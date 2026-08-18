@@ -35,6 +35,12 @@ motor-vl/
 ├── contacts.html         Contacts and social links
 ├── order.html            Order request form
 ├── css/style.css         All site styles
+├── images/logo.png       Site logo
+├── media/<id>/images/    Motor photos: /thumb/ — 300x400 previews for cards,
+│                         the folder itself — 900x1200 originals for the lightbox
+├── media/<id>/video/     Technical-condition clips (not in git)
+├── tools/serve.py        Local server with Range support (video seeking)
+├── data/specs-extra.json Specs moved out of the 11-point template (restorable)
 └── js/
     ├── catalog-data.js   Catalog data (motor list, prices, specs)
     ├── catalog.js        Catalog logic — filtering, sorting, card rendering
@@ -47,6 +53,72 @@ motor-vl/
 Every motor is defined in `js/catalog-data.js` — one object per motor inside the
 `MOTORS` array (brand, title, price, photos, videos, specs). To add a new one,
 copy an existing block and update the values. See the in-file comments for details.
+
+## Motor specifications
+
+Every motor carries the same 11 specs, always in this order:
+
+| # | Spec | Input in admin |
+|---|------|----------------|
+| 1 | Год | free text |
+| 2 | Состояние | новый / б/у |
+| 3 | Тактность | 4-тактный / 2-тактный |
+| 4 | Длина ноги | S (381 мм) / L (508 мм) / X (635 мм) |
+| 5 | Подъем | гидравлический / ручной / ручной (гидродемпфер) / ручной (демпфер) |
+| 6 | Компрессия | free text |
+| 7 | Давление масла | free text |
+| 8 | Наработка | free text |
+| 9 | Управление | дистанционное / румпельное / ручное |
+| 10 | Комплект | машинка управления / пульт управления / мультирумпель / без комплекта |
+| 11 | Возможность увеличения мощности | до 20 / 40 / 60 / 90 л.с. / нет |
+
+Every dropdown also offers «Другое…», which reveals a free-text field — the list is a
+shortcut, not a restriction. Unfilled specs are kept in the data as empty strings and
+rendered as a dimmed dash, so the tables line up row-for-row across cards. Parts
+(`brand: "parts"`) are exempt: an outboard template makes no sense for a propeller, so
+their own specs are left alone and the admin form shows only free-form rows for them.
+
+Specs that fell outside the template were moved to `data/specs-extra.json`, not deleted:
+
+```bash
+python3 tools/restore_specs.py                      # вернуть всё
+python3 tools/restore_specs.py "Кол-во цилиндров"   # вернуть один параметр
+python3 tools/sync_fallback.py                      # после любой правки data/*.json
+```
+
+`tools/normalize_specs.py` is the one-off migration that produced this layout.
+
+## Photos
+
+All catalog photos are hosted by this repository — nothing is hot-linked from the
+original site anymore. Each motor has its own numeric folder under `media/`, mirroring
+the source site's layout:
+
+```
+media/38/images/thumb/91M0tfSx.png   300x400  — card preview
+media/38/images/91M0tfSx.png         900x1200 — lightbox original
+```
+
+Cards render the thumbnail; the lightbox derives the original path from it by dropping
+`thumb/` — same name, same extension (see `fullSrc()` in `js/main.js`).
+Any photo path that is not local (an absolute URL added through the admin panel, say)
+is used as-is.
+
+Videos of technical condition play in the lightbox itself. Each motor's clips live next
+to its photos:
+
+```
+media/103/video/Zict9POI.mp4    "Запуск двигателя"
+```
+
+The label-to-file pairing comes from the source site's own item pages, so a clip labelled
+"Компрессия 2 цилиндр" really is that clip — 189 videos across 30 motors. The remaining
+21 motors have no videos on the source site either.
+
+The clips are **not** in git (3.3 GB — see `.gitignore`); they sit in the working copy and
+are served locally. Publishing the site online will need them in separate storage
+(S3/R2/video hosting) with `videos[].url` pointing there — any URL that is not a local
+`/media/...` path still falls back to opening the source site's card.
 
 ## Development history
 

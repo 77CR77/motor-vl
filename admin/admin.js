@@ -284,7 +284,7 @@
     videoState = motor && motor.videos ? motor.videos.map(function (v) {
       return typeof v === "string" ? { label: v, url: "" } : { label: v.label || "", url: v.url || "" };
     }) : [];
-    specState = motor && motor.specs ? motor.specs.map(function (s) { return [s[0], s[1]]; }) : [];
+    loadSpecs(motor && motor.specs ? motor.specs.map(function (s) { return [s[0], s[1]]; }) : []);
 
     renderPhotos();
     renderVideos();
@@ -389,30 +389,155 @@
   }
 
   // ---------- Характеристики ----------
+  // Шаблон из 11 пунктов — одинаковый для всех моторов и всегда в этом порядке.
+  // Где вариантов немного, они выбираются из списка; «Другое…» открывает поле ввода,
+  // так что вписать нестандартное значение по-прежнему можно.
+  // Тот же порядок используется на сайте — см. tools/normalize_specs.py.
+  var SPEC_TEMPLATE = [
+    { label: "Год", placeholder: "напр. 2019" },
+    { label: "Состояние", options: ["новый", "б/у"] },
+    { label: "Тактность", options: ["4-тактный", "2-тактный"] },
+    { label: "Длина ноги", options: ["S (381 мм)", "L (508 мм)", "X (635 мм)"] },
+    { label: "Подъем", options: ["гидравлический", "ручной", "ручной (гидродемпфер)", "ручной (демпфер)"] },
+    { label: "Компрессия", placeholder: "напр. 15/15/15" },
+    { label: "Давление масла", placeholder: "напр. 5 кг" },
+    { label: "Наработка", placeholder: "напр. 415 моточасов" },
+    { label: "Управление", options: ["дистанционное", "румпельное", "ручное"] },
+    { label: "Комплект", options: ["машинка управления", "пульт управления", "мультирумпель", "без комплекта"] },
+    { label: "Возможность увеличения мощности", options: ["до 20 л.с.", "до 40 л.с.", "до 60 л.с.", "до 90 л.с.", "нет"] }
+  ];
+  var TEMPLATE_LABELS = SPEC_TEMPLATE.map(function (f) { return f.label; });
+
+  function isPartsBrand() {
+    return fBrand.value === "parts";
+  }
+
+  // Значения шаблона и «свои» характеристики держим отдельно от specState:
+  // иначе при перерисовке формы (например, после переключения бренда на запчасти
+  // и обратно) заполненные пункты шаблона потерялись бы.
+  var templateValues = {};
+  var customSpecs = [];
+
+  // Раскладывает specs мотора на шаблонную часть и всё остальное.
+  function loadSpecs(specs) {
+    templateValues = {};
+    customSpecs = [];
+    (specs || []).forEach(function (s) {
+      if (TEMPLATE_LABELS.indexOf(s[0]) !== -1 && templateValues[s[0]] === undefined) templateValues[s[0]] = s[1];
+      else customSpecs.push([s[0], s[1]]);
+    });
+    collectSpecs();
+  }
+
+  // Собирает specState: сначала 11 пунктов шаблона по порядку, потом свои.
+  function collectSpecs() {
+    var result = [];
+    if (!isPartsBrand()) {
+      TEMPLATE_LABELS.forEach(function (label) {
+        result.push([label, templateValues[label] || ""]);
+      });
+    }
+    specState = result.concat(customSpecs);
+  }
+
   addSpecBtn.addEventListener("click", function () {
-    specState.push(["", ""]);
+    customSpecs.push(["", ""]);
+    collectSpecs();
+    renderSpecs();
+  });
+
+  fBrand.addEventListener("change", function () {
+    collectSpecs();
     renderSpecs();
   });
 
   function renderSpecs() {
-    specListEl.innerHTML = specState.map(function (s, i) {
+    var byLabel = templateValues;
+    var custom = customSpecs;
+
+    var html = "";
+
+    if (!isPartsBrand()) {
+      html += SPEC_TEMPLATE.map(function (field, i) {
+        var value = byLabel[field.label] || "";
+        var control;
+        if (field.options) {
+          var known = field.options.indexOf(value) !== -1;
+          var isOther = value !== "" && !known;
+          control =
+            '<select class="form-control spec-select" data-label="' + escapeAttr(field.label) + '">' +
+              '<option value=""' + (value === "" ? " selected" : "") + ">— не указано</option>" +
+              field.options.map(function (opt) {
+                return '<option value="' + escapeAttr(opt) + '"' + (opt === value ? " selected" : "") + ">" + opt + "</option>";
+              }).join("") +
+              '<option value="__other__"' + (isOther ? " selected" : "") + ">Другое…</option>" +
+            "</select>" +
+            '<input type="text" class="form-control spec-other" data-label="' + escapeAttr(field.label) + '"' +
+              ' placeholder="свой вариант" value="' + escapeAttr(isOther ? value : "") + '"' +
+              (isOther ? "" : ' style="display:none;"') + ">";
+        } else {
+          control =
+            '<input type="text" class="form-control spec-text" data-label="' + escapeAttr(field.label) + '"' +
+              ' placeholder="' + escapeAttr(field.placeholder || "") + '" value="' + escapeAttr(value) + '">';
+        }
+        return (
+          '<div class="admin-spec-row admin-spec-row--fixed">' +
+            '<span class="admin-spec-label">' + (i + 1) + ". " + field.label + "</span>" +
+            '<div class="admin-spec-control">' + control + "</div>" +
+          "</div>"
+        );
+      }).join("");
+    }
+
+    html += custom.map(function (s, ci) {
       return (
-        '<div class="admin-spec-row" data-i="' + i + '">' +
-          '<input type="text" class="form-control spec-key" placeholder="Характеристика, напр. «Год»" value="' + escapeAttr(s[0]) + '">' +
-          '<input type="text" class="form-control spec-val" placeholder="Значение, напр. «2019»" value="' + escapeAttr(s[1]) + '">' +
-          '<button type="button" class="admin-row-remove" data-i="' + i + '">✕</button>' +
+        '<div class="admin-spec-row admin-spec-row--custom" data-ci="' + ci + '">' +
+          '<input type="text" class="form-control spec-key" placeholder="Своя характеристика" value="' + escapeAttr(s[0]) + '">' +
+          '<input type="text" class="form-control spec-val" placeholder="Значение" value="' + escapeAttr(s[1]) + '">' +
+          '<button type="button" class="admin-row-remove" data-ci="' + ci + '">✕</button>' +
         "</div>"
       );
     }).join("");
 
-    specListEl.querySelectorAll(".admin-spec-row").forEach(function (row) {
-      var i = parseInt(row.getAttribute("data-i"), 10);
-      row.querySelector(".spec-key").addEventListener("input", function (e) { specState[i][0] = e.target.value; });
-      row.querySelector(".spec-val").addEventListener("input", function (e) { specState[i][1] = e.target.value; });
+    specListEl.innerHTML = html;
+
+    specListEl.querySelectorAll(".spec-select").forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        var label = sel.getAttribute("data-label");
+        var other = specListEl.querySelector('.spec-other[data-label="' + label + '"]');
+        if (sel.value === "__other__") {
+          other.style.display = "";
+          other.focus();
+          byLabel[label] = other.value.trim();
+        } else {
+          other.style.display = "none";
+          other.value = "";
+          byLabel[label] = sel.value;
+        }
+        collectSpecs();
+      });
+    });
+    specListEl.querySelectorAll(".spec-other, .spec-text").forEach(function (input) {
+      input.addEventListener("input", function () {
+        byLabel[input.getAttribute("data-label")] = input.value;
+        collectSpecs();
+      });
+    });
+    specListEl.querySelectorAll(".admin-spec-row--custom").forEach(function (row) {
+      var ci = parseInt(row.getAttribute("data-ci"), 10);
+      row.querySelector(".spec-key").addEventListener("input", function (e) {
+        custom[ci][0] = e.target.value;
+        collectSpecs();
+      });
+      row.querySelector(".spec-val").addEventListener("input", function (e) {
+        custom[ci][1] = e.target.value;
+        collectSpecs();
+      });
     });
     specListEl.querySelectorAll(".admin-row-remove").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        specState.splice(parseInt(btn.getAttribute("data-i"), 10), 1);
+        custom.splice(parseInt(btn.getAttribute("data-ci"), 10), 1);
+        collectSpecs();
         renderSpecs();
       });
     });
@@ -441,7 +566,11 @@
           : { type: "existing", url: p.url, isMain: !!p.isMain };
       }),
       videos: videoState.filter(function (v) { return v.label.trim(); }),
-      specs: specState.filter(function (s) { return s[0].trim(); })
+      // Шаблонные пункты сохраняем даже пустыми, чтобы список характеристик
+      // у всех моторов оставался одинаковым; из своих отбрасываем безымянные.
+      specs: specState.filter(function (s) {
+        return TEMPLATE_LABELS.indexOf(s[0]) !== -1 || s[0].trim();
+      })
     };
 
     fetch(API_URL, {

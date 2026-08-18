@@ -140,9 +140,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var state = { photos: [], index: 0 };
 
+    // Видео технического состояния лежат в репозитории (/media/<id>/video/*.mp4)
+    // и проигрываются прямо в лайтбоксе — плеер создаётся один раз и переиспользуется.
+    var player = lightbox.querySelector(".lightbox__player");
+    if (!player) {
+      player = document.createElement("video");
+      player.className = "lightbox__player";
+      player.setAttribute("controls", "");
+      player.setAttribute("playsinline", "");
+      player.setAttribute("preload", "metadata");
+      player.style.display = "none";
+      stageImg.parentNode.insertBefore(player, stageImg.nextSibling);
+    }
+
+    function stopVideo() {
+      player.onerror = null;
+      player.pause();
+      player.removeAttribute("src");
+      player.load();
+      player.style.display = "none";
+      stageImg.style.display = "";
+      prevBtn.style.display = state.photos.length > 1 ? "" : "none";
+      nextBtn.style.display = state.photos.length > 1 ? "" : "none";
+      counterEl.style.display = "";
+      videosEl.querySelectorAll(".lightbox__video-chip").forEach(function (c) {
+        c.classList.remove("playing");
+      });
+    }
+
+    // Если файла нет (на опубликованном сайте ролики не лежат в репозитории —
+    // они слишком большие), не показываем пустой плеер, а открываем карточку
+    // мотора на сайте-источнике, как это работало раньше.
+    function videoUnavailable(sourceUrl) {
+      stopVideo();
+      if (sourceUrl) window.open(sourceUrl, "_blank", "noopener");
+      var note = videosEl.querySelector(".lightbox__videos-note");
+      if (!note) {
+        note = document.createElement("div");
+        note.className = "lightbox__videos-note";
+        videosEl.appendChild(note);
+      }
+      note.textContent = sourceUrl
+        ? "Ролик пока не загружен на сайт — открыли карточку мотора на motor-vl.ru"
+        : "Ролик пока не загружен на сайт";
+    }
+
+    function playVideo(url, chip, sourceUrl) {
+      stageImg.style.display = "none";
+      prevBtn.style.display = "none";
+      nextBtn.style.display = "none";
+      counterEl.style.display = "none";
+      player.style.display = "";
+      player.onerror = function () {
+        player.onerror = null;
+        videoUnavailable(sourceUrl);
+      };
+      player.src = url;
+      player.play().catch(function () {});
+      videosEl.querySelectorAll(".lightbox__video-chip").forEach(function (c) {
+        c.classList.toggle("playing", c === chip);
+      });
+    }
+
+    // Карточки показывают превью 300x400 из /media/<id>/images/thumb/, а на
+    // большой сцене лайтбокса нужен оригинал 900x1200 из /media/<id>/images/ —
+    // имя и расширение у оригинала те же, что у превью.
+    // Внешние (нелокальные) ссылки оставляем как есть.
+    function fullSrc(src) {
+      if (!src || src.indexOf("/media/") !== 0) return src;
+      return src.replace("/images/thumb/", "/images/");
+    }
+
     function renderStage() {
       if (!state.photos.length) return;
-      stageImg.src = state.photos[state.index];
+      if (player && player.style.display !== "none") stopVideo();
+      var thumb = state.photos[state.index];
+      stageImg.onerror = function () { stageImg.onerror = null; stageImg.src = thumb; };
+      stageImg.src = fullSrc(thumb);
       counterEl.textContent = state.photos.length > 1 ? (state.index + 1) + " / " + state.photos.length : "";
       thumbsEl.querySelectorAll(".lightbox__thumb").forEach(function (t, i) {
         t.classList.toggle("active", i === state.index);
@@ -184,11 +258,21 @@ document.addEventListener("DOMContentLoaded", function () {
           '<div class="lightbox__videos-list">' +
           videos.map(function (v) {
             var label = typeof v === "string" ? v : (v.label || "Видео");
-            var href = (typeof v === "object" && v.url) ? v.url : sourceUrl;
-            return '<a class="lightbox__video-chip" href="' + href + '" target="_blank" rel="noopener">▶ ' + label + '</a>';
+            var url = (typeof v === "object" && v.url) ? v.url : "";
+            // Свой файл — играем прямо здесь; внешняя ссылка (или её отсутствие) —
+            // как и раньше, уводим на карточку мотора на сайте-источнике.
+            if (url.indexOf("/media/") === 0) {
+              return '<button type="button" class="lightbox__video-chip" data-video="' + url + '">▶ ' + label + '</button>';
+            }
+            return '<a class="lightbox__video-chip" href="' + (url || sourceUrl) + '" target="_blank" rel="noopener">▶ ' + label + '</a>';
           }).join("") +
           "</div>" +
           (!hasRealVideo && sourceUrl ? '<div class="lightbox__videos-note">Ролики воспроизводятся на карточке мотора на сайте-источнике motor-vl.ru — переход по клику</div>' : "");
+        videosEl.querySelectorAll("[data-video]").forEach(function (chip) {
+          chip.addEventListener("click", function () {
+            playVideo(chip.getAttribute("data-video"), chip, sourceUrl);
+          });
+        });
       } else {
         videosEl.innerHTML = "";
       }
@@ -204,11 +288,14 @@ document.addEventListener("DOMContentLoaded", function () {
       var trigger = e.target.closest("[data-lightbox]");
       if (trigger) openWith(trigger);
     });
-    closeBtn.addEventListener("click", function () {
+    // Закрытие лайтбокса всегда глушит видео — иначе ролик продолжает играть за кадром.
+    function closeLightbox() {
+      stopVideo();
       lightbox.classList.remove("open");
-    });
+    }
+    closeBtn.addEventListener("click", closeLightbox);
     lightbox.addEventListener("click", function (e) {
-      if (e.target === lightbox) lightbox.classList.remove("open");
+      if (e.target === lightbox) closeLightbox();
     });
     prevBtn.addEventListener("click", function () {
       if (!state.photos.length) return;
@@ -222,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     document.addEventListener("keydown", function (e) {
       if (!lightbox.classList.contains("open")) return;
-      if (e.key === "Escape") lightbox.classList.remove("open");
+      if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowLeft") prevBtn.click();
       if (e.key === "ArrowRight") nextBtn.click();
     });

@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Сайт: локальный сервер",
+      "type": "shell",
+      "command": "python3 ${workspaceFolder}/tools/serve.py 8900",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "detail": "http://localhost:8900 — с поддержкой перемотки видео (Range), в отличие от Live Preview"
+    }
+  ]
+}

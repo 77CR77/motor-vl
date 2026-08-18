@@ -1,0 +1,11 @@
+{
+  // Live Preview: встроенный браузер прямо в VS Code, сам перезагружает
+  // страницу при сохранении любого файла.
+  "livePreview.defaultPreviewPath": "/index.html",
+  "livePreview.portNumber": 8899,
+  "livePreview.openPreviewTarget": "Embedded Preview",
+
+  // media/ — 68 МБ фотографий, в поиске и дереве они только мешают.
+  "search.exclude": { "media/**": true },
+  "files.exclude": { "**/.DS_Store": true }
+}

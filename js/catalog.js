@@ -160,8 +160,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       prevBucket = bucket;
 
+      // Список характеристик у всех моторов одинаковый и в одном порядке
+      // (см. tools/normalize_specs.py). Незаполненные пункты показываем прочерком,
+      // чтобы таблички у всех моторов совпадали строка в строку.
       var specsHtml = m.specs.map(function (s) {
-        return "<div><em>" + s[0] + "</em><b>" + s[1] + "</b></div>";
+        var value = s[1];
+        return value
+          ? "<div><em>" + s[0] + "</em><b>" + value + "</b></div>"
+          : '<div class="spec-list__empty"><em>' + s[0] + "</em><b>—</b></div>";
       }).join("");
 
       var badgeHtml = m.badge

@@ -2082,16 +2082,24 @@ footer.site-footer .container { max-width: 1360px; }
     gap: 6px;
     margin-left: auto;
   }
+  /* Три кнопки, логотип и меню на 375 px помещаются впритык, поэтому
+     кегль и отступы подобраны под самый узкий экран. Цвет у всех один. */
   .header-mobile-link {
-    padding: 11px 16px;
+    padding: 9px 10px;
     border-radius: 100px;
     background: var(--accent);
     color: #fff;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 12.5px;
     white-space: nowrap;
     line-height: 1.2;
   }
+  /* «Оставить заявку» длиннее соседей — кегль мельче, цвет тот же. */
+  .header-mobile-link--order { font-size: 11.5px; padding: 9px 9px; }
+  .header-mobile-actions { gap: 4px; }
+  .logo-img { height: 24px; }
+  .header-inner { gap: 6px; padding-left: 10px; padding-right: 10px; }
+  .nav-toggle { width: 34px; height: 34px; margin-left: 2px; }
   .nav-toggle {
     width: 38px;
     height: 38px;
@@ -2104,10 +2112,13 @@ footer.site-footer .container { max-width: 1360px; }
 
   /* Нижняя закреплённая панель: Каталог / Позвонить / Заявка — всегда под рукой на мобильном */
   .mobile-call-bar { display: flex; }
-  body { padding-bottom: 74px; }
+  /* Нижняя панель убрана: «Каталог», «Звонок» и «Оставить заявку» теперь
+     в шапке, дублировать их внизу незачем — экран освобождается. */
+  .mobile-call-bar { display: none; }
+  body { padding-bottom: 0; }
   /* Кнопка «наверх» была размером с палец и лезла в глаза поверх контента. */
   .back-to-top {
-    bottom: 86px;
+    bottom: 18px;
     right: 14px;
     width: 40px;
     height: 40px;
@@ -2126,13 +2137,64 @@ footer.site-footer .container { max-width: 1360px; }
   p { margin-bottom: 10px; }
   .grid-3 .card p, .card p { margin-bottom: 0; }
 
-  .hero { padding: 22px 0 26px; }
+  /* Первый экран телефона отдаём целиком тёмному блоку: белая часть должна
+     появляться только когда посетитель начнёт листать. Высоту считаем в svh —
+     это видимая часть окна без панелей браузера, в отличие от vh. */
+  .hero {
+    padding: 34px 0 34px;
+    min-height: calc(100vh - 58px);
+    min-height: calc(100svh - 58px);
+    display: flex;
+  }
+  /* Заголовок вверху, цифры прижаты к низу экрана: между ними свободное
+     место распределяется само, поэтому композиция держится и на низких,
+     и на высоких телефонах. */
+  .hero { position: relative; overflow: hidden; }
+  .hero::after {
+    content: "船外機";
+    position: absolute;
+    right: -4%;
+    bottom: 30%;
+    font-size: 30vw;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -6px;
+    color: rgba(243, 216, 120, 0.045);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+  .hero-grid { width: 100%; display: flex; flex-direction: column; position: relative; z-index: 1; }
+  .hero-grid > div:first-child { flex: 1; display: flex; flex-direction: column; }
+  .hero-stats-label { margin-top: auto; }
+  /* Снимок с лодкой на телефоне не показываем: он занимал целый экран
+     и отжимал вниз заголовок с кнопкой каталога. На компьютере остаётся. */
+  .hero-media { display: none; }
+  .hero-grid { gap: 0; }
+  /* Надпись на кнопке каталога должна идти одной строкой, как на компьютере. */
+  .hero-cta__btn {
+    width: 100%;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 16px;
+    padding: 16px 14px;
+    gap: 8px;
+  }
+  .hero-title {
+    font-size: clamp(32px, 9.6vw, 44px);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 { margin-bottom: 18px; }
+  .hero p.lead { font-size: 17.5px; line-height: 1.62; color: #ded6c8; }
+  .hero-cta { margin-top: 30px; }
+  .hero-cta__btn { font-size: 17px; padding: 18px 14px; }
   .hero-actions .btn { width: 100%; }
-  .hero-stats-label { margin-top: 16px; margin-bottom: 8px; }
-  .hero-stats { gap: 14px; padding-top: 10px; flex-wrap: nowrap; }
+  .hero-stats-label { margin-bottom: 14px; padding-top: 30px; }
+  .hero-stats { gap: 16px; padding-top: 18px; flex-wrap: nowrap; }
   .hero-stat { flex: 1; min-width: 0; }
-  .hero-stat b { font-size: 30px; }
-  .hero-stat span { font-size: 13.5px; }
+  .hero-stat b { font-size: 34px; }
+  .hero-stat span { font-size: 14px; line-height: 1.35; }
   .grid-3, .grid-4, .brand-links { grid-template-columns: 1fr 1fr; gap: 12px; }
   .grid-2 { grid-template-columns: 1fr; }
   .card { padding: 18px 16px; }

@@ -169,6 +169,17 @@
   font-weight: 700; font-size: 13.5px; cursor: pointer; padding: 4px 0;
 }
 
+/* Параметры подбора из заявки — тем же видом, что характеристики мотора. */
+.admin-lead__spec {
+  display: grid; gap: 4px; margin: 8px 0;
+  padding: 10px 12px; border-radius: 10px;
+  background: rgba(6,26,48,.04);
+}
+.admin-lead__spec-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; }
+.admin-lead__spec-row em { font-style: normal; opacity: .6; }
+.admin-lead__spec-row b { text-align: right; }
+.admin-lead__row--muted { opacity: .55; font-size: 13px; }
+
 .admin-form__actions { display: flex; align-items: center; gap: 16px; margin-top: 26px; }
 .admin-delete-btn { background: none; border: none; color: var(--jp-red); font-weight: 700; cursor: pointer; font-size: 14px; }
 

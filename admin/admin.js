@@ -1,12 +1,12 @@
 // ===== МОТОР-ВЛ: логика админ-панели =====
-// Общается с /.netlify/functions/motors, которая читает и пишет
-// data/motors.json прямо в GitHub-репозитории сайта.
+// Общается с /api/motors.php и /api/lead.php на своём хостинге:
+// каталог и заявки лежат файлами на сервере.
 
 (function () {
   "use strict";
 
-  var API_URL = "/.netlify/functions/motors";
-  var LEADS_URL = "/.netlify/functions/leads";
+  var API_URL = "/api/motors.php";
+  var LEADS_URL = "/api/lead.php";
   var SESSION_KEY = "motorvl_admin_password";
 
   var loginScreen = document.getElementById("loginScreen");
@@ -201,6 +201,23 @@
 
   function renderLeads() {
     leadsCount.textContent = "Всего заявок: " + currentLeads.length;
+  // В поле motor лежит строка вида «<конкретный мотор> · <параметры подбора>».
+  // Параметры уже показаны таблицей, поэтому из строки достаём только ту часть,
+  // где клиент назвал конкретную модель, — иначе одно и то же выводилось бы дважды.
+  function exactMotorOf(lead) {
+    var motor = (lead.motor || "").trim();
+    if (!motor) return "";
+    var spec = lead.spec || {};
+    var keys = Object.keys(spec);
+    if (!keys.length) return motor;
+    var specLine = keys.map(function (key) {
+      var value = spec[key];
+      return key + ": " + (Array.isArray(value) ? value.join(", ") : value);
+    }).join(" · ");
+    if (motor === specLine) return "";
+    return motor.replace(" · " + specLine, "").replace(specLine, "").trim();
+  }
+
     leadsList.innerHTML = currentLeads.map(function (l) {
       return (
         '<div class="admin-lead' + (l.viewed ? "" : " is-new") + '" data-id="' + l.id + '">' +
@@ -211,8 +228,20 @@
             '<div class="admin-lead__date">' + formatDate(l.createdAt) + "</div>" +
           "</div>" +
           '<div class="admin-lead__row">📞 <a href="tel:' + l.phone + '">' + l.phone + "</a></div>" +
+          (l.messengers && l.messengers.length
+            ? '<div class="admin-lead__row">💬 ' + l.messengers.join(", ") + "</div>"
+            : "") +
           (l.email ? '<div class="admin-lead__row">✉️ <a href="mailto:' + l.email + '">' + l.email + "</a></div>" : "") +
-          (l.motor ? '<div class="admin-lead__row">🛥️ ' + l.motor + "</div>" : "") +
+          (exactMotorOf(l) ? '<div class="admin-lead__row">🛥️ ' + exactMotorOf(l) + "</div>" : "") +
+          (l.spec && Object.keys(l.spec).length
+            ? '<div class="admin-lead__spec">' +
+                Object.keys(l.spec).map(function (key) {
+                  var value = l.spec[key];
+                  return '<div class="admin-lead__spec-row"><em>' + key + "</em><b>" +
+                    (Array.isArray(value) ? value.join(", ") : value) + "</b></div>";
+                }).join("") +
+              "</div>"
+            : "") +
           (l.message ? '<div class="admin-lead__message">' + l.message + "</div>" : "") +
           '<div class="admin-lead__actions">' +
             '<button class="admin-lead__btn admin-lead__btn--toggle" data-id="' + l.id + '" data-viewed="' + (!l.viewed) + '">' +

@@ -1,0 +1,54 @@
+# Автоматическая выкладка сайта на хостинг reg.ru.
+#
+# Срабатывает при каждом пуше в main: берёт файлы репозитория и синхронизирует
+# их с папкой сайта по FTP. Ничего собирать не нужно — сайт статический.
+#
+# Что НЕ трогается на сервере (см. exclude ниже):
+#   media/**/video/**      — 3.3 ГБ роликов, залиты один раз вручную
+#   api/config.local.php   — пароль и токен бота, живут только на сервере
+#   private/**             — заявки клиентов
+#
+# Секреты задаются в репозитории: Settings → Secrets and variables → Actions
+#   FTP_SERVER    хост из панели reg.ru, например ftp.motor-vl.ru
+#   FTP_USERNAME  логин FTP
+#   FTP_PASSWORD  пароль FTP
+#   FTP_DIR       путь к папке сайта, например /motor-vl.ru/ (со слешами)
+
+name: Deploy to reg.ru
+
+on:
+  push:
+    branches: [main]
+  # Кнопка «запустить вручную» на вкладке Actions — удобно для проверки.
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Забрать код
+        uses: actions/checkout@v4
+
+      - name: Залить по FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_DIR }}
+          protocol: ftp
+          # Действие само помнит, что уже залито, и отправляет только изменения.
+          state-name: .deploy-state.json
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.vscode/**
+            **/.claude/**
+            tools/**
+            media/**/video/**
+            api/config.local.php
+            api/config.example.php
+            private/**
+            README.md
+            DEPLOY.md
+            **/.DS_Store

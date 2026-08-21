@@ -5,9 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Оставить заявку — МОТОР-ВЛ</title>
 <meta name="description" content="Оставьте заявку на подбор лодочного мотора или на мотор под заказ из Японии. Ответим и перезвоним в ближайшее время.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="МОТОР-ВЛ">
+<meta property="og:title" content="Оставить заявку — МОТОР-ВЛ">
+<meta property="og:description" content="Подберём мотор под вашу лодку или привезём под заказ из Японии.">
+<meta property="og:image" content="https://motor-vl.ru/images/logo.png">
+<meta property="og:url" content="https://motor-vl.ru/order.html">
+<link rel="icon" href="/images/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/images/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/images/favicon/apple-touch-icon.png">
+<meta name="theme-color" content="#051426">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=b0770652">
+<link rel="stylesheet" href="css/style.css?v=0e2ed386">
 </head>
 <body>
 
@@ -84,49 +94,91 @@
             <input class="form-control" type="text" id="fieldName" name="name" required>
           </div>
 
-          <div class="form-two-col">
-            <div class="form-row">
+          <div class="form-row">
               <label for="fieldPhone">Телефон</label>
               <div class="phone-input-group">
                 <select id="fieldPhoneCode" class="phone-code-select" aria-label="Код страны">
                   <option value="+7">🇷🇺 +7</option>
-                  <option value="+7">🇰🇿 +7</option>
                   <option value="+375">🇧🇾 +375</option>
-                  <option value="+380">🇺🇦 +380</option>
-                  <option value="+998">🇺🇿 +998</option>
-                  <option value="+996">🇰🇬 +996</option>
-                  <option value="+992">🇹🇯 +992</option>
-                  <option value="+993">🇹🇲 +993</option>
-                  <option value="+994">🇦🇿 +994</option>
-                  <option value="+374">🇦🇲 +374</option>
-                  <option value="+995">🇬🇪 +995</option>
-                  <option value="+373">🇲🇩 +373</option>
+                  <option value="+7">🇰🇿 +7</option>
                 </select>
                 <input class="form-control phone-number-input" type="tel" id="fieldPhone" name="phone" placeholder="(___) ___-__-__" required>
               </div>
-            </div>
-            <div class="form-row">
-              <label for="fieldEmail">E-mail <span style="font-weight:500;color:var(--text-muted);">(необязательно)</span></label>
-              <input class="form-control" type="email" id="fieldEmail" name="email" placeholder="your@email.ru">
-            </div>
           </div>
 
-          <div class="form-row">
-            <label for="fieldMotor">Какой мотор интересует</label>
-            <input class="form-control" type="text" id="fieldMotor" name="motor" placeholder="Марка, модель или мощность">
-            <div class="hint">Если оставляете заявку на подбор под заказ из Японии — просто опишите пожелания.</div>
+          <fieldset class="pick pick--contact" data-key="messenger" data-label="Мессенджеры">
+              <legend class="pick__legend">Где вам удобно общаться?</legend>
+              <div class="pick__options">
+                <label class="pick__chip pick__chip--ico"><input type="checkbox" value="Telegram"><span><svg class="pick__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>Telegram</span></label>
+                <label class="pick__chip pick__chip--ico"><input type="checkbox" value="WhatsApp"><span><svg class="pick__ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.16 5.335 5.495 0 12.05 0c3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892a11.82 11.82 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>WhatsApp</span></label>
+                <label class="pick__chip pick__chip--ico"><input type="checkbox" value="MAX"><span><svg class="pick__ico" viewBox="0 0 100 100.000977" fill="currentColor" aria-hidden="true"><path fill-rule="nonzero" d="M 50.75 0.257812 C 78.011719 0.257812 99.390625 22.375 99.390625 49.652344 C 99.390625 76.929688 77.335938 98.507812 51.011719 98.507812 C 41.667969 98.507812 37.144531 97.191406 29.851562 92.027344 C 29.347656 91.675781 28.664062 91.765625 28.238281 92.21875 C 22.628906 98.203125 8.265625 102.402344 7.609375 94.234375 C 7.609375 79.992188 0.496094 70.742188 0.496094 49.382812 C 0.496094 21.339844 23.484375 0.257812 50.75 0.257812 Z M 51.511719 24.566406 C 38.578125 23.886719 28.480469 32.867188 26.25 46.914062 C 24.40625 58.546875 27.671875 72.726562 30.472656 73.441406 C 31.660156 73.746094 34.511719 71.5625 36.589844 69.601562 C 36.980469 69.234375 37.574219 69.171875 38.027344 69.453125 C 41.265625 71.433594 44.929688 72.917969 48.96875 73.132812 C 62.25 73.824219 74.015625 63.429688 74.71875 50.144531 C 75.410156 36.863281 64.796875 25.253906 51.511719 24.558594 Z M 51.511719 24.566406 "/></svg>MAX</span></label>
+              </div>
+          </fieldset>
+
+          <div class="picker" id="motorPicker">
+            <div class="picker__head">
+              <h2 class="picker__title">Какой мотор интересует</h2>
+              <p class="picker__lead">Отметьте, что важно — можно выбрать несколько вариантов.
+                Что не отметите, будем считать «не важно», и подберём по остальным параметрам.</p>
+            </div>
+
+            <fieldset class="pick" data-key="brand" data-label="Бренд">
+              <legend class="pick__legend">Бренд</legend>
+              <div class="pick__options">
+                <label class="pick__chip"><input type="checkbox" value="Yamaha"><span>Yamaha</span></label>
+                <label class="pick__chip"><input type="checkbox" value="Honda"><span>Honda</span></label>
+                <label class="pick__chip"><input type="checkbox" value="Suzuki"><span>Suzuki</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="pick pick--power" data-key="power" data-label="Мощность">
+              <legend class="pick__legend">Мощность, л.с.</legend>
+              <div class="power-range">
+                <input class="form-control power-step__input" type="text" id="powerValue"
+                       inputmode="decimal" placeholder="—" autocomplete="off" aria-label="Мощность, л.с.">
+                <span class="power-range__unit">л.с.</span>
+              </div>
+            </fieldset>
+
+            <fieldset class="pick" data-key="leg" data-label="Длина ноги">
+              <legend class="pick__legend">Длина ноги</legend>
+              <div class="pick__options">
+                <label class="pick__chip"><input type="checkbox" value="S (381 мм)"><span>S <small>381 мм</small></span></label>
+                <label class="pick__chip"><input type="checkbox" value="L (508 мм)"><span>L <small>508 мм</small></span></label>
+                <label class="pick__chip"><input type="checkbox" value="X (635 мм)"><span>X <small>635 мм</small></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="pick" data-key="fuel" data-label="Подача топлива">
+              <legend class="pick__legend">Система подачи топлива</legend>
+              <div class="pick__options">
+                <label class="pick__chip"><input type="checkbox" value="карбюратор"><span>Карбюратор</span></label>
+                <label class="pick__chip"><input type="checkbox" value="инжектор (EFI)"><span>Инжектор (EFI)</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="pick" data-key="control" data-label="Управление">
+              <legend class="pick__legend">Управление мотором</legend>
+              <div class="pick__options">
+                <label class="pick__chip"><input type="checkbox" value="румпель"><span>Румпель</span></label>
+                <label class="pick__chip"><input type="checkbox" value="дистанционное"><span>Дистанционное</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="pick" data-key="lift" data-label="Подъём">
+              <legend class="pick__legend">Подъём мотора</legend>
+              <div class="pick__options">
+                <label class="pick__chip"><input type="checkbox" value="ручной"><span>Ручной</span></label>
+                <label class="pick__chip"><input type="checkbox" value="гидравлика"><span>Гидравлика</span></label>
+              </div>
+            </fieldset>
           </div>
 
           <div class="form-row">
             <label for="fieldMessage">Комментарий</label>
-            <textarea class="form-control" id="fieldMessage" name="message" placeholder="Какой мотор вас интересует? Напишите бренд и мощность в л.с."></textarea>
+            <textarea class="form-control" id="fieldMessage" name="message" placeholder="Тип лодки, высота транца, для чего мотор — всё, что поможет подобрать точнее"></textarea>
           </div>
 
-          <div class="form-row checkbox-row">
-            <input type="checkbox" id="fieldConsent" required>
-            <label for="fieldConsent" style="font-weight:500; margin:0;">Даю согласие на обработку персональных
-              данных в соответствии с политикой конфиденциальности <span class="required-mark">*</span></label>
-          </div>
 
           <button type="submit" class="btn btn--accent btn--block btn--lg">Отправить заявку</button>
 
@@ -213,6 +265,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 МОТОР-ВЛ. Все права защищены.</span>
+      <a href="privacy.html">Политика обработки персональных данных</a>
     </div>
   </div>
 </footer>
@@ -225,7 +278,7 @@
 
 <button class="back-to-top" aria-label="Наверх">↑</button>
 
-<script src="js/order.js?v=05384e82"></script>
-<script src="js/main.js?v=76a35b5b"></script>
+<script src="js/order.js?v=0c4f8190"></script>
+<script src="js/main.js?v=5bcecff7"></script>
 </body>
 </html>

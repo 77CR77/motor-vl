@@ -5,7 +5,7 @@ Coursework project: a redesign of a used-Japanese-outboard-motor dealer's websit
 frameworks, no build step. Each page is self-contained and can be opened directly
 in a browser.
 
-**Live demo:** https://sprightly-panda-5bb1d0.netlify.app
+**Хостинг:** свой виртуальный хостинг (reg.ru), деплой по FTP.
 
 ## Business objectives
 
@@ -160,6 +160,66 @@ The clips themselves are **not** in git (3.3 GB — see `.gitignore`); they sit 
 are served locally. Publishing the site online will need them in separate storage
 (S3/R2/video hosting) with `videos[].url` pointing there — any URL that is not a local
 `/media/...` path still falls back to opening the source site's card.
+
+## Хостинг и бэкенд
+
+Сайт живёт на обычном виртуальном хостинге (reg.ru) — статика плюс несколько
+PHP-файлов. Никаких сторонних платформ и внешних токенов, кроме бота Telegram.
+
+```
+api/lead.php         приём заявки: уведомление в Telegram + архив в private/leads.json
+api/motors.php       каталог для панели /admin: пишет data/motors.json и media/motors/
+api/lib.php          общая часть: настройки, ответы, безопасная запись файлов
+api/config.local.php пароль и токен (создаётся на сервере, в git не попадает)
+api/selftest.php     проверка настроек прямо на хостинге
+private/             заявки клиентов, папка закрыта от браузера
+```
+
+Каталог правится записью файла, поэтому GitHub-токен больше не нужен.
+
+### Установка на хостинг
+
+1. Залить содержимое репозитория в корень сайта (папку с `index.html`).
+2. Создать настройки и вписать пароль с токеном:
+
+   ```bash
+   cp api/config.example.php api/config.local.php
+   ```
+
+3. Права: папкам `data`, `media`, `private` — 755, файлу `data/motors.json` — 644.
+4. Открыть `https://домен/api/selftest.php?password=ВАШ_ПАРОЛЬ` — страница
+   по пунктам покажет, что готово, а что нет. В том числе проверит, что папка
+   с заявками действительно закрыта от посторонних.
+
+Видео (3.3 ГБ) в git не хранятся — их заливают на хостинг отдельно, через FTP.
+
+## Заявки в Telegram
+
+Заявка с сайта попадает в панель `/admin` и, если настроены переменные окружения,
+дублируется сообщением в групповой чат менеджеров.
+
+Настройка (делается один раз, значения вводит владелец сайта):
+
+1. Создать бота у [@BotFather](https://t.me/BotFather) — команда `/newbot`, в ответ придёт токен.
+2. Создать группу, добавить туда всех менеджеров и самого бота.
+   Бота нужно сделать администратором либо отключить ему privacy mode
+   (`/setprivacy` → Disable), иначе он не увидит чат.
+3. Написать в группе любое сообщение и узнать её id:
+
+   ```bash
+   export TELEGRAM_BOT_TOKEN='токен от @BotFather'
+   python3 tools/telegram_chat_id.py
+   ```
+
+4. Вписать токен и id в `api/config.local.php` на хостинге
+   (`telegram_token` и `telegram_chat_id`; у групп id отрицательный).
+
+Если значения не заданы, сайт работает как раньше — заявки просто копятся в панели.
+Сбой Telegram тоже не мешает: заявка сохраняется в любом случае, ошибка уходит
+в лог ошибок хостинга.
+
+Менеджеров можно добавлять и убирать прямо в группе — в коде и настройках ничего
+менять не нужно.
 
 ## Development history
 

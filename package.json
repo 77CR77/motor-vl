@@ -1,8 +1,0 @@
-{
-  "name": "motor-vl",
-  "private": true,
-  "description": "Служебные зависимости для Netlify Functions (сайт статический, сборка не требуется)",
-  "dependencies": {
-    "@netlify/blobs": "^8.1.0"
-  }
-}

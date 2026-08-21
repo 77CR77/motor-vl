@@ -352,24 +352,21 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Если файла нет (на опубликованном сайте ролики не лежат в репозитории —
-    // они слишком большие), не показываем пустой плеер, а открываем карточку
-    // мотора на сайте-источнике, как это работало раньше.
-    function videoUnavailable(sourceUrl) {
+    // Все ролики лежат на нашем же хостинге. Если файл всё же не открылся
+    // (не догрузился при выкладке, оборвалась сеть) — говорим об этом прямо
+    // и предлагаем позвонить, а не уводим посетителя на сторону.
+    function videoUnavailable() {
       stopVideo();
-      if (sourceUrl) window.open(sourceUrl, "_blank", "noopener");
       var note = videosEl.querySelector(".lightbox__videos-note");
       if (!note) {
         note = document.createElement("div");
         note.className = "lightbox__videos-note";
         videosEl.appendChild(note);
       }
-      note.textContent = sourceUrl
-        ? "Ролик пока не загружен на сайт — открыли карточку мотора на motor-vl.ru"
-        : "Ролик пока не загружен на сайт";
+      note.textContent = "Не удалось загрузить видео. Обновите страницу или позвоните нам: +7 (908) 448-11-00";
     }
 
-    function playVideo(url, chip, sourceUrl, poster) {
+    function playVideo(url, chip, poster) {
       resetZoom();
       if (poster) player.poster = poster;
       stage.classList.add("video-mode");
@@ -380,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
       player.style.display = "";
       player.onerror = function () {
         player.onerror = null;
-        videoUnavailable(sourceUrl);
+        videoUnavailable();
       };
       player.src = url;
       player.play().catch(function () {});
@@ -419,7 +416,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function openWith(trigger) {
       var caption = trigger.getAttribute("data-caption") || "";
-      var sourceUrl = trigger.getAttribute("data-source") || "";
       var photos = [];
       var videos = [];
       try { photos = JSON.parse(trigger.getAttribute("data-photos") || "[]"); } catch (e) {}
@@ -446,7 +442,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Поддержка двух форматов: новые записи — объекты {label, url} (добавленные
         // через админ-панель со ссылкой на реальное видео), старые — просто строки
         // с названием, которые вели на карточку товара на сайте-источнике.
-        var hasRealVideo = videos.some(function (v) { return v && typeof v === "object" && v.url; });
         videosEl.innerHTML =
           '<div class="lightbox__videos-title">Видео технического состояния (' + videos.length + ')</div>' +
           '<div class="lightbox__videos-list">' +
@@ -463,17 +458,15 @@ document.addEventListener("DOMContentLoaded", function () {
               '<span class="lightbox__video-name">' + label + "</span>";
             // Свой файл — играем прямо здесь; внешняя ссылка (или её отсутствие) —
             // как и раньше, уводим на карточку мотора на сайте-источнике.
-            if (url.indexOf("/media/") === 0) {
-              return '<button type="button" class="lightbox__video-tile" data-video="' + url + '"' +
-                (poster ? ' data-poster="' + poster + '"' : "") + ">" + cover + "</button>";
-            }
-            return '<a class="lightbox__video-tile" href="' + (url || sourceUrl) + '" target="_blank" rel="noopener">' + cover + "</a>";
+            if (!url) return "";
+            return '<button type="button" class="lightbox__video-tile" data-video="' + url + '"' +
+              (poster ? ' data-poster="' + poster + '"' : "") + ">" + cover + "</button>";
           }).join("") +
           "</div>" +
-          (!hasRealVideo && sourceUrl ? '<div class="lightbox__videos-note">Ролики воспроизводятся на карточке мотора на сайте-источнике motor-vl.ru — переход по клику</div>' : "");
+          "";
         videosEl.querySelectorAll("[data-video]").forEach(function (tile) {
           tile.addEventListener("click", function () {
-            playVideo(tile.getAttribute("data-video"), tile, sourceUrl, tile.getAttribute("data-poster"));
+            playVideo(tile.getAttribute("data-video"), tile, tile.getAttribute("data-poster"));
           });
         });
       } else {

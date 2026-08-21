@@ -14,7 +14,29 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# Этот сервер только раздаёт файлы и не умеет исполнять PHP. Значит api/config.local.php
+# он отдал бы как обычный текст — вместе с паролем и токеном бота. На хостинге от этого
+# защищает .htaccess, здесь его никто не читает, поэтому закрываем пути сами.
+BLOCKED_PREFIXES = ("/api/", "/private/")
+
+
 class RangeHandler(SimpleHTTPRequestHandler):
+    def _is_blocked(self):
+        path = self.path.split("?", 1)[0].split("#", 1)[0]
+        return any(path.startswith(prefix) for prefix in BLOCKED_PREFIXES)
+
+    def do_GET(self):
+        if self._is_blocked():
+            self.send_error(403, "Not served locally")
+            return
+        super().do_GET()
+
+    def do_HEAD(self):
+        if self._is_blocked():
+            self.send_error(403, "Not served locally")
+            return
+        super().do_HEAD()
+
     def send_head(self):
         rng = self.headers.get("Range")
         if not rng:

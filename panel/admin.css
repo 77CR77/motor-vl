@@ -22,6 +22,18 @@
 .admin-login__box h1 { font-size: 22px; margin-bottom: 6px; color: var(--navy-dark); }
 .admin-login__box p { color: var(--text-muted); margin-bottom: 20px; font-size: 14px; }
 .admin-login__box .form-control { margin-bottom: 12px; text-align: center; }
+.admin-login__back {
+  display: block;
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  opacity: .7;
+  text-decoration: none;
+}
+.admin-login__back:hover { opacity: 1; text-decoration: underline; }
+
 .admin-login__error { color: var(--jp-red); font-size: 13.5px; margin-top: 10px; min-height: 18px; }
 
 /* ---------- Общий каркас ---------- */

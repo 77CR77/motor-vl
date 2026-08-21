@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css?v=9cafb227">
-<link rel="stylesheet" href="admin.css?v=8bb450a6">
+<link rel="stylesheet" href="admin.css?v=e4c277ae">
 </head>
 <body class="admin-body">
 
@@ -23,6 +23,9 @@
     <input type="password" id="passwordInput" class="form-control" placeholder="Пароль" autocomplete="current-password">
     <button id="loginBtn" class="btn btn--accent btn--block">Войти</button>
     <div id="loginError" class="admin-login__error"></div>
+    <!-- Случайный посетитель не должен упираться в тупик: с экрана входа
+         всегда есть дорога обратно на сайт. -->
+    <a href="/" class="admin-login__back">← Вернуться на сайт</a>
   </div>
 </div>
 

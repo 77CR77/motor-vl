@@ -237,6 +237,42 @@
 /* Пункты шаблона: название слева фиксировано, справа выбор или ввод. */
 .admin-spec-row--fixed { grid-template-columns: 260px 1fr; }
 .admin-spec-label { font-weight: 700; font-size: 13.5px; color: var(--navy); }
+/* Перестановка фото и роликов: порядок в панели = порядок в каталоге. */
+.admin-move {
+  width: 24px; height: 24px; flex-shrink: 0;
+  border: 1px solid rgba(6,26,48,.16); border-radius: 6px;
+  background: #fff; color: var(--navy-dark);
+  font-size: 15px; font-weight: 800; line-height: 1; cursor: pointer; font-family: inherit;
+}
+.admin-move:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: #fff; }
+.admin-move:disabled { opacity: .3; cursor: default; }
+
+.admin-photo-item__order {
+  position: absolute; left: 4px; bottom: 4px;
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(255,255,255,.92); border-radius: 8px; padding: 2px 4px;
+}
+.admin-photo-item__num, .admin-video__num {
+  font-size: 12px; font-weight: 800; color: var(--navy); min-width: 14px; text-align: center;
+}
+.admin-video__order { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+/* Поле с единицей измерения: число вводится, «м/час» дорисовано рядом
+   и не даёт менеджеру писать единицу по-своему. */
+.admin-suffix-field { position: relative; display: block; }
+.admin-suffix-field input { padding-right: 68px; }
+.admin-suffix-field__unit {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy);
+  opacity: .55;
+  pointer-events: none;
+}
+
 .admin-spec-control { display: flex; flex-direction: column; gap: 6px; }
 .admin-spec-control select { padding: 10px 12px; }
 .admin-spec-row--custom { border-top: 1px dashed rgba(6,26,48,.14); padding-top: 8px; }

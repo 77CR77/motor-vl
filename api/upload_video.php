@@ -32,6 +32,32 @@ if ($motorId === '') {
     fail(400, 'Не указан мотор');
 }
 
+// Обложку можно прислать отдельно: браузер не всегда успевает снять кадр
+// до отправки файла (например, MOV декодируется только после загрузки).
+if (($_POST['action'] ?? '') === 'poster') {
+    $name = preg_replace('/[^A-Za-z0-9_.-]/', '', (string) ($_POST['name'] ?? ''));
+    $name = pathinfo($name, PATHINFO_FILENAME);
+    if ($name === '') {
+        fail(400, 'Не указан ролик');
+    }
+    $posterDir = ROOT_DIR . '/' . VIDEO_SUBDIR . '/' . $motorId . '/video/poster';
+    if (!is_dir($posterDir) && !mkdir($posterDir, 0755, true) && !is_dir($posterDir)) {
+        fail(500, 'Не удалось создать папку для обложек');
+    }
+    $data = (string) ($_POST['poster'] ?? '');
+    if (str_contains($data, ',')) {
+        $data = substr($data, strpos($data, ',') + 1);
+    }
+    $binary = base64_decode($data, true);
+    if ($binary === false || !@getimagesizefromstring($binary)) {
+        fail(400, 'Обложка не распознана');
+    }
+    if (file_put_contents($posterDir . '/' . $name . '.jpg', $binary) === false) {
+        fail(500, 'Не удалось сохранить обложку');
+    }
+    json_out(200, ['poster' => '/' . VIDEO_SUBDIR . '/' . $motorId . '/video/poster/' . $name . '.jpg']);
+}
+
 $file = $_FILES['video'] ?? null;
 if (!is_array($file) || ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
     // Самая частая причина — файл больше, чем разрешает хостинг.

@@ -1111,6 +1111,8 @@ nav.main-nav a.active {
   transition: opacity .3s;
 }
 .lightbox__zoom-hint.hidden { opacity: 0; }
+/* На видео приближение отключено — панель масштаба прячем целиком. */
+.lightbox__zoom.hidden { display: none; }
 .lightbox__counter {
   position: absolute;
   top: 14px;

@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var stage = lightbox.querySelector(".lightbox__stage");
     var lightboxBox = lightbox.querySelector(".lightbox__box");
     var expandBtn = lightbox.querySelector(".lightbox__expand");
+    var zoomBar = lightbox.querySelector(".lightbox__zoom");
     var zoomLevelEl = lightbox.querySelector(".lightbox__zoom-level");
     var zoomHintEl = lightbox.querySelector(".lightbox__zoom-hint");
     var zoomBtns = lightbox.querySelectorAll("[data-zoom]");
@@ -153,7 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Трансформация вешается на само фото (или видео), поэтому зум работает
     // и для роликов, а не только для снимков.
     var MIN_SCALE = 1;
-    var MAX_SCALE = 6;
+    // Фотографии в каталоге — оригиналы 900x1200, дальше 140% растягивать
+    // нечего: дальше видно только зерно. Видео не приближаем вовсе.
+    var MAX_SCALE = 1.4;
     var zoom = { scale: 1, tx: 0, ty: 0 };
 
     function activeMedia() {
@@ -198,8 +201,15 @@ document.addEventListener("DOMContentLoaded", function () {
       applyZoom();
     }
 
+    // На видео приближение отключено: кадр и так во весь экран, а увеличение
+    // мыльного видео только портит картинку.
+    function zoomAllowed() {
+      return !stage.classList.contains("video-mode");
+    }
+
     // Масштабирует так, чтобы точка под курсором осталась на месте.
     function zoomAt(nextScale, clientX, clientY) {
+      if (!zoomAllowed()) return;
       var el = activeMedia();
       nextScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, nextScale));
       var rect = el.getBoundingClientRect();
@@ -227,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     viewport.addEventListener("wheel", function (e) {
+      if (!zoomAllowed()) return;
       e.preventDefault();
       zoomAt(zoom.scale * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX, e.clientY);
     }, { passive: false });
@@ -337,6 +348,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function stopVideo() {
       resetZoom();
       stage.classList.remove("video-mode");
+      if (zoomBar) zoomBar.classList.remove("hidden");
       player.onerror = null;
       player.removeAttribute("poster");
       player.pause();
@@ -370,6 +382,7 @@ document.addEventListener("DOMContentLoaded", function () {
       resetZoom();
       if (poster) player.poster = poster;
       stage.classList.add("video-mode");
+      if (zoomBar) zoomBar.classList.add("hidden");
       stageImg.style.display = "none";
       prevBtn.style.display = "none";
       nextBtn.style.display = "none";

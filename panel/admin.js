@@ -482,6 +482,14 @@
     });
   }
 
+  // Перестановка соседних элементов: порядок в каталоге ровно такой, как здесь.
+  function moveItem(list, from, to) {
+    if (to < 0 || to >= list.length) return false;
+    var item = list.splice(from, 1)[0];
+    list.splice(to, 0, item);
+    return true;
+  }
+
   function renderPhotos() {
     photoListEl.innerHTML = photoState.map(function (p, i) {
       var src = p.type === "new" ? p.previewUrl : resolveUrl(p.url);
@@ -490,6 +498,13 @@
           '<img src="' + src + '" alt="">' +
           '<button type="button" class="admin-photo-item__star" data-i="' + i + '" title="Сделать главной">★</button>' +
           '<button type="button" class="admin-photo-item__remove" data-i="' + i + '" title="Удалить">✕</button>' +
+          '<div class="admin-photo-item__order">' +
+            '<button type="button" class="admin-move" data-move="up" data-i="' + i + '"' +
+              (i === 0 ? " disabled" : "") + ' title="Левее">‹</button>' +
+            '<span class="admin-photo-item__num">' + (i + 1) + "</span>" +
+            '<button type="button" class="admin-move" data-move="down" data-i="' + i + '"' +
+              (i === photoState.length - 1 ? " disabled" : "") + ' title="Правее">›</button>' +
+          "</div>" +
         "</div>"
       );
     }).join("");
@@ -499,6 +514,13 @@
         var i = parseInt(btn.getAttribute("data-i"), 10);
         photoState.forEach(function (p, j) { p.isMain = (j === i); });
         renderPhotos();
+      });
+    });
+    photoListEl.querySelectorAll(".admin-photo-item__order .admin-move").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var i = parseInt(btn.getAttribute("data-i"), 10);
+        var to = btn.getAttribute("data-move") === "up" ? i - 1 : i + 1;
+        if (moveItem(photoState, i, to)) renderPhotos();
       });
     });
     photoListEl.querySelectorAll(".admin-photo-item__remove").forEach(function (btn) {
@@ -649,6 +671,20 @@
         videoState[index].duration = result.duration;
         videoState[index].uploading = false;
         renderVideos();
+        // Иногда кадр снять до отправки не удаётся: браузер не берётся
+        // декодировать файл с диска (так бывает с роликами с айфона).
+        // После загрузки файл лежит на сервере — пробуем ещё раз уже оттуда.
+        if (!result.poster && result.url) {
+          makePosterFromUrl(result.url).then(function (shot) {
+            if (!shot) return;
+            return savePoster(result.url, shot.poster).then(function (posterUrl) {
+              if (!posterUrl) return;
+              videoState[index].poster = posterUrl;
+              if (!videoState[index].duration) videoState[index].duration = shot.duration;
+              renderVideos();
+            });
+          });
+        }
       }).catch(function (err) {
         videoState[index].uploading = false;
         videoState[index].error = err.message;
@@ -662,6 +698,56 @@
     var m = Math.floor(seconds / 60);
     var s = seconds % 60;
     return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  // Снимает кадр из ролика, уже лежащего на сервере: там он отдаётся как
+  // обычное видео, и браузер декодирует его без проблем.
+  function makePosterFromUrl(url) {
+    return new Promise(function (resolve) {
+      var video = document.createElement("video");
+      video.preload = "metadata";
+      video.muted = true;
+      video.playsInline = true;
+      video.crossOrigin = "anonymous";
+      var done = false;
+      function finish(result) {
+        if (done) return;
+        done = true;
+        video.removeAttribute("src");
+        resolve(result);
+      }
+      video.addEventListener("loadeddata", function () {
+        // Первый кадр часто чёрный — берём чуть позже.
+        try { video.currentTime = Math.min(1, (video.duration || 2) / 3); } catch (e) { finish(null); }
+      });
+      video.addEventListener("seeked", function () {
+        try {
+          var canvas = document.createElement("canvas");
+          canvas.width = 640;
+          canvas.height = Math.round(640 * (video.videoHeight || 360) / (video.videoWidth || 640));
+          canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+          finish({ poster: canvas.toDataURL("image/jpeg", 0.72), duration: Math.round(video.duration || 0) });
+        } catch (e) {
+          finish(null);
+        }
+      });
+      video.addEventListener("error", function () { finish(null); });
+      setTimeout(function () { finish(null); }, 15000);
+      video.src = url;
+    });
+  }
+
+  function savePoster(videoUrl, posterData) {
+    var form = new FormData();
+    form.append("password", password());
+    form.append("action", "poster");
+    form.append("motorId", fId.value || currentDraftId());
+    form.append("name", videoUrl.split("/").pop());
+    form.append("poster", posterData);
+    return fetch(VIDEO_UPLOAD_URL, { method: "POST", body: form })
+      .then(function (res) { return res.json(); })
+      .then(function (data) { return data && data.poster ? data.poster : ""; })
+      .catch(function () { return ""; });
   }
 
   function renderVideos() {
@@ -685,6 +771,13 @@
 
       return (
         '<div class="admin-video-row" data-i="' + i + '">' +
+          '<div class="admin-video__order">' +
+            '<button type="button" class="admin-move" data-vmove="up" data-i="' + i + '"' +
+              (i === 0 ? " disabled" : "") + ' title="Выше">‹</button>' +
+            '<span class="admin-video__num">' + (i + 1) + "</span>" +
+            '<button type="button" class="admin-move" data-vmove="down" data-i="' + i + '"' +
+              (i === videoState.length - 1 ? " disabled" : "") + ' title="Ниже">›</button>' +
+          "</div>" +
           cover +
           '<div class="admin-video__body">' +
             '<input type="text" class="form-control video-label" placeholder="Название, напр. «Запуск двигателя»" value="' + escapeAttr(v.label) + '">' +
@@ -699,6 +792,13 @@
       var i = parseInt(row.getAttribute("data-i"), 10);
       row.querySelector(".video-label").addEventListener("input", function (e) {
         videoState[i].label = e.target.value;
+      });
+    });
+    videoListEl.querySelectorAll("[data-vmove]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var i = parseInt(btn.getAttribute("data-i"), 10);
+        var to = btn.getAttribute("data-vmove") === "up" ? i - 1 : i + 1;
+        if (moveItem(videoState, i, to)) renderVideos();
       });
     });
     videoListEl.querySelectorAll(".admin-row-remove").forEach(function (btn) {
@@ -721,13 +821,20 @@
     { label: "Длина ноги", options: ["S (381 мм)", "L (508 мм)", "X (635 мм)"] },
     { label: "Подъем", options: ["гидравлический", "ручной", "ручной (гидродемпфер)", "ручной (демпфер)"] },
     { label: "Компрессия", placeholder: "напр. 15/15/15" },
-    { label: "Давление масла", placeholder: "напр. 5 кг" },
-    { label: "Наработка", placeholder: "напр. 415 моточасов" },
+    { label: "Наработка", placeholder: "напр. 415", suffix: "м/час" },
     { label: "Управление", options: ["дистанционное", "румпельное", "ручное"] },
     { label: "Комплект", options: ["машинка управления", "пульт управления", "мультирумпель", "без комплекта"] },
     { label: "Возможность увеличения мощности", options: ["до 20 л.с.", "до 40 л.с.", "до 60 л.с.", "до 90 л.с.", "нет"] }
   ];
   var TEMPLATE_LABELS = SPEC_TEMPLATE.map(function (f) { return f.label; });
+
+  // «415 м/час» -> «415»: в поле показываем только число, единица нарисована рядом.
+  function stripSuffix(value, suffix) {
+    var text = String(value == null ? "" : value).trim();
+    if (!text) return "";
+    // Старые записи приходят как «415 моточасов», «415 мч», «415 м/час».
+    return text.replace(/\s*(м\/час(ов)?|моточас\w*|мч|ч(ас\w*)?)\s*$/i, "").trim();
+  }
 
   function isPartsBrand() {
     return fBrand.value === "parts";
@@ -796,6 +903,17 @@
             '<input type="text" class="form-control spec-other" data-label="' + escapeAttr(field.label) + '"' +
               ' placeholder="свой вариант" value="' + escapeAttr(isOther ? value : "") + '"' +
               (isOther ? "" : ' style="display:none;"') + ">";
+        } else if (field.suffix) {
+          // Единицу измерения дописываем сами: менеджер вводит только число,
+          // а в каталог уходит «415 м/час» — без разнобоя вроде «моточасов»,
+          // «мч» и «415 часов».
+          control =
+            '<div class="admin-suffix-field">' +
+              '<input type="text" class="form-control spec-text" data-label="' + escapeAttr(field.label) + '"' +
+                ' data-suffix="' + escapeAttr(field.suffix) + '" inputmode="numeric"' +
+                ' placeholder="' + escapeAttr(field.placeholder || "") + '" value="' + escapeAttr(stripSuffix(value, field.suffix)) + '">' +
+              '<span class="admin-suffix-field__unit">' + field.suffix + "</span>" +
+            "</div>";
         } else {
           control =
             '<input type="text" class="form-control spec-text" data-label="' + escapeAttr(field.label) + '"' +
@@ -840,7 +958,9 @@
     });
     specListEl.querySelectorAll(".spec-other, .spec-text").forEach(function (input) {
       input.addEventListener("input", function () {
-        byLabel[input.getAttribute("data-label")] = input.value;
+        var suffix = input.getAttribute("data-suffix");
+        var typed = input.value.trim();
+        byLabel[input.getAttribute("data-label")] = suffix && typed ? typed + " " + suffix : typed;
         collectSpecs();
       });
     });

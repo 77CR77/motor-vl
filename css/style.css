@@ -983,7 +983,9 @@ nav.main-nav a.active {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 16px;
+  /* Сверху оставлено место под крестик: раньше он ложился поверх видео и
+     мешал его собственным кнопкам. */
+  padding: 72px 16px 16px;
 }
 .lightbox.open { display: flex; }
 .lightbox__box {
@@ -998,18 +1000,22 @@ nav.main-nav a.active {
   flex-direction: column;
   box-shadow: var(--shadow-lg);
 }
+/* Крестик вынесен за пределы окна с фото и видео: раньше он лежал поверх
+   плеера и спорил с его собственными кнопками. Теперь он на затемнении
+   рядом с окном, промахнуться мимо видео невозможно. */
 .lightbox__close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+  position: fixed;
+  top: 14px;
+  right: 14px;
   width: 44px; height: 44px;
   border-radius: 50%;
-  background: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.16);
+  backdrop-filter: blur(4px);
   color: #fff;
   border: none;
   font-size: 22px;
   cursor: pointer;
-  z-index: 6;
+  z-index: 20;
 }
 .lightbox__close:hover { background: rgba(255,255,255,.28); }
 .lightbox__stage {
@@ -1155,23 +1161,7 @@ nav.main-nav a.active {
 
 /* Режим «во весь экран»: панель убирается, сцена занимает весь лайтбокс. */
 .lightbox__box.panel-hidden .lightbox__panel { display: none; }
-.lightbox__expand {
-  position: absolute;
-  top: 16px;
-  right: 70px;
-  height: 44px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 100px;
-  background: rgba(255,255,255,.14);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  z-index: 6;
-}
-.lightbox__expand:hover { background: var(--accent); color: #241c04; }
+
 .lightbox__caption { color: #fff; font-weight: 800; font-size: 17px; margin-bottom: 10px; }
 .lightbox__thumbs {
   display: flex;
@@ -1344,10 +1334,6 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
   }
   /* Кнопки держим над фото, левее панели, чтобы не накрывали её содержимое.
 */
-  .lightbox__close { right: 372px; }
-  .lightbox__expand { right: 426px; }
-  .lightbox__box.panel-hidden .lightbox__close { right: 16px; }
-  .lightbox__box.panel-hidden .lightbox__expand { right: 70px; }
 }
 
 /* Ссылка на политику в подвале — рядом с копирайтом, а не отдельной колонкой. */
@@ -2289,8 +2275,10 @@ footer.site-footer .container { max-width: 1360px; }
   .motor-card { flex-direction: column; }
   .motor-card__media { width: 100%; }
   .motor-card__media img { height: 220px; min-height: 0; }
-  .lightbox { padding: 0; }
-  .lightbox__box { height: 100vh; max-height: 100vh; border-radius: 0; }
+  /* На узком экране окно занимает всё, поэтому крестику отводим полосу
+     сверху — иначе он ложится на видео и мешает его кнопкам. */
+  .lightbox { padding: 58px 0 0; }
+  .lightbox__box { height: calc(100vh - 58px); max-height: calc(100vh - 58px); border-radius: 0; }
   .lightbox__stage { padding: 8px; }
   .lightbox__panel { max-height: 46vh; padding: 12px 16px 16px; }
   .lightbox__nav { width: 40px; height: 40px; font-size: 22px; }

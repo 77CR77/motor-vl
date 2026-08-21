@@ -143,7 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var viewport = lightbox.querySelector(".lightbox__viewport") || stageImg.parentNode;
     var stage = lightbox.querySelector(".lightbox__stage");
     var lightboxBox = lightbox.querySelector(".lightbox__box");
-    var expandBtn = lightbox.querySelector(".lightbox__expand");
     var zoomBar = lightbox.querySelector(".lightbox__zoom");
     var zoomLevelEl = lightbox.querySelector(".lightbox__zoom-level");
     var zoomHintEl = lightbox.querySelector(".lightbox__zoom-hint");
@@ -250,17 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     stageImg.addEventListener("dblclick", resetZoom);
 
-    // «Во весь экран» — убирает нижнюю панель, чтобы фото заняло весь лайтбокс.
-    if (expandBtn) {
-      expandBtn.addEventListener("click", function () {
-        var hidden = lightboxBox.classList.toggle("panel-hidden");
-        expandBtn.textContent = hidden ? "Показать список" : "Во весь экран";
-        // Размер окна просмотра изменился — пересчитываем границы сдвига.
-        clampPan();
-        applyZoom();
-      });
-    }
-
     zoomBtns.forEach(function (btn) {
       btn.addEventListener("click", function () {
         var kind = btn.getAttribute("data-zoom");
@@ -341,6 +329,13 @@ document.addEventListener("DOMContentLoaded", function () {
       player.setAttribute("controls", "");
       player.setAttribute("playsinline", "");
       player.setAttribute("preload", "metadata");
+      // Из панели проигрывателя убираем всё лишнее: скачивание ролика
+      // (чтобы видео не расходилось по чужим объявлениям), скорость
+      // воспроизведения, картинку-в-картинке и трансляцию на телевизор.
+      // Заодно исчезает меню из трёх точек — в нём как раз эти пункты.
+      player.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback nofullscreen");
+      player.setAttribute("disablePictureInPicture", "");
+      player.setAttribute("disableRemotePlayback", "");
       player.style.display = "none";
       stageImg.parentNode.insertBefore(player, stageImg.nextSibling);
     }
@@ -491,7 +486,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (lightboxBox && lightboxBox.classList.contains("panel-hidden")) {
         lightboxBox.classList.remove("panel-hidden");
-        if (expandBtn) expandBtn.textContent = "Во весь экран";
       }
       renderStage();
       if (zoomHintEl) {

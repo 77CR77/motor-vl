@@ -21,6 +21,27 @@ document.addEventListener("DOMContentLoaded", function () {
     { min: 70, max: Infinity, label: "70+ л.с." }
   ];
 
+  // В карточке подписи должны быть короткими, иначе они занимают всю строку
+  // и значение уезжает вниз. В данных и в админке названия остаются полными.
+  // Значения из каталога местами описательные и в строку не помещаются.
+  // Для показа в карточке сокращаем их до сути; в данных и в панели
+  // остаётся исходный текст, он же виден в подсказке при наведении.
+  var SPEC_SHORT_VALUES = {
+    "продаётся с машинкой": "машинка управления",
+    "продаётся с пультом управления": "пульт управления",
+    "продаётся с пультом управления (можно установить мультирумпель)": "пульт управления",
+    "мультирумпель, топливный бак, шланг в комплекте": "мультирумпель, бак, шланг",
+    "ручная (гидродемпфер)": "ручной, гидродемпфер",
+    "ручная (демпфер)": "ручной, демпфер",
+    "ручной (гидродемпфер)": "ручной, гидродемпфер",
+    "ручной (демпфер)": "ручной, демпфер"
+  };
+
+  var SPEC_SHORT_LABELS = {
+    "Возможность увеличения мощности": "Увеличение мощности",
+    "Система подачи топлива": "Подача топлива"
+  };
+
   function formatPrice(n) {
     return n.toLocaleString("ru-RU") + " ₽";
   }
@@ -160,14 +181,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       prevBucket = bucket;
 
-      // Список характеристик у всех моторов одинаковый и в одном порядке
-      // (см. tools/normalize_specs.py). Незаполненные пункты показываем прочерком,
-      // чтобы таблички у всех моторов совпадали строка в строку.
-      var specsHtml = m.specs.map(function (s) {
-        var value = s[1];
-        return value
-          ? "<div><em>" + s[0] + "</em><b>" + value + "</b></div>"
-          : '<div class="spec-list__empty"><em>' + s[0] + "</em><b>—</b></div>";
+      // Характеристики — строго в столбик, по одному пункту на строку:
+      // подпись слева, значение справа. Значение всегда в одну строку —
+      // если не влезает, обрезаем многоточием, а полный текст остаётся
+      // в подсказке при наведении. Незаполненные пункты не показываем.
+      var filled = m.specs.filter(function (s) { return s[1]; });
+      var specsHtml = filled.map(function (s) {
+        var label = SPEC_SHORT_LABELS[s[0]] || s[0];
+        var value = SPEC_SHORT_VALUES[s[1]] || s[1];
+        return '<div class="spec-row">' +
+                 "<em>" + label + "</em>" +
+                 '<b title="' + s[1].replace(/"/g, "&quot;") + '">' + value + "</b>" +
+               "</div>";
       }).join("");
 
       var badgeHtml = m.badge
@@ -197,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
           '<div class="motor-card__body">' +
             '<p class="motor-card__title">' + m.title + "</p>" +
             '<div class="motor-card__price">' + formatPrice(m.price) + "<span>Цена</span></div>" +
-            '<div class="spec-list">' + specsHtml + "</div>" +
+            (specsHtml ? '<div class="spec-list">' + specsHtml + "</div>" : "") +
           "</div>" +
         "</div>"
       );
@@ -211,10 +236,14 @@ document.addEventListener("DOMContentLoaded", function () {
     motors.forEach(function (m) {
       (m.videos || []).forEach(function (v) {
         if (!v || typeof v !== "object" || !v.url) return;
+        // Ролики, загруженные через панель, приносят обложку и длительность
+        // с собой — их не перезаписываем. Файл video-meta.json нужен только
+        // для роликов, перенесённых со старого сайта.
+        if (v.poster) return;
         var info = items[v.url];
         if (!info) return;
         v.poster = info.poster || "";
-        v.duration = info.duration || null;
+        v.duration = v.duration || info.duration || null;
       });
     });
   }

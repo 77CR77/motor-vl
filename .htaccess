@@ -41,3 +41,18 @@ ErrorDocument 404 /404.html
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
+
+# ---------- Загрузка видео из панели ----------
+# По умолчанию PHP принимает файлы по 2 МБ, а ролики весят десятки.
+# Если хостинг не разрешит менять это здесь, лимит останется прежним —
+# страница api/selftest.php покажет фактическое значение.
+<IfModule mod_php.c>
+    php_value upload_max_filesize 200M
+    php_value post_max_size 210M
+    php_value max_execution_time 300
+</IfModule>
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 200M
+    php_value post_max_size 210M
+    php_value max_execution_time 300
+</IfModule>

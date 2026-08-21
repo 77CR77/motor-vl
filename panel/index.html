@@ -11,8 +11,8 @@
 <meta name="theme-color" content="#051426">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=1fa860ed">
-<link rel="stylesheet" href="admin.css?v=bb70f777">
+<link rel="stylesheet" href="../css/style.css?v=9cafb227">
+<link rel="stylesheet" href="admin.css?v=8bb450a6">
 </head>
 <body class="admin-body">
 
@@ -33,7 +33,7 @@
       <span>МОТОР-ВЛ</span> · Панель управления
     </div>
     <div class="admin-header__actions">
-      <a href="../catalog.html" target="_blank" class="admin-link">Открыть сайт ↗</a>
+      <a href="/" class="admin-link admin-link--back">← На сайт</a>
       <button id="logoutBtn" class="admin-link admin-link--btn">Выйти</button>
     </div>
   </header>
@@ -49,6 +49,14 @@
       <div class="admin-toolbar">
         <span id="motorCount" class="admin-toolbar__count"></span>
         <button id="newMotorBtn" class="btn btn--accent">+ Новый мотор</button>
+      </div>
+
+      <div class="admin-filter">
+        <div id="brandFilter" class="admin-filter__brands"></div>
+        <div class="admin-filter__search">
+          <input type="search" id="motorSearch" class="form-control"
+                 placeholder="Поиск по названию или номеру" autocomplete="off">
+        </div>
       </div>
       <div id="statusMsg" class="admin-status"></div>
       <div id="motorList" class="admin-list"></div>
@@ -109,8 +117,10 @@
         <div class="admin-form__row">
           <label>Видео</label>
           <div id="videoList" class="admin-video-list"></div>
-          <button type="button" id="addVideoBtn" class="admin-add-row">+ добавить видео</button>
-          <div class="admin-hint">Название ролика и, если есть — ссылка на YouTube/VK Видео. Без ссылки видео будет просто подписью.</div>
+          <input type="file" id="videoInput" accept="video/*" multiple hidden>
+          <button type="button" id="addVideoBtn" class="admin-add-row">+ загрузить видео с компьютера</button>
+          <div class="admin-hint">Выберите файлы — они загрузятся на сайт и будут проигрываться прямо в карточке мотора.
+            Обложку сделаем автоматически кадром из ролика. Можно выбрать сразу несколько.</div>
         </div>
 
         <div class="admin-form__row">
@@ -130,6 +140,6 @@
   </main>
 </div>
 
-<script src="admin.js?v=66878550"></script>
+<script src="admin.js?v=a1ea67be"></script>
 </body>
 </html>

@@ -33,6 +33,16 @@ $checks[] = ['Папка media/ доступна для записи (загру
     is_writable(ROOT_DIR . '/media'),
     'дайте папке media права 755'];
 
+$maxUpload = ini_get('upload_max_filesize');
+$checks[] = ['Загрузка видео: предел файла ' . $maxUpload,
+    (int) $maxUpload >= 50,
+    'ролики весят десятки мегабайт; если предел меньше — поднимите upload_max_filesize '
+    . 'в панели хостинга (PHP-настройки)'];
+
+$checks[] = ['Папка media/motors доступна для записи',
+    is_writable(ROOT_DIR . '/media') && (!is_dir(ROOT_DIR . '/media/motors') || is_writable(ROOT_DIR . '/media/motors')),
+    'дайте папке media права 755 — иначе панель не сможет сохранять фото и видео'];
+
 $checks[] = ['Токен Telegram заполнен', config_value('telegram_token') !== '',
     'без него заявки будут только в панели, без уведомлений в чат'];
 

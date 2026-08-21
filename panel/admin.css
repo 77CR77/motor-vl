@@ -90,6 +90,37 @@
 .admin-status--error { color: var(--jp-red); }
 
 .admin-list { display: flex; flex-direction: column; gap: 10px; }
+/* Разделы по брендам в списке моторов. Заголовок липнет к верху при
+   прокрутке — всегда видно, в каком разделе находишься. */
+.admin-group { margin-bottom: 26px; }
+.admin-group__title {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 10px 2px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy-dark);
+  background: var(--bg);
+  border-bottom: 2px solid rgba(212,175,55,.35);
+}
+.admin-group__count {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--navy);
+  opacity: .55;
+  background: rgba(6,26,48,.06);
+  border-radius: 100px;
+  padding: 2px 9px;
+}
+
+/* Пустой раздел в панели вкладок — приглушаем, чтобы не звать зря. */
+.admin-chip.is-empty { opacity: .45; }
+
 .admin-list__item {
   background: #fff;
   border-radius: 12px;
@@ -152,8 +183,45 @@
 .admin-photo-item.is-main .admin-photo-item__star { background: var(--accent); color: #fff; }
 
 .admin-video-list, .admin-spec-list { display: flex; flex-direction: column; gap: 8px; }
-.admin-video-row, .admin-spec-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
+.admin-spec-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
+
+/* Строка видео: обложка, название и состояние загрузки. */
+.admin-video-row {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+.admin-video__cover {
+  width: 96px; height: 54px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: rgba(6,26,48,.08);
+}
+.admin-video__cover--empty {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; opacity: .5;
+}
+.admin-video__body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.admin-video__status { font-size: 12.5px; color: var(--text-muted); }
+.admin-video__status--ok { color: var(--success); font-weight: 700; }
+.admin-video__status--error { color: var(--jp-red); font-weight: 700; }
+.admin-video__progress {
+  height: 6px; border-radius: 100px; background: rgba(6,26,48,.1); overflow: hidden;
+}
+.admin-video__progress span {
+  display: block; height: 100%; width: 0;
+  background: var(--accent); transition: width .2s;
+}
 .admin-video-row input, .admin-spec-row input { padding: 10px 12px; }
+@media (max-width: 760px) {
+  .admin-video-row { grid-template-columns: 64px 1fr auto; }
+  .admin-video__cover { width: 64px; height: 40px; }
+}
 /* Пункты шаблона: название слева фиксировано, справа выбор или ввод. */
 .admin-spec-row--fixed { grid-template-columns: 260px 1fr; }
 .admin-spec-label { font-weight: 700; font-size: 13.5px; color: var(--navy); }
@@ -179,6 +247,62 @@
 .admin-lead__spec-row em { font-style: normal; opacity: .6; }
 .admin-lead__spec-row b { text-align: right; }
 .admin-lead__row--muted { opacity: .55; font-size: 13px; }
+
+/* ---------- Фильтр и поиск в списке моторов ---------- */
+.admin-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.admin-filter__brands { display: flex; flex-wrap: wrap; gap: 6px; }
+.admin-filter__search { flex: 1; min-width: 220px; max-width: 340px; }
+.admin-filter__search input { padding: 9px 12px; }
+
+.admin-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid rgba(6,26,48,.14);
+  border-radius: 100px;
+  background: #fff;
+  color: var(--navy-dark);
+  font: 700 13.5px/1 inherit;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.admin-chip:hover { border-color: var(--accent); }
+.admin-chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.admin-chip__count {
+  font-size: 12px;
+  font-weight: 800;
+  opacity: .55;
+}
+.admin-chip.active .admin-chip__count { opacity: .8; }
+
+/* Кнопки действий в строке списка. */
+.admin-list__actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.admin-list__remove {
+  width: 32px; height: 32px;
+  border: none; border-radius: 8px;
+  background: rgba(188,0,45,.08);
+  color: var(--jp-red);
+  font-weight: 800; font-size: 14px; cursor: pointer;
+  transition: background .15s;
+}
+.admin-list__remove:hover { background: rgba(188,0,45,.18); }
+
+/* Кнопка возврата на сайт — со стрелкой, отделена от «Выйти». */
+.admin-link--back { font-weight: 700; }
+
+@media (max-width: 760px) {
+  .admin-filter { flex-direction: column; align-items: stretch; }
+  .admin-filter__search { max-width: none; }
+}
 
 .admin-form__actions { display: flex; align-items: center; gap: 16px; margin-top: 26px; }
 .admin-delete-btn { background: none; border: none; color: var(--jp-red); font-weight: 700; cursor: pointer; font-size: 14px; }

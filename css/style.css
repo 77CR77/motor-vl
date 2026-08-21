@@ -922,48 +922,49 @@ nav.main-nav a.active {
 }
 .motor-card__price span { font-size: 15px; font-weight: 600; color: var(--text-muted); display: block; }
 
+/* Характеристики в карточке: строго столбиком, по пункту на строку.
+   Подпись слева, значение справа, всё в одну линию — если значение длиннее
+   свободного места, оно обрезается многоточием, а целиком видно в подсказке. */
+.spec-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(6,26,48,.14);
+  min-width: 0;
+}
+.spec-row:last-child { border-bottom: none; padding-bottom: 0; }
+.spec-row em {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--navy);
+  opacity: .62;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.spec-row b {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--navy-dark);
+  text-align: right;
+  /* Одна строка и ничего кроме: перенос запрещён, лишнее — многоточием. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
 .spec-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
-  font-size: 14.5px;
-  color: var(--text);
+  gap: 9px;
   background: linear-gradient(180deg, #fbf7ea 0%, #f6efd9 100%);
   border: 1px solid rgba(212,175,55,.22);
   border-radius: var(--radius-sm);
-  padding: 16px 18px;
+  padding: 15px 17px;
   min-width: 0;
-}
-.spec-list div {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 4px 14px;
-  min-width: 0;
-  border-bottom: 1px dashed rgba(6,26,48,.14);
-  padding-bottom: 6px;
-}
-.spec-list div:last-child { border-bottom: none; padding-bottom: 0; }
-/* Незаполненный пункт: строка остаётся на месте, но не тянет на себя внимание. */
-.spec-list__empty { opacity: .45; }
-.spec-list__empty b { font-weight: 600; }
-.spec-list em {
-  font-style: normal;
-  font-weight: 600;
-  color: var(--navy);
-  opacity: .68;
-  flex-shrink: 0;
-}
-.spec-list b {
-  color: var(--navy-dark);
-  font-weight: 700;
-  text-align: right;
-  overflow-wrap: break-word;
-  word-break: normal;
-  min-width: 0;
-  flex: 1 1 auto;
 }
 
 .motor-card__actions {
@@ -1439,6 +1440,26 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
   .power-step__btn { width: 38px; height: 38px; font-size: 18px; }
   .power-range { gap: 8px; }
 }
+
+/* Незаметный вход в панель управления: обычному посетителю он ни о чём не
+   говорит и не мешает, а менеджеру не нужно помнить адрес. */
+.footer-bottom { position: relative; }
+/* Иконка входа в панель — обычный элемент строки подвала, прижатый вправо.
+   Раньше она позиционировалась абсолютно и наезжала на ссылку о политике. */
+.footer-admin {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: rgba(255,255,255,.28);
+  transition: color .15s, background .15s;
+}
+.footer-admin svg { width: 17px; height: 17px; }
+.footer-admin:hover { color: var(--accent); background: rgba(255,255,255,.08); }
 
 /* ---------- Forms ---------- */
 .form-card {

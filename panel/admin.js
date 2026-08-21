@@ -30,6 +30,8 @@
   var motorCount = document.getElementById("motorCount");
   var statusMsg = document.getElementById("statusMsg");
   var newMotorBtn = document.getElementById("newMotorBtn");
+  var brandFilterEl = document.getElementById("brandFilter");
+  var motorSearchEl = document.getElementById("motorSearch");
   var backBtn = document.getElementById("backBtn");
   var formTitle = document.getElementById("formTitle");
   var motorForm = document.getElementById("motorForm");
@@ -47,12 +49,23 @@
   var videoListEl = document.getElementById("videoList");
   var specListEl = document.getElementById("specList");
   var addVideoBtn = document.getElementById("addVideoBtn");
+  var videoInput = document.getElementById("videoInput");
   var addSpecBtn = document.getElementById("addSpecBtn");
 
   var currentMotors = [];
+  // Бренды берём из того же перечня, что и выпадающий список в форме.
+  var BRANDS = [
+    { key: "yamaha", label: "Yamaha" },
+    { key: "honda", label: "Honda" },
+    { key: "suzuki", label: "Suzuki" },
+    { key: "tohatsu", label: "Tohatsu / Mercury" },
+    { key: "parts", label: "Запчасти" }
+  ];
+  // Выбранный бренд и строка поиска — чтобы в списке было видно только нужное.
+  var searchQuery = "";
   var currentLeads = [];
   var photoState = [];   // [{type:'existing'|'new', url|dataBase64, filename, isMain}]
-  var videoState = [];   // [{label, url}]
+  var videoState = [];   // [{label, url, poster, duration}]
   var specState = [];    // [[key, value]]
 
   function password() {
@@ -133,28 +146,138 @@
     renderLeads();
   });
 
+  if (motorSearchEl) {
+    motorSearchEl.addEventListener("input", function () {
+      searchQuery = motorSearchEl.value;
+      renderList();
+    });
+  }
+
   // ---------- Список моторов ----------
   function renderList() {
     formView.style.display = "none";
     listView.style.display = "block";
-    motorCount.textContent = "Всего моторов: " + currentMotors.length;
-    motorList.innerHTML = currentMotors.map(function (m) {
+    renderBrandFilter();
+
+    var shown = visibleMotors();
+    // Когда включён фильтр или поиск, показываем «сколько из скольких» —
+    // иначе непонятно, куда делись остальные моторы.
+    motorCount.textContent = shown.length === currentMotors.length
+      ? "Всего моторов: " + currentMotors.length
+      : "Показано: " + shown.length + " из " + currentMotors.length;
+    // Список разбит на разделы по брендам — менеджеру не приходится
+    // выискивать нужный мотор в общей куче. Порядок разделов тот же,
+    // что в каталоге на сайте.
+    var groups = BRANDS.map(function (b) {
+      return {
+        key: b.key,
+        label: b.label,
+        items: shown.filter(function (m) { return m.brand === b.key; })
+      };
+    }).filter(function (g) { return g.items.length; });
+
+    // Мотор с неизвестным брендом не должен потеряться — собираем в конце.
+    var known = {};
+    BRANDS.forEach(function (b) { known[b.key] = true; });
+    var others = shown.filter(function (m) { return !known[m.brand]; });
+    if (others.length) {
+      groups.push({ key: "other", label: "Без бренда", items: others });
+    }
+
+    motorList.innerHTML = groups.map(function (g) {
       return (
-        '<div class="admin-list__item">' +
-          '<img class="admin-list__thumb" src="' + resolveUrl(m.img) + '" alt="" onerror="this.style.visibility=\'hidden\'">' +
-          '<div class="admin-list__body">' +
-            '<div class="admin-list__title">' + m.title + "</div>" +
-            '<div class="admin-list__meta">' + (m.brandLabel || m.brand) + " · " + formatPrice(m.price) + "</div>" +
-          "</div>" +
-          '<button class="admin-list__edit" data-id="' + m.id + '">Изменить</button>' +
-        "</div>"
+        '<section class="admin-group" id="group-' + g.key + '">' +
+          '<h3 class="admin-group__title">' + g.label +
+            '<span class="admin-group__count">' + g.items.length + "</span>" +
+          "</h3>" +
+          g.items.map(function (m) {
+            return (
+              '<div class="admin-list__item">' +
+                '<img class="admin-list__thumb" src="' + resolveUrl(m.img) + '" alt="" onerror="this.style.visibility=\'hidden\'">' +
+                '<div class="admin-list__body">' +
+                  '<div class="admin-list__title">' + m.title + "</div>" +
+                  '<div class="admin-list__meta">' + formatPrice(m.price) +
+                    (m.photos && m.photos.length ? ' · 📷 ' + m.photos.length : "") +
+                    (m.videos && m.videos.length ? ' · 🎬 ' + m.videos.length : "") +
+                  "</div>" +
+                "</div>" +
+                '<div class="admin-list__actions">' +
+                  '<button class="admin-list__edit" data-id="' + m.id + '">Изменить</button>' +
+                  '<button class="admin-list__remove" data-id="' + m.id + '" title="Удалить">✕</button>' +
+                "</div>" +
+              "</div>"
+            );
+          }).join("") +
+        "</section>"
       );
-    }).join("") || '<p style="color:var(--text-muted);">Моторов пока нет — добавьте первый.</p>';
+    }).join("") || emptyListMessage();
 
     motorList.querySelectorAll(".admin-list__edit").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var motor = currentMotors.find(function (m) { return m.id === btn.getAttribute("data-id"); });
         openForm(motor);
+      });
+    });
+    // Удаление прямо из списка: раньше приходилось заходить в мотор,
+    // листать форму до низа и только там жать «Удалить».
+    motorList.querySelectorAll(".admin-list__remove").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        var motor = currentMotors.find(function (m) { return m.id === id; });
+        if (!motor || !confirm("Удалить «" + motor.title + "»? Отменить это будет нельзя.")) return;
+        deleteMotor(id);
+      });
+    });
+  }
+
+  function emptyListMessage() {
+    if (searchQuery) return '<p style="color:var(--text-muted);">Ничего не нашлось по запросу «' + searchQuery + '».</p>';
+    return '<p style="color:var(--text-muted);">Моторов пока нет — добавьте первый.</p>';
+  }
+
+  // Что показываем в списке с учётом выбранного бренда и поиска.
+  function visibleMotors() {
+    var query = searchQuery.trim().toLowerCase();
+    return currentMotors.filter(function (m) {
+      if (!query) return true;
+      return (m.title || "").toLowerCase().indexOf(query) !== -1;
+    });
+  }
+
+  // Вкладки брендов работают как якорные ссылки в каталоге: клик прокручивает
+  // список к нужному разделу, а не прячет остальные. Так менеджер видит всю
+  // картину и при этом попадает куда нужно одним нажатием.
+  function renderBrandFilter() {
+    if (!brandFilterEl) return;
+    var counts = {};
+    currentMotors.forEach(function (m) {
+      counts[m.brand] = (counts[m.brand] || 0) + 1;
+    });
+
+    var tabs = BRANDS.map(function (b) {
+      return { key: b.key, label: b.label, count: counts[b.key] || 0 };
+    });
+
+    brandFilterEl.innerHTML = tabs.map(function (t) {
+      // Пустой раздел показываем приглушённым: сразу видно, где ничего нет.
+      var cls = "admin-chip" + (t.count ? "" : " is-empty");
+      return '<button type="button" class="' + cls + '" data-brand="' + t.key + '">' +
+        t.label + '<span class="admin-chip__count">' + t.count + "</span></button>";
+    }).join("");
+
+    brandFilterEl.querySelectorAll(".admin-chip").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var key = btn.getAttribute("data-brand");
+        // Поиск сбрасываем: иначе нужный раздел может оказаться скрыт фильтром.
+        if (searchQuery) {
+          searchQuery = "";
+          if (searchInput) searchInput.value = "";
+          renderList();
+        }
+        var target = key
+          ? document.getElementById("group-" + key)
+          : document.querySelector(".admin-toolbar");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
   }
@@ -310,8 +433,10 @@
     photoState = motor && motor.photos ? motor.photos.map(function (url) {
       return { type: "existing", url: url, isMain: url === motor.img };
     }) : [];
+    draftId = "";
     videoState = motor && motor.videos ? motor.videos.map(function (v) {
-      return typeof v === "string" ? { label: v, url: "" } : { label: v.label || "", url: v.url || "" };
+      if (typeof v === "string") return { label: v, url: "", poster: "", duration: 0 };
+      return { label: v.label || "", url: v.url || "", poster: v.poster || "", duration: v.duration || 0 };
     }) : [];
     loadSpecs(motor && motor.specs ? motor.specs.map(function (s) { return [s[0], s[1]]; }) : []);
 
@@ -388,186 +513,176 @@
   }
 
   // ---------- Видео ----------
+  // ---------- Видео ----------
+  // У менеджера ролик лежит файлом на компьютере, а не ссылкой в интернете.
+  // Поэтому файл выбирается кнопкой и уходит на сервер отдельным запросом:
+  // видео весит десятки мегабайт, в общей форме такой объём не пройдёт.
+
+  var VIDEO_UPLOAD_URL = "/api/upload_video.php";
+
+  // Обложку снимаем прямо в браузере: берём кадр с третьей секунды и
+  // отправляем вместе с роликом. На хостинге сделать это нечем.
+  function grabPoster(file) {
+    return new Promise(function (resolve) {
+      var video = document.createElement("video");
+      var url = URL.createObjectURL(file);
+      var done = false;
+      function finish(value) {
+        if (done) return;
+        done = true;
+        URL.revokeObjectURL(url);
+        resolve(value);
+      }
+      video.preload = "metadata";
+      video.muted = true;
+      video.playsInline = true;
+      video.src = url;
+      video.addEventListener("loadeddata", function () {
+        // Первый кадр часто чёрный, поэтому отматываем чуть вперёд.
+        try { video.currentTime = Math.min(3, (video.duration || 4) / 2); } catch (e) { finish(null); }
+      });
+      video.addEventListener("seeked", function () {
+        try {
+          var canvas = document.createElement("canvas");
+          var scale = Math.min(1, 640 / (video.videoWidth || 640));
+          canvas.width = Math.round((video.videoWidth || 640) * scale);
+          canvas.height = Math.round((video.videoHeight || 360) * scale);
+          canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+          finish({ poster: canvas.toDataURL("image/jpeg", 0.72), duration: Math.round(video.duration || 0) });
+        } catch (e) {
+          finish(null);
+        }
+      });
+      video.addEventListener("error", function () { finish(null); });
+      // Не ждём вечно: если браузер не смог открыть файл, грузим ролик без обложки.
+      setTimeout(function () { finish(null); }, 15000);
+    });
+  }
+
+  function uploadVideo(file, index) {
+    var row = videoListEl.querySelector('.admin-video-row[data-i="' + index + '"]');
+    var progress = row ? row.querySelector(".admin-video__progress span") : null;
+    var status = row ? row.querySelector(".admin-video__status") : null;
+
+    function setStatus(text) { if (status) status.textContent = text; }
+
+    setStatus("готовим обложку…");
+    return grabPoster(file).then(function (shot) {
+      return new Promise(function (resolve, reject) {
+        var form = new FormData();
+        form.append("password", password());
+        form.append("motorId", fId.value || currentDraftId());
+        form.append("video", file, file.name);
+        if (shot && shot.poster) form.append("poster", shot.poster);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", VIDEO_UPLOAD_URL);
+        xhr.upload.addEventListener("progress", function (e) {
+          if (!e.lengthComputable) return;
+          var percent = Math.round((e.loaded / e.total) * 100);
+          if (progress) progress.style.width = percent + "%";
+          setStatus("загрузка " + percent + "%");
+        });
+        xhr.addEventListener("load", function () {
+          var data = {};
+          try { data = JSON.parse(xhr.responseText); } catch (e) {}
+          if (xhr.status !== 200 || !data.ok) {
+            reject(new Error(data.error || "ошибка загрузки"));
+            return;
+          }
+          resolve({ url: data.url, poster: data.poster || "", duration: shot ? shot.duration : 0 });
+        });
+        xhr.addEventListener("error", function () { reject(new Error("нет связи с сервером")); });
+        xhr.send(form);
+      });
+    });
+  }
+
+  // Пока мотор не сохранён, у него ещё нет id — заводим временный,
+  // чтобы файлы сразу легли в отдельную папку и не смешались с чужими.
+  var draftId = "";
+  function currentDraftId() {
+    if (!draftId) draftId = "m" + Date.now();
+    return draftId;
+  }
+
   addVideoBtn.addEventListener("click", function () {
-    videoState.push({ label: "", url: "" });
-    renderVideos();
+    videoInput.value = "";
+    videoInput.click();
   });
+
+  videoInput.addEventListener("change", function () {
+    var files = Array.prototype.slice.call(videoInput.files || []);
+    files.forEach(function (file) {
+      // Название по умолчанию — имя файла без расширения: менеджеру
+      // останется поправить его, а не печатать с нуля.
+      var label = file.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").trim();
+      videoState.push({ label: label, url: "", poster: "", duration: 0, uploading: true, error: "" });
+      var index = videoState.length - 1;
+      renderVideos();
+
+      uploadVideo(file, index).then(function (result) {
+        videoState[index].url = result.url;
+        videoState[index].poster = result.poster;
+        videoState[index].duration = result.duration;
+        videoState[index].uploading = false;
+        renderVideos();
+      }).catch(function (err) {
+        videoState[index].uploading = false;
+        videoState[index].error = err.message;
+        renderVideos();
+      });
+    });
+  });
+
+  function formatDuration(seconds) {
+    if (!seconds) return "";
+    var m = Math.floor(seconds / 60);
+    var s = seconds % 60;
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
 
   function renderVideos() {
     videoListEl.innerHTML = videoState.map(function (v, i) {
+      var cover = v.poster
+        ? '<img class="admin-video__cover" src="' + escapeAttr(resolveUrl(v.poster)) + '" alt="">'
+        : '<span class="admin-video__cover admin-video__cover--empty">🎬</span>';
+
+      var state;
+      if (v.uploading) {
+        state = '<div class="admin-video__progress"><span></span></div>' +
+                '<div class="admin-video__status">загрузка…</div>';
+      } else if (v.error) {
+        state = '<div class="admin-video__status admin-video__status--error">не загрузилось: ' + escapeAttr(v.error) + "</div>";
+      } else if (v.url) {
+        state = '<div class="admin-video__status admin-video__status--ok">на сервере' +
+                (v.duration ? " · " + formatDuration(v.duration) : "") + "</div>";
+      } else {
+        state = '<div class="admin-video__status">файл не выбран</div>';
+      }
+
       return (
         '<div class="admin-video-row" data-i="' + i + '">' +
-          '<input type="text" class="form-control video-label" placeholder="Название, напр. «Запуск двигателя»" value="' + escapeAttr(v.label) + '">' +
-          '<input type="text" class="form-control video-url" placeholder="Ссылка на YouTube/VK Видео (необязательно)" value="' + escapeAttr(v.url) + '">' +
-          '<button type="button" class="admin-row-remove" data-i="' + i + '">✕</button>' +
+          cover +
+          '<div class="admin-video__body">' +
+            '<input type="text" class="form-control video-label" placeholder="Название, напр. «Запуск двигателя»" value="' + escapeAttr(v.label) + '">' +
+            state +
+          "</div>" +
+          '<button type="button" class="admin-row-remove" data-i="' + i + '" title="Убрать">✕</button>' +
         "</div>"
       );
     }).join("");
 
     videoListEl.querySelectorAll(".admin-video-row").forEach(function (row) {
       var i = parseInt(row.getAttribute("data-i"), 10);
-      row.querySelector(".video-label").addEventListener("input", function (e) { videoState[i].label = e.target.value; });
-      row.querySelector(".video-url").addEventListener("input", function (e) { videoState[i].url = e.target.value; });
+      row.querySelector(".video-label").addEventListener("input", function (e) {
+        videoState[i].label = e.target.value;
+      });
     });
     videoListEl.querySelectorAll(".admin-row-remove").forEach(function (btn) {
       btn.addEventListener("click", function () {
         videoState.splice(parseInt(btn.getAttribute("data-i"), 10), 1);
         renderVideos();
-      });
-    });
-  }
-
-  // ---------- Характеристики ----------
-  // Шаблон из 11 пунктов — одинаковый для всех моторов и всегда в этом порядке.
-  // Где вариантов немного, они выбираются из списка; «Другое…» открывает поле ввода,
-  // так что вписать нестандартное значение по-прежнему можно.
-  // Тот же порядок используется на сайте — см. tools/normalize_specs.py.
-  var SPEC_TEMPLATE = [
-    { label: "Год", placeholder: "напр. 2019" },
-    { label: "Состояние", options: ["новый", "б/у"] },
-    { label: "Тактность", options: ["4-тактный", "2-тактный"] },
-    { label: "Длина ноги", options: ["S (381 мм)", "L (508 мм)", "X (635 мм)"] },
-    { label: "Подъем", options: ["гидравлический", "ручной", "ручной (гидродемпфер)", "ручной (демпфер)"] },
-    { label: "Компрессия", placeholder: "напр. 15/15/15" },
-    { label: "Давление масла", placeholder: "напр. 5 кг" },
-    { label: "Наработка", placeholder: "напр. 415 моточасов" },
-    { label: "Управление", options: ["дистанционное", "румпельное", "ручное"] },
-    { label: "Комплект", options: ["машинка управления", "пульт управления", "мультирумпель", "без комплекта"] },
-    { label: "Возможность увеличения мощности", options: ["до 20 л.с.", "до 40 л.с.", "до 60 л.с.", "до 90 л.с.", "нет"] }
-  ];
-  var TEMPLATE_LABELS = SPEC_TEMPLATE.map(function (f) { return f.label; });
-
-  function isPartsBrand() {
-    return fBrand.value === "parts";
-  }
-
-  // Значения шаблона и «свои» характеристики держим отдельно от specState:
-  // иначе при перерисовке формы (например, после переключения бренда на запчасти
-  // и обратно) заполненные пункты шаблона потерялись бы.
-  var templateValues = {};
-  var customSpecs = [];
-
-  // Раскладывает specs мотора на шаблонную часть и всё остальное.
-  function loadSpecs(specs) {
-    templateValues = {};
-    customSpecs = [];
-    (specs || []).forEach(function (s) {
-      if (TEMPLATE_LABELS.indexOf(s[0]) !== -1 && templateValues[s[0]] === undefined) templateValues[s[0]] = s[1];
-      else customSpecs.push([s[0], s[1]]);
-    });
-    collectSpecs();
-  }
-
-  // Собирает specState: сначала 11 пунктов шаблона по порядку, потом свои.
-  function collectSpecs() {
-    var result = [];
-    if (!isPartsBrand()) {
-      TEMPLATE_LABELS.forEach(function (label) {
-        result.push([label, templateValues[label] || ""]);
-      });
-    }
-    specState = result.concat(customSpecs);
-  }
-
-  addSpecBtn.addEventListener("click", function () {
-    customSpecs.push(["", ""]);
-    collectSpecs();
-    renderSpecs();
-  });
-
-  fBrand.addEventListener("change", function () {
-    collectSpecs();
-    renderSpecs();
-  });
-
-  function renderSpecs() {
-    var byLabel = templateValues;
-    var custom = customSpecs;
-
-    var html = "";
-
-    if (!isPartsBrand()) {
-      html += SPEC_TEMPLATE.map(function (field, i) {
-        var value = byLabel[field.label] || "";
-        var control;
-        if (field.options) {
-          var known = field.options.indexOf(value) !== -1;
-          var isOther = value !== "" && !known;
-          control =
-            '<select class="form-control spec-select" data-label="' + escapeAttr(field.label) + '">' +
-              '<option value=""' + (value === "" ? " selected" : "") + ">— не указано</option>" +
-              field.options.map(function (opt) {
-                return '<option value="' + escapeAttr(opt) + '"' + (opt === value ? " selected" : "") + ">" + opt + "</option>";
-              }).join("") +
-              '<option value="__other__"' + (isOther ? " selected" : "") + ">Другое…</option>" +
-            "</select>" +
-            '<input type="text" class="form-control spec-other" data-label="' + escapeAttr(field.label) + '"' +
-              ' placeholder="свой вариант" value="' + escapeAttr(isOther ? value : "") + '"' +
-              (isOther ? "" : ' style="display:none;"') + ">";
-        } else {
-          control =
-            '<input type="text" class="form-control spec-text" data-label="' + escapeAttr(field.label) + '"' +
-              ' placeholder="' + escapeAttr(field.placeholder || "") + '" value="' + escapeAttr(value) + '">';
-        }
-        return (
-          '<div class="admin-spec-row admin-spec-row--fixed">' +
-            '<span class="admin-spec-label">' + (i + 1) + ". " + field.label + "</span>" +
-            '<div class="admin-spec-control">' + control + "</div>" +
-          "</div>"
-        );
-      }).join("");
-    }
-
-    html += custom.map(function (s, ci) {
-      return (
-        '<div class="admin-spec-row admin-spec-row--custom" data-ci="' + ci + '">' +
-          '<input type="text" class="form-control spec-key" placeholder="Своя характеристика" value="' + escapeAttr(s[0]) + '">' +
-          '<input type="text" class="form-control spec-val" placeholder="Значение" value="' + escapeAttr(s[1]) + '">' +
-          '<button type="button" class="admin-row-remove" data-ci="' + ci + '">✕</button>' +
-        "</div>"
-      );
-    }).join("");
-
-    specListEl.innerHTML = html;
-
-    specListEl.querySelectorAll(".spec-select").forEach(function (sel) {
-      sel.addEventListener("change", function () {
-        var label = sel.getAttribute("data-label");
-        var other = specListEl.querySelector('.spec-other[data-label="' + label + '"]');
-        if (sel.value === "__other__") {
-          other.style.display = "";
-          other.focus();
-          byLabel[label] = other.value.trim();
-        } else {
-          other.style.display = "none";
-          other.value = "";
-          byLabel[label] = sel.value;
-        }
-        collectSpecs();
-      });
-    });
-    specListEl.querySelectorAll(".spec-other, .spec-text").forEach(function (input) {
-      input.addEventListener("input", function () {
-        byLabel[input.getAttribute("data-label")] = input.value;
-        collectSpecs();
-      });
-    });
-    specListEl.querySelectorAll(".admin-spec-row--custom").forEach(function (row) {
-      var ci = parseInt(row.getAttribute("data-ci"), 10);
-      row.querySelector(".spec-key").addEventListener("input", function (e) {
-        custom[ci][0] = e.target.value;
-        collectSpecs();
-      });
-      row.querySelector(".spec-val").addEventListener("input", function (e) {
-        custom[ci][1] = e.target.value;
-        collectSpecs();
-      });
-    });
-    specListEl.querySelectorAll(".admin-row-remove").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        custom.splice(parseInt(btn.getAttribute("data-ci"), 10), 1);
-        collectSpecs();
-        renderSpecs();
       });
     });
   }
@@ -594,7 +709,11 @@
           ? { type: "new", filename: p.filename, dataBase64: p.dataBase64, isMain: !!p.isMain }
           : { type: "existing", url: p.url, isMain: !!p.isMain };
       }),
-      videos: videoState.filter(function (v) { return v.label.trim(); }),
+      // Незагруженные и сломавшиеся ролики не сохраняем — иначе на сайте
+      // появится плитка, которая никуда не ведёт.
+      videos: videoState.filter(function (v) { return v.url && v.label.trim(); }).map(function (v) {
+        return { label: v.label.trim(), url: v.url, poster: v.poster || "", duration: v.duration || 0 };
+      }),
       // Шаблонные пункты сохраняем даже пустыми, чтобы список характеристик
       // у всех моторов оставался одинаковым; из своих отбрасываем безымянные.
       specs: specState.filter(function (s) {
@@ -626,6 +745,26 @@
   });
 
   // ---------- Удаление ----------
+  function deleteMotor(id) {
+    return fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: password(), action: "delete", id: id })
+    })
+      .then(function (res) {
+        if (!res.ok) return res.json().then(function (d) { throw new Error(d.error || "Ошибка удаления"); });
+        return res.json();
+      })
+      .then(function (data) {
+        currentMotors = data.motors || [];
+        renderList();
+        showStatus("Мотор удалён");
+      })
+      .catch(function (err) {
+        showStatus(err.message, true);
+      });
+  }
+
   deleteBtn.addEventListener("click", function () {
     if (!fId.value) return;
     if (!confirm("Удалить этот мотор? Действие нельзя отменить.")) return;

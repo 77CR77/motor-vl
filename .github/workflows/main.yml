@@ -40,11 +40,14 @@ jobs:
           REMOTE_DIR: ${{ secrets.FTP_DIR }}
         run: |
           lftp -c "
+            set net:max-retries 5;
+            set net:timeout 30;
+            set net:reconnect-interval-base 5;
             set sftp:auto-confirm yes;
-            set net:max-retries 3;
-            set net:timeout 20;
             open -u \"$USER_NAME\",\"$PASSWORD\" sftp://$HOST;
-            mirror --reverse --delete --verbose --parallel=4 \
+            mirror --reverse --delete --verbose --parallel=2 \
+              --no-perms \
+              --ignore-time --size-only \
               --exclude-glob .git/ \
               --exclude-glob .github/ \
               --exclude-glob .vscode/ \
@@ -58,3 +61,4 @@ jobs:
               --exclude-glob 'private/*' \
               ./ \"$REMOTE_DIR\"
           "
+          

@@ -1507,9 +1507,12 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
 /* Незаметный вход в панель управления: обычному посетителю он ни о чём не
    говорит и не мешает, а менеджеру не нужно помнить адрес. */
 .footer-bottom { position: relative; }
+/* Кнопка «наверх» висит поверх всего в правом нижнем углу и перекрывала
+   вход в панель. Оставляем ей место в строке подвала на всех экранах. */
+.footer-bottom { padding-right: 76px; }
+
 /* Иконка входа в панель — обычный элемент строки подвала, прижатый вправо.
    Раньше она позиционировалась абсолютно и наезжала на ссылку о политике. */
-.footer-privacy__short { display: none; }
 .footer-admin {
   margin-left: auto;
   flex-shrink: 0;
@@ -2177,11 +2180,10 @@ footer.site-footer .container { max-width: 1360px; }
     gap: 10px;
     flex-wrap: nowrap;
     padding-top: 12px;
+    gap: 14px;
   }
   .footer-bottom > span { display: none; }
-  .footer-privacy__full { display: none; }
-  .footer-privacy__short { display: inline; }
-  .footer-bottom a:not(.footer-admin) { font-size: 13px; white-space: nowrap; }
+  .footer-bottom a:not(.footer-admin) { font-size: 12.5px; line-height: 1.4; }
   .footer-admin { width: 36px; height: 36px; flex-shrink: 0; }
   .footer-admin svg { width: 18px; height: 18px; }
   .catalog-toolbar { flex-direction: column; align-items: stretch; margin-bottom: 16px; }

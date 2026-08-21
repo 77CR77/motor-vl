@@ -27,14 +27,14 @@ def short_hash(path):
 def main():
     versions = {}
     for rel in ("css/style.css", "js/main.js", "js/catalog.js", "js/order.js",
-                "admin/admin.css", "admin/admin.js"):
+                "panel/admin.css", "panel/admin.js"):
         full = os.path.join(ROOT, rel)
         if os.path.exists(full):
             versions[rel] = short_hash(full)
 
-    pattern = re.compile(r'(href|src)="((?:\.\./)?(?:css|js|admin)/[\w.-]+\.(?:css|js))(?:\?v=[^"]*)?"')
+    pattern = re.compile(r'(href|src)="((?:\.\./)?(?:css|js|panel)/[\w.-]+\.(?:css|js))(?:\?v=[^"]*)?"')
     changed = 0
-    pages = glob.glob(os.path.join(ROOT, "*.html")) + glob.glob(os.path.join(ROOT, "admin", "*.html"))
+    pages = glob.glob(os.path.join(ROOT, "*.html")) + glob.glob(os.path.join(ROOT, "panel", "*.html"))
     for page in pages:
         text = open(page, encoding="utf-8").read()
 
@@ -42,16 +42,16 @@ def main():
             attr, ref = m.group(1), m.group(2)
             key = ref.lstrip("./")
             # ссылки внутри админки указывают на admin.css / admin.js без папки
-            if key not in versions and os.path.basename(page).startswith("index") and "admin" in page:
-                key = "admin/" + key
+            if key not in versions and os.path.basename(page).startswith("index") and "panel" in page:
+                key = "panel/" + key
             version = versions.get(key)
             return '%s="%s?v=%s"' % (attr, ref, version) if version else m.group(0)
 
         updated = pattern.sub(stamp, text)
         # в админке ссылки идут без папки: admin.css, admin.js
-        if "admin" in page:
+        if "panel" in page:
             for name in ("admin.css", "admin.js"):
-                version = versions.get("admin/" + name)
+                version = versions.get("panel/" + name)
                 if version:
                     updated = re.sub(r'(href|src)="%s(?:\?v=[^"]*)?"' % re.escape(name),
                                      lambda m, v=version, n=name: '%s="%s?v=%s"' % (m.group(1), n, v),

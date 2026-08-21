@@ -12,6 +12,11 @@ declare(strict_types=1);
 require __DIR__ . '/lib.php';
 
 const MOTORS_FILE = DATA_DIR . '/motors.json';
+// Каталог правится только через панель, и любая ошибка — своя или чужая —
+// раньше стирала его без следа. Теперь перед каждой записью прячем копию
+// в закрытую папку: последние 30 версий с датой в имени.
+const BACKUP_DIR = PRIVATE_DIR . '/catalog-backups';
+const BACKUP_KEEP = 30;
 const MEDIA_SUBDIR = 'media/motors';
 
 const BRAND_LABELS = [
@@ -81,6 +86,27 @@ function delete_photos(string $motorId): void
     @rmdir($dir);
 }
 
+// Возвращает false, только если каталога ещё нет — тогда и прятать нечего.
+function backup_catalog(): bool
+{
+    if (!is_file(MOTORS_FILE)) {
+        return false;
+    }
+    if (!is_dir(BACKUP_DIR) && !mkdir(BACKUP_DIR, 0755, true) && !is_dir(BACKUP_DIR)) {
+        return false;
+    }
+    $name = BACKUP_DIR . '/motors-' . gmdate('Y-m-d_His') . '.json';
+    @copy(MOTORS_FILE, $name);
+
+    // Старые копии подчищаем, чтобы папка не росла бесконечно.
+    $files = glob(BACKUP_DIR . '/motors-*.json') ?: [];
+    sort($files);
+    foreach (array_slice($files, 0, max(0, count($files) - BACKUP_KEEP)) as $old) {
+        @unlink($old);
+    }
+    return true;
+}
+
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 if ($method === 'GET') {
@@ -105,6 +131,7 @@ if ($action === 'delete') {
     if (count($motors) === $before) {
         json_out(404, ['error' => 'Мотор не найден']);
     }
+    backup_catalog();
     if (!save_json_file(MOTORS_FILE, $motors)) {
         json_out(500, ['error' => 'Не удалось записать data/motors.json — проверьте права на запись']);
     }
@@ -178,6 +205,7 @@ if ($action === 'save') {
         $motors[] = $record;
     }
 
+    backup_catalog();
     if (!save_json_file(MOTORS_FILE, $motors)) {
         json_out(500, ['error' => 'Не удалось записать data/motors.json — проверьте права на запись']);
     }

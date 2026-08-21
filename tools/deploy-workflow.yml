@@ -62,7 +62,7 @@ jobs:
             open -u \"$USER_NAME\",\"$PASSWORD\" sftp://$HOST;
             mirror --reverse --delete --verbose --parallel=2 \
               --no-perms \
-              --ignore-time --size-only \
+              --ignore-time \
               --exclude-glob .git/ \
               --exclude-glob .github/ \
               --exclude-glob .vscode/ \

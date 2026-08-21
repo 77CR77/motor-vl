@@ -1370,6 +1370,19 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
   overflow: hidden;
 }
 
+/* Страница заявки: форма и колонка с подсказками. Раскладка была задана
+   прямо в разметке, из-за чего на телефоне оставалась в две колонки и
+   вылезала за экран — правила для узких экранов такие стили не перебивают. */
+.order-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+@media (max-width: 900px) {
+  .order-layout { grid-template-columns: 1fr; gap: 24px; }
+}
+
 /* ---------- Подбор мотора в заявке ---------- */
 /* Параметры отмечаются «таблетками»: попасть пальцем проще, чем в выпадающий
    список, и весь запрос виден целиком, без раскрытия каждого поля. */
@@ -1433,6 +1446,56 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
 .power-step__btn:hover { background: var(--accent); border-color: var(--accent); color: #241c04; }
 .power-step__btn:active { transform: translateY(1px); }
 
+/* Промежуточная ширина: на ноутбуках 1280–1400 шапка целиком не помещалась,
+   и страница ездила вбок. Ужимаем её части, не переходя на мобильный вид. */
+@media (max-width: 1400px) and (min-width: 761px) {
+  .header-inner { gap: 12px; }
+  .main-nav { gap: 4px; }
+  .main-nav a { padding: 10px 14px; font-size: 15px; }
+  .header-socials { gap: 6px; }
+  .header-socials a { width: 30px; height: 30px; }
+  .header-phone { font-size: 15px; }
+  .header-actions { gap: 12px; }
+  .header-actions .btn { padding: 12px 18px; font-size: 15px; }
+}
+
+/* Планшеты: горизонтальное меню из четырёх пунктов вместе с телефоном и
+   кнопкой заявки требует под 960 px и не помещается. Здесь включаем ту же
+   компактную шапку с меню-бургером, что и на телефоне, — остальная вёрстка
+   страницы при этом остаётся широкой. */
+@media (max-width: 1000px) and (min-width: 761px) {
+  nav.main-nav { display: none; }
+  .nav-toggle { display: flex; }
+  .header-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .header-mobile-link {
+    padding: 10px 16px;
+    border-radius: 100px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .header-phone, .header-actions .btn { display: none; }
+}
+
+@media (max-width: 1100px) and (min-width: 761px) {
+  /* Ещё уже — соцсети убираем: они есть в подвале и на странице контактов,
+     а телефон и кнопка заявки важнее. */
+  .header-socials { display: none; }
+  .main-nav { gap: 2px; }
+  .main-nav a { padding: 9px 10px; font-size: 14px; }
+  .header-phone { font-size: 14px; }
+  .header-phone .phone-ico { display: none; }
+  .header-actions .btn { padding: 11px 14px; font-size: 14px; }
+  .header-inner { gap: 8px; }
+}
+
 @media (max-width: 760px) {
   .picker { padding: 18px 14px; }
   .pick__chip span { padding: 10px 14px; font-size: 14px; }
@@ -1446,6 +1509,7 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
 .footer-bottom { position: relative; }
 /* Иконка входа в панель — обычный элемент строки подвала, прижатый вправо.
    Раньше она позиционировалась абсолютно и наезжала на ссылку о политике. */
+.footer-privacy__short { display: none; }
 .footer-admin {
   margin-left: auto;
   flex-shrink: 0;
@@ -1782,12 +1846,16 @@ footer.site-footer .container { max-width: 1360px; }
   padding: 13px 4px;
   border-radius: 100px;
   font-weight: 800;
-  font-size: 13.5px;
+  font-size: 13px;
   white-space: nowrap;
+  letter-spacing: -0.1px;
 }
-.mobile-call-bar a.catalog { background: var(--navy-light); color: #fff; }
-.mobile-call-bar a.call { background: var(--accent); color: #fff; }
-.mobile-call-bar a.order { background: #fff; color: var(--navy-dark); }
+/* Все три кнопки фирменного золотого цвета. Чтобы они не сливались в одну
+   полосу, «Звонок» темнее оттенком, а «Оставить заявку» шире соседей —
+   это главное действие, и надпись у неё длиннее. */
+.mobile-call-bar a.catalog { background: var(--accent); color: #fff; flex: 0.85; }
+.mobile-call-bar a.call { background: var(--accent-dark); color: #fff; flex: 0.75; }
+.mobile-call-bar a.order { background: var(--accent); color: #fff; flex: 1.4; }
 
 /* ---------- Back to top ---------- */
 .back-to-top {
@@ -2012,14 +2080,14 @@ footer.site-footer .container { max-width: 1360px; }
     margin-left: auto;
   }
   .header-mobile-link {
-    padding: 8px 13px;
+    padding: 11px 16px;
     border-radius: 100px;
     background: var(--accent);
     color: #fff;
-    font-weight: 700;
-    font-size: 12.5px;
+    font-weight: 800;
+    font-size: 15px;
     white-space: nowrap;
-    line-height: 1.25;
+    line-height: 1.2;
   }
   .nav-toggle {
     width: 38px;
@@ -2034,7 +2102,15 @@ footer.site-footer .container { max-width: 1360px; }
   /* Нижняя закреплённая панель: Каталог / Позвонить / Заявка — всегда под рукой на мобильном */
   .mobile-call-bar { display: flex; }
   body { padding-bottom: 74px; }
-  .back-to-top { bottom: 90px; }
+  /* Кнопка «наверх» была размером с палец и лезла в глаза поверх контента. */
+  .back-to-top {
+    bottom: 86px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    opacity: .75;
+  }
 
   /* Общая компактность: меньше воздуха между блоками на мобильном */
   .section { padding: 26px 0; }
@@ -2084,10 +2160,65 @@ footer.site-footer .container { max-width: 1360px; }
     display: none;
   }
   .footer-socials { justify-content: center; }
+  .site-footer { padding: 30px 0 16px; }
+  .footer-grid { gap: 18px; }
+  .footer-col--company p { margin-bottom: 10px; }
   .footer-socials a { height: 24px; padding: 0 10px; font-size: 11px; }
-  .footer-bottom { display: none; }
+  /* Нижняя строка подвала была скрыта целиком — вместе с ней пропадали
+     и ссылка на политику, и вход в панель. Показываем её компактно:
+     копирайт убираем, оставляем только то, что нужно нажать. */
+  /* Политика и вход в панель — одной строкой: подвал на телефоне и так
+     длинный, лишние переносы ему ни к чему. Название политики берём
+     короткое, полное в эту ширину не помещается. */
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+    padding-top: 12px;
+  }
+  .footer-bottom > span { display: none; }
+  .footer-privacy__full { display: none; }
+  .footer-privacy__short { display: inline; }
+  .footer-bottom a:not(.footer-admin) { font-size: 13px; white-space: nowrap; }
+  .footer-admin { width: 36px; height: 36px; flex-shrink: 0; }
+  .footer-admin svg { width: 18px; height: 18px; }
   .catalog-toolbar { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
-  .brand-tabs { justify-content: center; }
+  /* Вкладки брендов на телефоне были десктопного размера и занимали
+     четыре строки. Уменьшаем — пять вкладок укладываются в две. */
+  .brand-tabs { justify-content: center; gap: 6px; }
+  .brand-tab {
+    padding: 9px 12px;
+    font-size: 13.5px;
+    border-width: 1.5px;
+  }
+  .brand-tab .count { margin-left: 4px; font-size: 12px; }
+
+  /* Отрицательный отступ сверху нужен на широком экране, где фильтр стоит
+     рядом с вкладками. На телефоне он затягивал кнопки мощности прямо
+     на бренды — здесь блоки идут друг под другом. */
+  .hp-filter {
+    margin: 4px 0 18px;
+    gap: 7px;
+    justify-content: center;
+  }
+  .hp-filter__label { font-size: 13px; width: 100%; text-align: center; margin: 0 0 2px; }
+  /* Мощность — чуть мельче брендов и с золотистой заливкой: сразу видно,
+     что это другой фильтр, а не продолжение списка марок. */
+  .hp-filter__btn {
+    padding: 8px 14px;
+    font-size: 13.5px;
+    border-width: 1.5px;
+    border-color: rgba(212,175,55,.55);
+    background: rgba(212,175,55,.12);
+    color: var(--navy-dark);
+  }
+  .hp-filter__btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
   .motor-grid { grid-template-columns: 1fr; gap: 16px; }
   .motor-card { flex-direction: column; }
   .motor-card__media { width: 100%; }

@@ -32,7 +32,10 @@ def main():
         if os.path.exists(full):
             versions[rel] = short_hash(full)
 
-    pattern = re.compile(r'(href|src)="((?:\.\./)?(?:css|js|panel)/[\w.-]+\.(?:css|js))(?:\?v=[^"]*)?"')
+    # Ссылка может быть относительной (css/style.css), от корня (/css/style.css)
+    # или на уровень выше (../css/style.css) — 404-я страница использует второй
+    # вид, и без него её стили оставались со старой версией.
+    pattern = re.compile(r'(href|src)="((?:/|\.\./)?(?:css|js|panel)/[\w.-]+\.(?:css|js))(?:\?v=[^"]*)?"')
     changed = 0
     pages = glob.glob(os.path.join(ROOT, "*.html")) + glob.glob(os.path.join(ROOT, "panel", "*.html"))
     for page in pages:
@@ -40,7 +43,7 @@ def main():
 
         def stamp(m):
             attr, ref = m.group(1), m.group(2)
-            key = ref.lstrip("./")
+            key = ref.lstrip("./").lstrip("/")
             # ссылки внутри админки указывают на admin.css / admin.js без папки
             if key not in versions and os.path.basename(page).startswith("index") and "panel" in page:
                 key = "panel/" + key

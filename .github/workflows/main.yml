@@ -12,25 +12,32 @@ jobs:
       - name: Забрать код
         uses: actions/checkout@v4
 
-      - name: Залить по FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_DIR }}
-          protocol: ftp
-          state-name: .deploy-state.json
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.vscode/**
-            **/.claude/**
-            tools/**
-            media/**/video/**
-            api/config.local.php
-            api/config.example.php
-            private/**
-            README.md
-            DEPLOY.md
-            **/.DS_Store
+      - name: Поставить lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Залить по SFTP
+        env:
+          HOST: ${{ secrets.FTP_SERVER }}
+          USER_NAME: ${{ secrets.FTP_USERNAME }}
+          PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          REMOTE_DIR: ${{ secrets.FTP_DIR }}
+        run: |
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 3;
+            set net:timeout 20;
+            open -u \"$USER_NAME\",\"$PASSWORD\" sftp://$HOST;
+            mirror --reverse --delete --verbose --parallel=4 \
+              --exclude-glob .git/ \
+              --exclude-glob .github/ \
+              --exclude-glob .vscode/ \
+              --exclude-glob .claude/ \
+              --exclude-glob tools/ \
+              --exclude-glob .DS_Store \
+              --exclude-glob README.md \
+              --exclude-glob DEPLOY.md \
+              --exclude-glob '*.mp4' \
+              --exclude-glob 'api/config.local.php' \
+              --exclude-glob 'private/*' \
+              ./ \"$REMOTE_DIR\"
+          "

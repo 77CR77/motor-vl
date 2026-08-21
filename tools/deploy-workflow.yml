@@ -27,6 +27,26 @@ jobs:
       # Хостинг reg.ru принимает SFTP (тот же доступ, что в FileZilla), обычный
       # FTP на нём логин не принимает. lftp умеет зеркалить папку по SFTP и,
       # в отличие от rsync, не требует ничего установленного на стороне сервера.
+      # Если путь окажется неверным, следующий шаг упадёт с «No such file».
+      # Этот шаг заранее показывает, куда мы попадаем при входе и что там лежит,
+      # чтобы правильный путь был виден прямо в логе, без угадывания.
+      - name: Показать, куда подключились
+        env:
+          HOST: ${{ secrets.FTP_SERVER }}
+          USER_NAME: ${{ secrets.FTP_USERNAME }}
+          PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          REMOTE_DIR: ${{ secrets.FTP_DIR }}
+        run: |
+          lftp -c "
+            set sftp:auto-confirm yes;
+            open -u \"$USER_NAME\",\"$PASSWORD\" sftp://$HOST;
+            echo '--- домашний каталог при входе ---';
+            pwd;
+            ls;
+            echo '--- пробуем зайти в $REMOTE_DIR ---';
+            cd \"$REMOTE_DIR\" && pwd && ls;
+          " || echo "не удалось зайти в $REMOTE_DIR — смотрите список выше"
+
       - name: Залить по SFTP
         env:
           HOST: ${{ secrets.FTP_SERVER }}

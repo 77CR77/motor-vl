@@ -1,0 +1,43 @@
+# ---------- Единственный адрес сайта ----------
+# Сайт открывался и по http, и по www — форма заявки с именем и телефоном
+# могла уйти незашифрованной, а поисковики видели два разных сайта с одним
+# содержимым. Приводим всё к https://motor-vl.ru.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Признак защищённого соединения проверяем двумя способами: хостинг может
+    # снимать шифрование на внешнем сервере и передавать запрос дальше по http —
+    # тогда одного %{HTTPS} мало, и правило зациклилось бы.
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^(.*)$ https://motor-vl.ru/$1 [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+</IfModule>
+
+# ---------- Своя страница «не найдено» ----------
+ErrorDocument 404 /404.html
+
+# ---------- Заголовки ----------
+<IfModule mod_headers.c>
+    # Не давать браузеру угадывать тип файла — защита от подмены картинки скриптом.
+    Header always set X-Content-Type-Options "nosniff"
+    # Запрет встраивать сайт в чужие фреймы (защита от кликджекинга).
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---------- Кеширование ----------
+# Фото и видео названы по содержимому и не меняются, css/js versioned через ?v=,
+# поэтому их можно кешировать надолго. Страницы — нет, иначе правки не увидят.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>

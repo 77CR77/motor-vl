@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#051426">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=0e2ed386">
+<link rel="stylesheet" href="css/style.css?v=1fa860ed">
 </head>
 <body>
 
@@ -89,6 +89,13 @@
           ответим на все вопросы.</p>
 
         <form id="orderForm">
+          <!-- Ловушка для спам-роботов: настоящие посетители этого поля не видят
+               и не заполняют, а автоматические рассыльщики заполняют всё подряд. -->
+          <div class="form-trap" aria-hidden="true">
+            <label for="fieldWebsite">Не заполняйте это поле</label>
+            <input type="text" id="fieldWebsite" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
           <div class="form-row">
             <label for="fieldName">Ваше имя</label>
             <input class="form-control" type="text" id="fieldName" name="name" required>
@@ -278,7 +285,7 @@
 
 <button class="back-to-top" aria-label="Наверх">↑</button>
 
-<script src="js/order.js?v=0c4f8190"></script>
+<script src="js/order.js?v=7a9d461a"></script>
 <script src="js/main.js?v=5bcecff7"></script>
 </body>
 </html>

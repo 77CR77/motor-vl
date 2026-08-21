@@ -1359,6 +1359,16 @@ button.lightbox__video-chip { border: 0; cursor: pointer; font-family: inherit; 
   background: rgba(212,175,55,.08); border-radius: 0 8px 8px 0; margin-bottom: 24px;
 }
 
+/* Поле-ловушка для роботов: убрано из виду, но остаётся в разметке.
+   display:none роботы распознают, поэтому прячем иначе. */
+.form-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* ---------- Подбор мотора в заявке ---------- */
 /* Параметры отмечаются «таблетками»: попасть пальцем проще, чем в выпадающий
    список, и весь запрос виден целиком, без раскрытия каждого поля. */

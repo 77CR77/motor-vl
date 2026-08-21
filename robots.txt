@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+Sitemap: https://motor-vl.ru/sitemap.xml

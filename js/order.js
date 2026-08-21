@@ -162,8 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll('[data-key="messenger"] input[type="checkbox"]:checked')
         .forEach(function (input) { messengers.push(input.value); });
 
+      var trap = document.getElementById("fieldWebsite");
+
       var payload = {
         action: "submit",
+        // Поле-ловушка: у человека оно всегда пустое.
+        website: trap ? trap.value : "",
         name: document.getElementById("fieldName").value,
         phone: fullPhone,
         messengers: messengers,

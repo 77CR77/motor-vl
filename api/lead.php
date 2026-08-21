@@ -13,6 +13,51 @@ declare(strict_types=1);
 require __DIR__ . '/lib.php';
 
 const LEADS_FILE = PRIVATE_DIR . '/leads.json';
+const RATE_FILE = PRIVATE_DIR . '/rate.json';
+// Больше пяти заявок в час с одного адреса — это уже не клиент, а робот.
+const RATE_LIMIT = 5;
+const RATE_WINDOW = 3600;
+// Архив заявок не должен расти бесконечно: старые всё равно неактуальны.
+const LEADS_KEEP = 1000;
+
+function client_ip(): string
+{
+    foreach (['HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
+        $value = $_SERVER[$key] ?? '';
+        if ($value !== '') {
+            // X-Forwarded-For может содержать цепочку адресов — берём первый.
+            $ip = trim(explode(',', $value)[0]);
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                return $ip;
+            }
+        }
+    }
+    return 'unknown';
+}
+
+// true — заявку принимаем, false — этот адрес уже исчерпал лимит.
+function rate_ok(string $ip): bool
+{
+    $now = time();
+    $data = load_json_file(RATE_FILE);
+    // Заодно чистим просроченные записи, иначе файл будет только расти.
+    $fresh = [];
+    foreach ($data as $key => $stamps) {
+        $kept = array_values(array_filter((array) $stamps, static fn($t): bool => $now - (int) $t < RATE_WINDOW));
+        if ($kept) {
+            $fresh[$key] = $kept;
+        }
+    }
+    $mine = $fresh[$ip] ?? [];
+    if (count($mine) >= RATE_LIMIT) {
+        save_json_file(RATE_FILE, $fresh);
+        return false;
+    }
+    $mine[] = $now;
+    $fresh[$ip] = $mine;
+    save_json_file(RATE_FILE, $fresh);
+    return true;
+}
 
 function telegram_text(array $lead): string
 {
@@ -111,10 +156,20 @@ if ($method === 'POST') {
     $action = (string) ($payload['action'] ?? '');
 
     if ($action === 'submit') {
+        // Ловушка для роботов: поле спрятано от людей, они его не заполняют.
+        // Отвечаем как при успехе — пусть спамер думает, что сработало.
+        if (trim((string) ($payload['website'] ?? '')) !== '') {
+            json_out(200, ['ok' => true]);
+        }
+
         $name = trim((string) ($payload['name'] ?? ''));
         $phone = trim((string) ($payload['phone'] ?? ''));
         if ($name === '' || $phone === '') {
             json_out(400, ['error' => 'Не заполнены обязательные поля']);
+        }
+
+        if (!rate_ok(client_ip())) {
+            json_out(429, ['error' => 'Слишком много заявок подряд. Позвоните нам: +7 (908) 448-11-00']);
         }
 
         $spec = $payload['spec'] ?? [];
@@ -135,6 +190,7 @@ if ($method === 'POST') {
 
         $leads = load_json_file(LEADS_FILE);
         array_unshift($leads, $lead);
+        $leads = array_slice($leads, 0, LEADS_KEEP);
         // Сохраняем первым делом: уведомление вторично.
         $saved = save_json_file(LEADS_FILE, $leads);
         $sent = notify_telegram($lead);

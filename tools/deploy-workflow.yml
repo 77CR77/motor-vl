@@ -1,34 +1,17 @@
 # ВНИМАНИЕ: это не рабочий файл, а заготовка для копирования.
 #
-# Git не может сам записывать файлы в .github/workflows — токену для этого
-# нужно отдельное право (scope "workflow"), которого у него нет. Поэтому
-# содержимое ниже вставляется вручную через сайт GitHub:
+# Git не может сам записывать файлы в .github/workflows — токену нужно
+# отдельное право (scope "workflow"), которого у него нет. Поэтому текст
+# ниже вставляется вручную через сайт GitHub:
 #
 #   репозиторий → .github/workflows/main.yml → карандаш → выделить всё →
 #   вставить это → Commit changes
 #
-# Автоматическая выкладка сайта на хостинг reg.ru.
-#
-# Срабатывает при каждом пуше в main: берёт файлы репозитория и синхронизирует
-# их с папкой сайта по FTP. Ничего собирать не нужно — сайт статический.
-#
-# Что НЕ трогается на сервере (см. exclude ниже):
-#   media/**/video/**      — 3.3 ГБ роликов, залиты один раз вручную
-#   api/config.local.php   — пароль и токен бота, живут только на сервере
-#   private/**             — заявки клиентов
-#
-# Секреты задаются в репозитории: Settings → Secrets and variables → Actions
-#   FTP_SERVER    хост из панели reg.ru, например ftp.motor-vl.ru
-#   FTP_USERNAME  логин FTP
-#   FTP_PASSWORD  пароль FTP
-#   FTP_DIR       путь к папке сайта, например /motor-vl.ru/ (со слешами)
-
 name: Deploy to reg.ru
 
 on:
   push:
     branches: [main]
-  # Кнопка «запустить вручную» на вкладке Actions — удобно для проверки.
   workflow_dispatch:
 
 jobs:
@@ -38,26 +21,35 @@ jobs:
       - name: Забрать код
         uses: actions/checkout@v4
 
-      - name: Залить по FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_DIR }}
-          protocol: ftp
-          # Действие само помнит, что уже залито, и отправляет только изменения.
-          state-name: .deploy-state.json
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.vscode/**
-            **/.claude/**
-            tools/**
-            media/**/video/**
-            api/config.local.php
-            api/config.example.php
-            private/**
-            README.md
-            DEPLOY.md
-            **/.DS_Store
+      - name: Поставить lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      # Хостинг reg.ru принимает SFTP (тот же доступ, что в FileZilla), обычный
+      # FTP на нём логин не принимает. lftp умеет зеркалить папку по SFTP и,
+      # в отличие от rsync, не требует ничего установленного на стороне сервера.
+      - name: Залить по SFTP
+        env:
+          HOST: ${{ secrets.FTP_SERVER }}
+          USER_NAME: ${{ secrets.FTP_USERNAME }}
+          PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          REMOTE_DIR: ${{ secrets.FTP_DIR }}
+        run: |
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 3;
+            set net:timeout 20;
+            open -u \"$USER_NAME\",\"$PASSWORD\" sftp://$HOST;
+            mirror --reverse --delete --verbose --parallel=4 \
+              --exclude-glob .git/ \
+              --exclude-glob .github/ \
+              --exclude-glob .vscode/ \
+              --exclude-glob .claude/ \
+              --exclude-glob tools/ \
+              --exclude-glob .DS_Store \
+              --exclude-glob README.md \
+              --exclude-glob DEPLOY.md \
+              --exclude-glob '*.mp4' \
+              --exclude-glob 'api/config.local.php' \
+              --exclude-glob 'private/*' \
+              ./ \"$REMOTE_DIR\"
+          "

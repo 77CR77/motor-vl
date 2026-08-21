@@ -48,7 +48,7 @@
   var photoListEl = document.getElementById("photoList");
   var videoListEl = document.getElementById("videoList");
   var specListEl = document.getElementById("specList");
-  var addVideoBtn = document.getElementById("addVideoBtn");
+  var videoDrop = document.getElementById("videoDrop");
   var videoInput = document.getElementById("videoInput");
   var addSpecBtn = document.getElementById("addSpecBtn");
 
@@ -606,13 +606,35 @@
     return draftId;
   }
 
-  addVideoBtn.addEventListener("click", function () {
+  videoDrop.addEventListener("click", function () {
     videoInput.value = "";
     videoInput.click();
   });
+  videoDrop.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    videoDrop.classList.add("dragover");
+  });
+  videoDrop.addEventListener("dragleave", function () { videoDrop.classList.remove("dragover"); });
+  videoDrop.addEventListener("drop", function (e) {
+    e.preventDefault();
+    videoDrop.classList.remove("dragover");
+    handleVideoFiles(e.dataTransfer.files);
+  });
 
   videoInput.addEventListener("change", function () {
-    var files = Array.prototype.slice.call(videoInput.files || []);
+    handleVideoFiles(videoInput.files);
+    videoInput.value = "";
+  });
+
+  function handleVideoFiles(fileList) {
+    var files = Array.prototype.slice.call(fileList || []).filter(function (file) {
+      // Из папки могут перетащить что угодно — берём только видео.
+      return /^video\//.test(file.type) || /\.(mp4|mov|m4v|avi|mkv|webm)$/i.test(file.name);
+    });
+    if (!files.length) {
+      showStatus("Это не видеофайлы — перенесите ролики в формате MP4 или MOV", true);
+      return;
+    }
     files.forEach(function (file) {
       // Название по умолчанию — имя файла без расширения: менеджеру
       // останется поправить его, а не печатать с нуля.
@@ -633,7 +655,7 @@
         renderVideos();
       });
     });
-  });
+  }
 
   function formatDuration(seconds) {
     if (!seconds) return "";

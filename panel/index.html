@@ -120,10 +120,12 @@
         <div class="admin-form__row">
           <label>Видео</label>
           <div id="videoList" class="admin-video-list"></div>
-          <input type="file" id="videoInput" accept="video/*" multiple hidden>
-          <button type="button" id="addVideoBtn" class="admin-add-row">+ загрузить видео с компьютера</button>
-          <div class="admin-hint">Выберите файлы — они загрузятся на сайт и будут проигрываться прямо в карточке мотора.
-            Обложку сделаем автоматически кадром из ролика. Можно выбрать сразу несколько.</div>
+          <div id="videoDrop" class="admin-dropzone">
+            Перетащите видео сюда или нажмите, чтобы выбрать
+            <input type="file" id="videoInput" accept="video/*" multiple hidden>
+          </div>
+          <div class="admin-hint">Ролики загрузятся на сайт и будут проигрываться прямо в карточке мотора.
+            Обложку сделаем автоматически кадром из ролика. Можно перенести сразу несколько файлов.</div>
         </div>
 
         <div class="admin-form__row">
@@ -143,6 +145,6 @@
   </main>
 </div>
 
-<script src="admin.js?v=58f9bbac"></script>
+<script src="admin.js?v=9f9cebfd"></script>
 </body>
 </html>

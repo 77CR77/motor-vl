@@ -13,6 +13,23 @@ require __DIR__ . '/lib.php';
 const STATS_DIR = PRIVATE_DIR . '/stats';
 const LEADS_FILE = PRIVATE_DIR . '/leads.json';
 
+// Очистка счётчиков: пригодилась сразу — первые дни на сайт заходили
+// только свои, и эти цифры картину искажали.
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    $payload = read_json_body();
+    require_admin($payload['password'] ?? null);
+    if (($payload['action'] ?? '') !== 'reset') {
+        json_out(400, ['error' => 'Неизвестное действие']);
+    }
+    $removed = 0;
+    foreach (glob(STATS_DIR . '/*.json') ?: [] as $file) {
+        if (@unlink($file)) {
+            $removed++;
+        }
+    }
+    json_out(200, ['ok' => true, 'removed' => $removed]);
+}
+
 require_admin($_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? ($_GET['password'] ?? null));
 
 $days = (int) ($_GET['days'] ?? 30);

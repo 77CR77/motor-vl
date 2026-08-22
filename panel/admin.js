@@ -31,6 +31,7 @@
   var statsSources = document.getElementById("statsSources");
   var statsPages = document.getElementById("statsPages");
   var statsRegions = document.getElementById("statsRegions");
+  var statsResetBtn = document.getElementById("statsReset");
   var currentSold = [];
   var leadsBadge = document.getElementById("leadsBadge");
   var leadsView = document.getElementById("leadsView");
@@ -195,6 +196,27 @@
   }
   if (statsRange) {
     statsRange.addEventListener("change", loadStats);
+  }
+  if (statsResetBtn) {
+    statsResetBtn.addEventListener("click", function () {
+      if (!confirm("Обнулить всю статистику посещений?\n\nСчётчики начнутся с нуля. Заявки и каталог это не затронет.")) return;
+      fetch("/api/stats.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password(), action: "reset" })
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) throw new Error(data.error || "Не удалось очистить");
+            return data;
+          });
+        })
+        .then(function () {
+          showStatus("Статистика обнулена — счёт пошёл заново");
+          loadStats();
+        })
+        .catch(function (err) { showStatus(err.message, true); });
+    });
   }
 
   if (motorSearchEl) {

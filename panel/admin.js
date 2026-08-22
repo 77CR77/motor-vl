@@ -236,6 +236,36 @@
   }
 
   // ---------- Список моторов ----------
+  // Мощность зашита в название модели: Yamaha F25, Honda BF60, Suzuki DF40.
+  // Отдельного поля под неё нет, поэтому достаём из названия — так же,
+  // как это делает каталог на сайте.
+  function motorPower(motor) {
+    var title = motor.title || "";
+    // У запчастей мощности нет: цифры в артикулах и списках совместимости
+    // к ней отношения не имеют, поэтому такие позиции сортируем по названию.
+    if (motor.brand === "parts") return null;
+    var match = null;
+    if (motor.brand === "yamaha") match = title.match(/F\s?(\d{1,3})/i);
+    else if (motor.brand === "honda") match = title.match(/BF\s?(\d{1,3})/i);
+    else if (motor.brand === "suzuki") match = title.match(/DF\s?(\d{1,3})/i);
+    else match = title.match(/\b(\d{1,3})\b/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+
+  // От слабых к мощным. Позиции без распознанной мощности — запчасти и
+  // всё нестандартное — уходят в конец списка, а не мешаются в середине.
+  function byPower(list) {
+    return list.slice().sort(function (a, b) {
+      var pa = motorPower(a);
+      var pb = motorPower(b);
+      if (pa === null && pb === null) return (a.title || "").localeCompare(b.title || "", "ru");
+      if (pa === null) return 1;
+      if (pb === null) return -1;
+      if (pa !== pb) return pa - pb;
+      return (a.title || "").localeCompare(b.title || "", "ru");
+    });
+  }
+
   function renderList() {
     formView.style.display = "none";
     listView.style.display = "block";
@@ -254,14 +284,14 @@
       return {
         key: b.key,
         label: b.label,
-        items: shown.filter(function (m) { return m.brand === b.key; })
+        items: byPower(shown.filter(function (m) { return m.brand === b.key; }))
       };
     }).filter(function (g) { return g.items.length; });
 
     // Мотор с неизвестным брендом не должен потеряться — собираем в конце.
     var known = {};
     BRANDS.forEach(function (b) { known[b.key] = true; });
-    var others = shown.filter(function (m) { return !known[m.brand]; });
+    var others = byPower(shown.filter(function (m) { return !known[m.brand]; }));
     if (others.length) {
       groups.push({ key: "other", label: "Без бренда", items: others });
     }

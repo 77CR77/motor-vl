@@ -16,6 +16,10 @@ const MOTORS_FILE = DATA_DIR . '/motors.json';
 // раньше стирала его без следа. Теперь перед каждой записью прячем копию
 // в закрытую папку: последние 30 версий с датой в имени.
 const BACKUP_DIR = PRIVATE_DIR . '/catalog-backups';
+// Проданные моторы не удаляются, а переезжают сюда: карточку можно вернуть
+// в каталог, если сняли по ошибке, и по этому же файлу считается статистика
+// продаж. Фотографии при этом остаются на диске.
+const SOLD_FILE = PRIVATE_DIR . '/sold.json';
 const BACKUP_KEEP = 30;
 const MEDIA_SUBDIR = 'media/motors';
 
@@ -124,19 +128,90 @@ require_admin($payload['password'] ?? null);
 $motors = load_json_file(MOTORS_FILE);
 $action = (string) ($payload['action'] ?? '');
 
-if ($action === 'delete') {
+// Снять с продажи: мотор уходит в архив, фотографии остаются на месте.
+if ($action === 'delete' || $action === 'sell') {
     $id = (string) ($payload['id'] ?? '');
-    $before = count($motors);
-    $motors = array_values(array_filter($motors, static fn($m): bool => ($m['id'] ?? '') !== $id));
-    if (count($motors) === $before) {
+    $motor = null;
+    foreach ($motors as $item) {
+        if (($item['id'] ?? '') === $id) {
+            $motor = $item;
+            break;
+        }
+    }
+    if ($motor === null) {
         json_out(404, ['error' => 'Мотор не найден']);
     }
+    $motors = array_values(array_filter($motors, static fn($m): bool => ($m['id'] ?? '') !== $id));
+
+    $sold = load_json_file(SOLD_FILE);
+    $motor['soldAt'] = gmdate('c');
+    // Цена на момент снятия — потом её могут поменять, а для статистики
+    // важно то, за сколько мотор стоял в каталоге.
+    $motor['soldPrice'] = (int) ($motor['price'] ?? 0);
+    array_unshift($sold, $motor);
+    save_json_file(SOLD_FILE, $sold);
+
     backup_catalog();
     if (!save_json_file(MOTORS_FILE, $motors)) {
         json_out(500, ['error' => 'Не удалось записать data/motors.json — проверьте права на запись']);
     }
+    json_out(200, ['motors' => $motors, 'sold' => $sold]);
+}
+
+// Список проданных для вкладки «Продано».
+if ($action === 'soldList') {
+    json_out(200, ['sold' => load_json_file(SOLD_FILE)]);
+}
+
+// Вернуть мотор из архива обратно в каталог.
+if ($action === 'restoreSold') {
+    $id = (string) ($payload['id'] ?? '');
+    $sold = load_json_file(SOLD_FILE);
+    $motor = null;
+    foreach ($sold as $item) {
+        if (($item['id'] ?? '') === $id) {
+            $motor = $item;
+            break;
+        }
+    }
+    if ($motor === null) {
+        json_out(404, ['error' => 'Мотор не найден в архиве']);
+    }
+    $sold = array_values(array_filter($sold, static fn($m): bool => ($m['id'] ?? '') !== $id));
+    unset($motor['soldAt'], $motor['soldPrice']);
+
+    // Если мотор с таким id уже вернули, второй раз не добавляем.
+    $exists = false;
+    foreach ($motors as $item) {
+        if (($item['id'] ?? '') === $id) {
+            $exists = true;
+            break;
+        }
+    }
+    if (!$exists) {
+        $motors[] = $motor;
+    }
+
+    backup_catalog();
+    if (!save_json_file(MOTORS_FILE, $motors)) {
+        json_out(500, ['error' => 'Не удалось записать каталог']);
+    }
+    save_json_file(SOLD_FILE, $sold);
+    json_out(200, ['motors' => $motors, 'sold' => $sold]);
+}
+
+// Удалить из архива насовсем — вместе с фотографиями.
+if ($action === 'purgeSold') {
+    $id = (string) ($payload['id'] ?? '');
+    $sold = load_json_file(SOLD_FILE);
+    $before = count($sold);
+    $sold = array_values(array_filter($sold, static fn($m): bool => ($m['id'] ?? '') !== $id));
+    if (count($sold) === $before) {
+        json_out(404, ['error' => 'Мотор не найден в архиве']);
+    }
+    save_json_file(SOLD_FILE, $sold);
     delete_photos($id);
-    json_out(200, ['motors' => $motors]);
+    json_out(200, ['sold' => $sold]);
 }
 
 if ($action === 'save') {

@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css?v=b39444ea">
-<link rel="stylesheet" href="admin.css?v=c0c5a423">
+<link rel="stylesheet" href="admin.css?v=11737b3e">
 </head>
 <body class="admin-body">
 
@@ -46,6 +46,8 @@
     <div class="admin-tabs">
       <button id="tabMotors" class="admin-tab active">Моторы</button>
       <button id="tabLeads" class="admin-tab">Заявки <span id="leadsBadge" class="admin-tab__badge" style="display:none;"></span></button>
+      <button id="tabSold" class="admin-tab">Продано</button>
+      <button id="tabStats" class="admin-tab">Статистика</button>
     </div>
 
     <div id="listView">
@@ -71,6 +73,31 @@
       </div>
       <div id="leadsStatusMsg" class="admin-status"></div>
       <div id="leadsList" class="admin-list"></div>
+    </div>
+
+    <div id="soldView" style="display:none;">
+      <div class="admin-toolbar">
+        <span id="soldCount" class="admin-toolbar__count"></span>
+      </div>
+      <div id="soldSummary" class="stats-cards"></div>
+      <div id="soldList" class="admin-list"></div>
+    </div>
+
+    <div id="statsView" style="display:none;">
+      <div class="admin-toolbar">
+        <span class="admin-toolbar__count">Посещаемость сайта</span>
+        <select id="statsRange" class="form-control admin-range">
+          <option value="7">за неделю</option>
+          <option value="30" selected>за месяц</option>
+          <option value="90">за три месяца</option>
+        </select>
+      </div>
+      <div id="statsCards" class="stats-cards"></div>
+      <div id="statsChart" class="stats-chart"></div>
+      <div class="stats-columns">
+        <div><h3 class="stats-title">Откуда приходят</h3><div id="statsSources"></div></div>
+        <div><h3 class="stats-title">Что смотрят</h3><div id="statsPages"></div></div>
+      </div>
     </div>
 
     <div id="formView" style="display:none;">
@@ -146,6 +173,6 @@
   </main>
 </div>
 
-<script src="admin.js?v=e1e103bb"></script>
+<script src="admin.js?v=545654ee"></script>
 </body>
 </html>

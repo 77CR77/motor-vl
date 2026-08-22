@@ -18,6 +18,19 @@
 
   var tabMotors = document.getElementById("tabMotors");
   var tabLeads = document.getElementById("tabLeads");
+  var tabSold = document.getElementById("tabSold");
+  var tabStats = document.getElementById("tabStats");
+  var soldView = document.getElementById("soldView");
+  var soldList = document.getElementById("soldList");
+  var soldCount = document.getElementById("soldCount");
+  var soldSummary = document.getElementById("soldSummary");
+  var statsView = document.getElementById("statsView");
+  var statsRange = document.getElementById("statsRange");
+  var statsCards = document.getElementById("statsCards");
+  var statsChart = document.getElementById("statsChart");
+  var statsSources = document.getElementById("statsSources");
+  var statsPages = document.getElementById("statsPages");
+  var currentSold = [];
   var leadsBadge = document.getElementById("leadsBadge");
   var leadsView = document.getElementById("leadsView");
   var leadsList = document.getElementById("leadsList");
@@ -142,20 +155,46 @@
   }
 
   // ---------- Переключение вкладок ----------
+  // Одна функция на все вкладки: раньше каждая гасила соседей вручную,
+  // и с добавлением новых это быстро превратилось бы в кашу.
+  function showTab(name) {
+    var tabs = { motors: tabMotors, leads: tabLeads, sold: tabSold, stats: tabStats };
+    var views = { leads: leadsView, sold: soldView, stats: statsView };
+    Object.keys(tabs).forEach(function (key) {
+      if (tabs[key]) tabs[key].classList.toggle("active", key === name);
+    });
+    Object.keys(views).forEach(function (key) {
+      if (views[key]) views[key].style.display = key === name ? "block" : "none";
+    });
+    if (name !== "motors") {
+      listView.style.display = "none";
+      formView.style.display = "none";
+    }
+  }
+
   tabMotors.addEventListener("click", function () {
-    tabMotors.classList.add("active");
-    tabLeads.classList.remove("active");
-    leadsView.style.display = "none";
+    showTab("motors");
     renderList();
   });
   tabLeads.addEventListener("click", function () {
-    tabLeads.classList.add("active");
-    tabMotors.classList.remove("active");
-    listView.style.display = "none";
-    formView.style.display = "none";
-    leadsView.style.display = "block";
+    showTab("leads");
     renderLeads();
   });
+  if (tabSold) {
+    tabSold.addEventListener("click", function () {
+      showTab("sold");
+      loadSold();
+    });
+  }
+  if (tabStats) {
+    tabStats.addEventListener("click", function () {
+      showTab("stats");
+      loadStats();
+    });
+  }
+  if (statsRange) {
+    statsRange.addEventListener("change", loadStats);
+  }
 
   if (motorSearchEl) {
     motorSearchEl.addEventListener("input", function () {
@@ -214,7 +253,7 @@
                 "</div>" +
                 '<div class="admin-list__actions">' +
                   '<button class="admin-list__edit" data-id="' + m.id + '">Изменить</button>' +
-                  '<button class="admin-list__remove" data-id="' + m.id + '" title="Удалить">✕</button>' +
+                  '<button class="admin-list__remove" data-id="' + m.id + '" title="Снять с продажи">✕</button>' +
                 "</div>" +
               "</div>"
             );
@@ -235,7 +274,7 @@
       btn.addEventListener("click", function () {
         var id = btn.getAttribute("data-id");
         var motor = currentMotors.find(function (m) { return m.id === id; });
-        if (!motor || !confirm("Удалить «" + motor.title + "»? Отменить это будет нельзя.")) return;
+        if (!motor || !confirm("Снять «" + motor.title + "» с продажи?\n\nКарточка уйдёт во вкладку «Продано», откуда её можно вернуть.")) return;
         deleteMotor(id);
       });
     });
@@ -308,6 +347,176 @@
         fBadge.value = btn.getAttribute("data-text");
         badgeColor = btn.getAttribute("data-tone");
         renderBadgeChoices();
+      });
+    });
+  }
+
+  // ---------- Продано ----------
+  // Снятые с продажи моторы не исчезают: карточка со всеми фото и видео
+  // лежит в архиве. Оттуда её возвращают одним нажатием, если сняли по
+  // ошибке, и по этому же списку считается, как идут продажи.
+  function loadSold() {
+    return apiAction("soldList", {})
+      .then(function (data) {
+        currentSold = data.sold || [];
+        renderSold();
+      })
+      .catch(function (err) { showStatus(err.message, true); });
+  }
+
+  function renderSold() {
+    soldCount.textContent = currentSold.length
+      ? "Продано моторов: " + currentSold.length
+      : "Пока ничего не продано";
+    renderSoldSummary();
+
+    soldList.innerHTML = currentSold.map(function (m) {
+      var when = m.soldAt ? formatDate(m.soldAt) : "";
+      return (
+        '<div class="admin-list__item">' +
+          '<img class="admin-list__thumb" src="' + resolveUrl(m.img) + '" alt="" onerror="this.style.visibility=\'hidden\'">' +
+          '<div class="admin-list__body">' +
+            '<div class="admin-list__title">' + m.title + "</div>" +
+            '<div class="admin-list__meta">' + formatPrice(m.soldPrice || m.price) +
+              (when ? " · продан " + when : "") + "</div>" +
+          "</div>" +
+          '<div class="admin-list__actions">' +
+            '<button class="admin-list__edit" data-restore="' + m.id + '">Вернуть в каталог</button>' +
+            '<button class="admin-list__remove" data-purge="' + m.id + '" title="Удалить навсегда">✕</button>' +
+          "</div>" +
+        "</div>"
+      );
+    }).join("") || '<p style="color:var(--text-muted);">Здесь появятся моторы, снятые с продажи.</p>';
+
+    soldList.querySelectorAll("[data-restore]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-restore");
+        apiAction("restoreSold", { id: id })
+          .then(function (data) {
+            currentMotors = data.motors || currentMotors;
+            currentSold = data.sold || [];
+            renderSold();
+            showStatus("Мотор вернулся в каталог");
+          })
+          .catch(function (err) { showStatus(err.message, true); });
+      });
+    });
+    soldList.querySelectorAll("[data-purge]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-purge");
+        var motor = currentSold.find(function (m) { return m.id === id; });
+        if (!motor) return;
+        if (!confirm("Удалить «" + motor.title + "» навсегда?\n\nВместе с карточкой удалятся её фотографии. Вернуть будет нельзя.")) return;
+        apiAction("purgeSold", { id: id })
+          .then(function (data) {
+            currentSold = data.sold || [];
+            renderSold();
+            showStatus("Удалено навсегда");
+          })
+          .catch(function (err) { showStatus(err.message, true); });
+      });
+    });
+  }
+
+  // Сводка по продажам: за месяц, за год и всего, плюс средняя цена.
+  function renderSoldSummary() {
+    if (!soldSummary) return;
+    var now = new Date();
+    var monthAgo = new Date(now.getTime() - 30 * 86400000);
+    var yearStart = new Date(now.getFullYear(), 0, 1);
+    var month = 0, year = 0, sum = 0;
+    currentSold.forEach(function (m) {
+      var when = m.soldAt ? new Date(m.soldAt) : null;
+      var price = Number(m.soldPrice || m.price) || 0;
+      sum += price;
+      if (when && when >= monthAgo) month++;
+      if (when && when >= yearStart) year++;
+    });
+    var avg = currentSold.length ? Math.round(sum / currentSold.length) : 0;
+    soldSummary.innerHTML = [
+      { label: "За 30 дней", value: month },
+      { label: "С начала года", value: year },
+      { label: "Всего продано", value: currentSold.length },
+      { label: "Средняя цена", value: formatPrice(avg) }
+    ].map(function (c) {
+      return '<div class="stats-card"><span class="stats-card__value">' + c.value +
+             '</span><span class="stats-card__label">' + c.label + "</span></div>";
+    }).join("");
+  }
+
+  // ---------- Статистика посещений ----------
+  // Считаем сами, без Яндекс.Метрики: цифры простые и честные — сколько
+  // заходов, сколько людей, откуда пришли и что смотрели.
+  function loadStats() {
+    var days = statsRange ? statsRange.value : 30;
+    return fetch("/api/stats.php?days=" + days, { headers: { "x-admin-password": password() } })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok) throw new Error(data.error || "Не удалось получить статистику");
+          return data;
+        });
+      })
+      .then(renderStats)
+      .catch(function (err) {
+        statsCards.innerHTML = '<p style="color:var(--jp-red);">' + err.message + "</p>";
+      });
+  }
+
+  function renderStats(data) {
+    var t = data.totals || {};
+    statsCards.innerHTML = [
+      { label: "Посетителей", value: t.visitors || 0 },
+      { label: "Просмотров страниц", value: t.views || 0 },
+      { label: "Заявок", value: t.leads || 0 },
+      { label: "Посетителей на заявку", value: t.perLead || "—" }
+    ].map(function (c) {
+      return '<div class="stats-card"><span class="stats-card__value">' + c.value +
+             '</span><span class="stats-card__label">' + c.label + "</span></div>";
+    }).join("");
+
+    // Столбики рисуем сами: подключать библиотеку графиков ради одного
+    // экрана — лишний вес и лишняя зависимость.
+    var series = data.series || [];
+    var max = series.reduce(function (m, d) { return Math.max(m, d.views); }, 0) || 1;
+    statsChart.innerHTML = series.map(function (d) {
+      var height = Math.round((d.views / max) * 100);
+      var day = d.date.slice(8) + "." + d.date.slice(5, 7);
+      return '<div class="stats-bar" title="' + day + ": " + d.visitors + " чел., " + d.views + ' просм.">' +
+               '<span class="stats-bar__fill" style="height:' + Math.max(height, 2) + '%"></span>' +
+               '<span class="stats-bar__day">' + d.date.slice(8) + "</span>" +
+             "</div>";
+    }).join("");
+
+    statsSources.innerHTML = renderStatRows(data.sources, "Пока никто не заходил");
+    statsPages.innerHTML = renderStatRows(data.pages, "Пока нет просмотров");
+  }
+
+  function renderStatRows(map, empty) {
+    var keys = Object.keys(map || {});
+    if (!keys.length) return '<p style="color:var(--text-muted);">' + empty + "</p>";
+    var max = keys.reduce(function (m, k) { return Math.max(m, map[k]); }, 0) || 1;
+    return keys.map(function (k) {
+      var width = Math.round((map[k] / max) * 100);
+      return '<div class="stats-row">' +
+               '<span class="stats-row__label">' + escapeAttr(k) + "</span>" +
+               '<span class="stats-row__track"><span style="width:' + width + '%"></span></span>' +
+               '<span class="stats-row__value">' + map[k] + "</span>" +
+             "</div>";
+    }).join("");
+  }
+
+  // Общий вызов панели: одно место, где собирается пароль и разбирается ответ.
+  function apiAction(action, extra) {
+    var body = { password: password(), action: action };
+    Object.keys(extra || {}).forEach(function (k) { body[k] = extra[k]; });
+    return fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error(data.error || "Ошибка запроса");
+        return data;
       });
     });
   }
@@ -1088,7 +1297,7 @@
       .then(function (data) {
         currentMotors = data.motors || [];
         renderList();
-        showStatus("Мотор удалён");
+        showStatus("Мотор снят с продажи — карточка во вкладке «Продано»");
       })
       .catch(function (err) {
         showStatus(err.message, true);

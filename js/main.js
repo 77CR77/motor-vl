@@ -1,5 +1,26 @@
 // ===== МОТОР-ВЛ: общие скрипты для всех страниц =====
 
+// ===== Счётчик посещений =====
+// Свой, без сторонних сервисов: сообщаем серверу адрес страницы и откуда
+// пришёл посетитель. Ошибка отправки ничего не ломает — счётчик не должен
+// мешать сайту работать.
+(function () {
+  try {
+    var body = JSON.stringify({ page: location.pathname, ref: document.referrer || "" });
+    // sendBeacon уходит фоном и не задерживает загрузку страницы.
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon("/api/hit.php", new Blob([body], { type: "application/json" }));
+    } else {
+      fetch("/api/hit.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: body,
+        keepalive: true
+      }).catch(function () {});
+    }
+  } catch (e) { /* счётчик не важнее сайта */ }
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
 
   /* ---------- Мобильное меню ---------- */

@@ -379,6 +379,63 @@
   .admin-filter__search { max-width: none; }
 }
 
+/* ---------- Сводки: продажи и посещения ---------- */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.stats-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(6,26,48,.06);
+}
+.stats-card__value { font-size: 26px; font-weight: 800; color: var(--navy-dark); line-height: 1.1; }
+.stats-card__label { font-size: 13px; color: var(--navy); opacity: .6; font-weight: 600; }
+
+/* Столбики посещаемости: рисуем сами, без библиотек графиков. */
+.stats-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 170px;
+  padding: 14px 16px 0;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(6,26,48,.06);
+  margin-bottom: 22px;
+  overflow-x: auto;
+}
+.stats-bar { flex: 1; min-width: 8px; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.stats-bar__fill {
+  width: 100%;
+  margin-top: auto;
+  background: linear-gradient(180deg, var(--accent) 0%, #b8952c 100%);
+  border-radius: 4px 4px 0 0;
+  transition: opacity .12s ease;
+}
+.stats-bar:hover .stats-bar__fill { opacity: .75; }
+.stats-bar__day { font-size: 10px; color: var(--navy); opacity: .45; padding-top: 4px; }
+
+.stats-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.stats-title { font-size: 15px; margin: 0 0 12px; color: var(--navy-dark); }
+.stats-row { display: grid; grid-template-columns: 1fr 90px auto; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13.5px; }
+.stats-row__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--navy-dark); }
+.stats-row__track { height: 8px; background: rgba(6,26,48,.08); border-radius: 100px; overflow: hidden; }
+.stats-row__track span { display: block; height: 100%; background: var(--accent); border-radius: 100px; }
+.stats-row__value { font-weight: 700; color: var(--navy); opacity: .7; }
+.admin-range { width: auto; padding: 8px 12px; }
+
+@media (max-width: 760px) {
+  .stats-columns { grid-template-columns: 1fr; gap: 18px; }
+  .stats-chart { height: 140px; }
+}
+
 .admin-form__actions { display: flex; align-items: center; gap: 16px; margin-top: 26px; }
 .admin-delete-btn { background: none; border: none; color: var(--jp-red); font-weight: 700; cursor: pointer; font-size: 14px; }
 

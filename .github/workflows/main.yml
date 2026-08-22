@@ -42,5 +42,7 @@ jobs:
               --exclude-glob '*.mp4' \
               --exclude-glob 'api/config.local.php' \
               --exclude-glob 'private/*' \
+              --exclude-glob 'data/motors.json' \
+              --exclude-glob 'media/motors/*' \
               ./ \"$REMOTE_DIR\"
           "

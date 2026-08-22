@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#051426">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=b39444ea">
+<link rel="stylesheet" href="css/style.css?v=ca9113d6">
 </head>
 <body>
 
@@ -190,6 +190,12 @@
 
           <button type="submit" class="btn btn--accent btn--block btn--lg">Отправить заявку</button>
 
+          <!-- Согласие даётся самим действием — нажатием кнопки. Галочку не
+               ставим: для короткой формы это лишний шаг, а доказательство
+               сохраняется вместе с заявкой (какой текст был показан и когда). -->
+          <p class="form-consent" id="consentNote">Нажимая «Отправить заявку», вы соглашаетесь с
+            <a href="privacy.html" target="_blank" rel="noopener">политикой обработки персональных данных</a></p>
+
           <div id="orderError" style="display:none; margin-top:14px; color:var(--jp-red); font-weight:700; text-align:center;">
             Не получилось отправить заявку. Попробуйте ещё раз или позвоните нам напрямую:
             <a href="tel:+79084481100" style="color:var(--jp-red); text-decoration:underline; white-space:nowrap;">+7 (908) 448-11-00</a>
@@ -287,7 +293,7 @@
 
 <button class="back-to-top" aria-label="Наверх">↑</button>
 
-<script src="js/order.js?v=7a9d461a"></script>
+<script src="js/order.js?v=e217abc5"></script>
 <script src="js/main.js?v=d8cbb2c1"></script>
 </body>
 </html>

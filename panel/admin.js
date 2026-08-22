@@ -651,6 +651,8 @@
               "</div>"
             : "") +
           (l.message ? '<div class="admin-lead__message">' + l.message + "</div>" : "") +
+          (l.consent ? '<div class="admin-lead__consent" title="' + escapeAttr(l.consent) +
+            '">✓ согласие получено при отправке</div>' : "") +
           '<div class="admin-lead__actions">' +
             '<button class="admin-lead__btn admin-lead__btn--toggle" data-id="' + l.id + '" data-viewed="' + (!l.viewed) + '">' +
               (l.viewed ? "Отметить непросмотренной" : "Отметить просмотренной") +

@@ -164,8 +164,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var trap = document.getElementById("fieldWebsite");
 
+      // Вместе с заявкой сохраняем, какой именно текст согласия видел человек.
+      // Если когда-нибудь спросят, чем подтверждается согласие, ответ будет
+      // не «где-то на сайте написано», а точная формулировка и время.
+      var consentEl = document.getElementById("consentNote");
+      var consentText = consentEl ? consentEl.textContent.replace(/\s+/g, " ").trim() : "";
+
       var payload = {
         action: "submit",
+        consent: consentText,
         // Поле-ловушка: у человека оно всегда пустое.
         website: trap ? trap.value : "",
         name: document.getElementById("fieldName").value,

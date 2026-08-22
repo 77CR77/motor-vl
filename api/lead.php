@@ -184,6 +184,9 @@ if ($method === 'POST') {
             'motor' => mb_substr(trim((string) ($payload['motor'] ?? '')), 0, 500),
             'spec' => is_array($spec) ? $spec : [],
             'message' => mb_substr(trim((string) ($payload['message'] ?? '')), 0, 2000),
+            // Чем подтверждается согласие: точная формулировка, которую
+            // человек видел под кнопкой, и время отправки заявки.
+            'consent' => mb_substr(trim((string) ($payload['consent'] ?? '')), 0, 300),
             'createdAt' => gmdate('c'),
             'viewed' => false,
         ];

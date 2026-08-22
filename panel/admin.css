@@ -219,6 +219,69 @@
   font-size: 22px; opacity: .5;
 }
 .admin-video__body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+/* Обложка ролика — кнопка: по ней открывается просмотр. */
+.admin-video__cover--play {
+  position: relative;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+.admin-video__cover--play img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.admin-video__cover-empty { font-size: 22px; }
+.admin-video__play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  background: rgba(6,26,48,.35);
+  opacity: 0;
+  transition: opacity .12s ease;
+}
+.admin-video__cover--play:hover .admin-video__play,
+.admin-video__cover--play:focus-visible .admin-video__play { opacity: 1; }
+/* Пока обложки нет, значок «play» виден всегда — иначе непонятно, что можно нажать. */
+.admin-video__cover--play:has(.admin-video__cover-empty) .admin-video__play { opacity: .85; }
+
+/* Окно просмотра ролика поверх панели. */
+.video-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(5,15,28,.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.video-preview__box {
+  background: #0b1e34;
+  border-radius: 16px;
+  padding: 16px;
+  max-width: 760px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.video-preview__title { color: #fff; font-weight: 700; font-size: 15px; }
+.video-preview video { width: 100%; max-height: 70vh; border-radius: 10px; background: #000; }
+.video-preview__close {
+  align-self: flex-end;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.video-preview__close:hover { background: rgba(255,255,255,.24); }
+
 .admin-video__status { font-size: 12.5px; color: var(--text-muted); }
 .admin-video__status--ok { color: var(--success); font-weight: 700; }
 .admin-video__status--error { color: var(--jp-red); font-weight: 700; }

@@ -1019,7 +1019,12 @@
       // Название по умолчанию — имя файла без расширения: менеджеру
       // останется поправить его, а не печатать с нуля.
       var label = file.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").trim();
-      videoState.push({ label: label, url: "", poster: "", duration: 0, uploading: true, error: "" });
+      // Ссылка на файл с диска: по ней ролик можно посмотреть сразу, не дожидаясь
+      // окончания загрузки, — иначе непонятно, как его называть.
+      var localUrl = "";
+      try { localUrl = URL.createObjectURL(file); } catch (e) {}
+      videoState.push({ label: label, url: "", poster: "", duration: 0,
+                        uploading: true, error: "", localUrl: localUrl });
       var index = videoState.length - 1;
       renderVideos();
 
@@ -1108,11 +1113,49 @@
       .catch(function () { return ""; });
   }
 
+  // Окно просмотра ролика: пока файл грузится — играем прямо с диска,
+  // после загрузки — с сервера, чтобы заодно убедиться, что он доехал целым.
+  function openVideoPreview(video) {
+    var src = video.url ? resolveUrl(video.url) : video.localUrl;
+    if (!src) return;
+
+    var overlay = document.createElement("div");
+    overlay.className = "video-preview";
+    overlay.innerHTML =
+      '<div class="video-preview__box">' +
+        '<div class="video-preview__title">' + escapeAttr(video.label || "Без названия") + "</div>" +
+        '<video src="' + escapeAttr(src) + '" controls autoplay playsinline ' +
+          'controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture></video>' +
+        '<button type="button" class="video-preview__close">Закрыть</button>' +
+      "</div>";
+
+    function close() {
+      var player = overlay.querySelector("video");
+      if (player) player.pause();
+      overlay.remove();
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay || e.target.classList.contains("video-preview__close")) close();
+    });
+    document.addEventListener("keydown", onKey);
+    document.body.appendChild(overlay);
+  }
+
   function renderVideos() {
     videoListEl.innerHTML = videoState.map(function (v, i) {
-      var cover = v.poster
-        ? '<img class="admin-video__cover" src="' + escapeAttr(resolveUrl(v.poster)) + '" alt="">'
-        : '<span class="admin-video__cover admin-video__cover--empty">🎬</span>';
+      // Обложку показываем, как только она есть; пока её нет — заглушка.
+      // И то и другое кликабельно: ролик открывается в окошке просмотра.
+      var playable = v.url || v.localUrl;
+      var inner = v.poster
+        ? '<img src="' + escapeAttr(resolveUrl(v.poster)) + '" alt="">'
+        : '<span class="admin-video__cover-empty">🎬</span>';
+      var cover = playable
+        ? '<button type="button" class="admin-video__cover admin-video__cover--play" data-play="' + i + '"' +
+          ' title="Посмотреть ролик">' + inner + '<span class="admin-video__play">▶</span></button>'
+        : '<span class="admin-video__cover">' + inner + "</span>";
 
       var state;
       if (v.uploading) {
@@ -1145,6 +1188,13 @@
         "</div>"
       );
     }).join("");
+
+    videoListEl.querySelectorAll("[data-play]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var v = videoState[parseInt(btn.getAttribute("data-play"), 10)];
+        if (v) openVideoPreview(v);
+      });
+    });
 
     videoListEl.querySelectorAll(".admin-video-row").forEach(function (row) {
       var i = parseInt(row.getAttribute("data-i"), 10);

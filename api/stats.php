@@ -41,6 +41,7 @@ $totalViews = 0;
 $totalVisitors = 0;
 $pages = [];
 $sources = [];
+$regions = [];
 $hours = array_fill(0, 24, 0);
 
 for ($i = $days - 1; $i >= 0; $i--) {
@@ -58,6 +59,9 @@ for ($i = $days - 1; $i >= 0; $i--) {
     foreach (($info['sources'] ?? []) as $source => $count) {
         $sources[$source] = ($sources[$source] ?? 0) + (int) $count;
     }
+    foreach (($info['regions'] ?? []) as $region => $count) {
+        $regions[$region] = ($regions[$region] ?? 0) + (int) $count;
+    }
     foreach (($info['hours'] ?? []) as $hour => $count) {
         $hours[(int) $hour] += (int) $count;
     }
@@ -65,6 +69,7 @@ for ($i = $days - 1; $i >= 0; $i--) {
 
 arsort($pages);
 arsort($sources);
+arsort($regions);
 
 // Заявки за тот же период — чтобы видеть отдачу от посещений.
 $leadsAll = load_json_file(LEADS_FILE);
@@ -89,5 +94,6 @@ json_out(200, [
     ],
     'pages' => array_slice($pages, 0, 8, true),
     'sources' => array_slice($sources, 0, 8, true),
+    'regions' => array_slice($regions, 0, 8, true),
     'hours' => $hours,
 ]);

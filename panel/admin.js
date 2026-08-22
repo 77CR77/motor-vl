@@ -30,6 +30,7 @@
   var statsChart = document.getElementById("statsChart");
   var statsSources = document.getElementById("statsSources");
   var statsPages = document.getElementById("statsPages");
+  var statsRegions = document.getElementById("statsRegions");
   var currentSold = [];
   var leadsBadge = document.getElementById("leadsBadge");
   var leadsView = document.getElementById("leadsView");
@@ -462,6 +463,26 @@
       });
   }
 
+  // Пути превращаем в человеческие названия: «/catalog.html» ни о чём
+  // не говорит, а «Каталог» понятно с первого взгляда.
+  var PAGE_NAMES = {
+    "/": "Главная",
+    "/index.html": "Главная",
+    "/catalog.html": "Каталог",
+    "/order.html": "Оставить заявку",
+    "/contacts.html": "Контакты",
+    "/delivery.html": "Доставка и оплата",
+    "/privacy.html": "Политика обработки данных",
+    "/404.html": "Страница не найдена",
+    "/panel/": "Панель управления"
+  };
+
+  function pageName(path) {
+    if (PAGE_NAMES[path]) return PAGE_NAMES[path];
+    // Незнакомый адрес показываем как есть, но без расширения и слешей.
+    return path.replace(/^\//, "").replace(/\.html$/, "") || "Главная";
+  }
+
   function renderStats(data) {
     var t = data.totals || {};
     statsCards.innerHTML = [
@@ -488,17 +509,20 @@
     }).join("");
 
     statsSources.innerHTML = renderStatRows(data.sources, "Пока никто не заходил");
-    statsPages.innerHTML = renderStatRows(data.pages, "Пока нет просмотров");
+    statsPages.innerHTML = renderStatRows(data.pages, "Пока нет просмотров", pageName);
+    if (statsRegions) {
+      statsRegions.innerHTML = renderStatRows(data.regions, "Пока не определено");
+    }
   }
 
-  function renderStatRows(map, empty) {
+  function renderStatRows(map, empty, nameFn) {
     var keys = Object.keys(map || {});
     if (!keys.length) return '<p style="color:var(--text-muted);">' + empty + "</p>";
     var max = keys.reduce(function (m, k) { return Math.max(m, map[k]); }, 0) || 1;
     return keys.map(function (k) {
       var width = Math.round((map[k] / max) * 100);
       return '<div class="stats-row">' +
-               '<span class="stats-row__label">' + escapeAttr(k) + "</span>" +
+               '<span class="stats-row__label">' + escapeAttr(nameFn ? nameFn(k) : k) + "</span>" +
                '<span class="stats-row__track"><span style="width:' + width + '%"></span></span>' +
                '<span class="stats-row__value">' + map[k] + "</span>" +
              "</div>";

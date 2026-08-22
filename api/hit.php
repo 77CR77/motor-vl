@@ -46,6 +46,12 @@ if (looks_like_bot($agent)) {
     json_out(200, ['ok' => true, 'skipped' => 'bot']);
 }
 
+// Свои заходы не считаем: иначе статистика показывает работу менеджеров,
+// а не интерес покупателей.
+if (is_staff()) {
+    json_out(200, ['ok' => true, 'skipped' => 'staff']);
+}
+
 $payload = read_json_body();
 $page = trim((string) ($payload['page'] ?? ''));
 // Пишем только путь в пределах сайта — ни доменов, ни параметров.
@@ -58,6 +64,64 @@ if ($refHost !== '' && str_contains($refHost, 'motor-vl.ru')) {
     $refHost = '';
 }
 $source = $refHost !== '' ? mb_substr($refHost, 0, 60) : 'прямые заходы';
+
+// Часовой пояс -> понятная область. Точного города так не узнать, зато
+// не приходится отправлять адрес посетителя в чужой сервис геолокации.
+function region_from_tz(string $tz): string
+{
+    static $map = [
+        'Asia/Vladivostok' => 'Владивосток и Приморье',
+        'Asia/Ust-Nera' => 'Якутия (восток)',
+        'Asia/Magadan' => 'Магадан, Сахалин',
+        'Asia/Sakhalin' => 'Сахалин',
+        'Asia/Srednekolymsk' => 'Колыма',
+        'Asia/Kamchatka' => 'Камчатка',
+        'Asia/Anadyr' => 'Чукотка',
+        'Asia/Yakutsk' => 'Якутия',
+        'Asia/Khandyga' => 'Якутия',
+        'Asia/Chita' => 'Забайкалье',
+        'Asia/Irkutsk' => 'Иркутск, Бурятия',
+        'Asia/Krasnoyarsk' => 'Красноярск',
+        'Asia/Novosibirsk' => 'Новосибирск',
+        'Asia/Novokuznetsk' => 'Кузбасс',
+        'Asia/Barnaul' => 'Алтай',
+        'Asia/Tomsk' => 'Томск',
+        'Asia/Omsk' => 'Омск',
+        'Asia/Yekaterinburg' => 'Урал',
+        'Europe/Samara' => 'Самара',
+        'Europe/Saratov' => 'Саратов',
+        'Europe/Volgograd' => 'Волгоград',
+        'Europe/Astrakhan' => 'Астрахань',
+        'Europe/Ulyanovsk' => 'Ульяновск',
+        'Europe/Moscow' => 'Москва и центр России',
+        'Europe/Kirov' => 'Киров',
+        'Europe/Kaliningrad' => 'Калининград',
+        'Asia/Almaty' => 'Казахстан',
+        'Asia/Aqtobe' => 'Казахстан',
+        'Asia/Atyrau' => 'Казахстан',
+        'Asia/Qostanay' => 'Казахстан',
+        'Europe/Minsk' => 'Беларусь',
+        'Asia/Tashkent' => 'Узбекистан',
+        'Asia/Bishkek' => 'Киргизия',
+        'Asia/Tokyo' => 'Япония',
+        'Asia/Seoul' => 'Корея',
+        'Asia/Shanghai' => 'Китай',
+    ];
+    $tz = trim($tz);
+    if ($tz === '') {
+        return 'не определено';
+    }
+    if (isset($map[$tz])) {
+        return $map[$tz];
+    }
+    // Незнакомый пояс: показываем хотя бы часть света, чтобы не плодить строки.
+    $part = explode('/', $tz)[0];
+    $parts = ['Europe' => 'Европа', 'Asia' => 'Азия', 'America' => 'Америка',
+              'Africa' => 'Африка', 'Australia' => 'Австралия', 'Pacific' => 'Океания'];
+    return $parts[$part] ?? 'другие страны';
+}
+
+$region = region_from_tz((string) ($payload['tz'] ?? ''));
 
 $ip = '';
 foreach (['HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
@@ -81,18 +145,24 @@ if (!is_dir(STATS_DIR) && !mkdir(STATS_DIR, 0755, true) && !is_dir(STATS_DIR)) {
 
 $stats = load_json_file($file);
 $stats['days'] = $stats['days'] ?? [];
-$today = $stats['days'][$day] ?? ['views' => 0, 'visitors' => [], 'pages' => [], 'sources' => [], 'hours' => []];
+$today = $stats['days'][$day] ?? ['views' => 0, 'visitors' => [], 'pages' => [], 'sources' => [], 'hours' => [], 'regions' => []];
+$today['regions'] = $today['regions'] ?? [];
 
 $today['views']++;
 $hash = visitor_hash($ip, $agent, $day);
-$today['visitors'][$hash] = 1;
 $today['pages'][$page] = ($today['pages'][$page] ?? 0) + 1;
 $today['sources'][$source] = ($today['sources'][$source] ?? 0) + 1;
+// Область считаем по людям, а не по просмотрам: иначе один посетитель,
+// открывший десять карточек, выглядит как десять человек из своего города.
+if (!isset($today['visitors'][$hash])) {
+    $today['regions'][$region] = ($today['regions'][$region] ?? 0) + 1;
+}
+$today['visitors'][$hash] = 1;
 $hour = $now->format('H');
 $today['hours'][$hour] = ($today['hours'][$hour] ?? 0) + 1;
 
 // Списки подрезаем, чтобы файл не разрастался от случайных адресов.
-foreach (['pages', 'sources'] as $key) {
+foreach (['pages', 'sources', 'regions'] as $key) {
     if (count($today[$key]) > TOP_KEEP) {
         arsort($today[$key]);
         $today[$key] = array_slice($today[$key], 0, TOP_KEEP, true);

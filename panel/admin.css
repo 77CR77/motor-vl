@@ -423,6 +423,7 @@
 .stats-bar__day { font-size: 10px; color: var(--navy); opacity: .45; padding-top: 4px; }
 
 .stats-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.stats-columns--single { grid-template-columns: 1fr; margin-top: 22px; }
 .stats-title { font-size: 15px; margin: 0 0 12px; color: var(--navy-dark); }
 .stats-row { display: grid; grid-template-columns: 1fr 90px auto; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13.5px; }
 .stats-row__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--navy-dark); }

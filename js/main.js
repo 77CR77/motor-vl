@@ -6,7 +6,12 @@
 // мешать сайту работать.
 (function () {
   try {
-    var body = JSON.stringify({ page: location.pathname, ref: document.referrer || "" });
+    // Часовой пояс браузера даёт примерную географию без обращения к чужим
+    // сервисам и без запроса разрешения у посетителя: «Asia/Vladivostok»
+    // на сервере превращается в «Владивосток и Приморье».
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    var body = JSON.stringify({ page: location.pathname, ref: document.referrer || "", tz: tz });
     // sendBeacon уходит фоном и не задерживает загрузку страницы.
     if (navigator.sendBeacon) {
       navigator.sendBeacon("/api/hit.php", new Blob([body], { type: "application/json" }));

@@ -60,11 +60,54 @@ function check_password($password): bool
     return hash_equals($expected, $password);
 }
 
+// Помечаем браузер сотрудника: его заходы на сайт не должны попадать
+// в статистику посещений. Метка ставится сама при входе в панель и живёт
+// год — специально ничего нажимать не нужно.
+function mark_staff(): void
+{
+    if (headers_sent()) {
+        return;
+    }
+    setcookie('mvl_staff', '1', [
+        'expires' => time() + 365 * 24 * 3600,
+        'path' => '/',
+        'secure' => (($_SERVER['HTTPS'] ?? '') === 'on'),
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+}
+
+function is_staff(): bool
+{
+    if (($_COOKIE['mvl_staff'] ?? '') === '1') {
+        return true;
+    }
+    // Запасной путь: постоянный адрес офиса можно указать в настройках,
+    // тогда метка в браузере не понадобится вовсе.
+    $config = config();
+    $ignore = $config['ignore_ips'] ?? [];
+    if (!is_array($ignore) || !$ignore) {
+        return false;
+    }
+    foreach (['HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
+        $value = (string) ($_SERVER[$key] ?? '');
+        if ($value === '') {
+            continue;
+        }
+        $ip = trim(explode(',', $value)[0]);
+        if (in_array($ip, $ignore, true)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function require_admin($password): void
 {
     if (!check_password($password)) {
         json_out(401, ['error' => 'Неверный пароль']);
     }
+    mark_staff();
 }
 
 function load_json_file(string $path, array $fallback = []): array

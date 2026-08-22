@@ -1179,9 +1179,17 @@
       // Обложку показываем, как только она есть; пока её нет — заглушка.
       // И то и другое кликабельно: ролик открывается в окошке просмотра.
       var playable = v.url || v.localUrl;
-      var inner = v.poster
-        ? '<img src="' + escapeAttr(resolveUrl(v.poster)) + '" alt="">'
-        : '<span class="admin-video__cover-empty">🎬</span>';
+      // Если обложка не снялась, показываем кадр из самого ролика — так
+      // менеджер всё равно видит, что загрузил, и может дать название.
+      var inner;
+      if (v.poster) {
+        inner = '<img src="' + escapeAttr(resolveUrl(v.poster)) + '" alt="">';
+      } else if (playable) {
+        inner = '<video class="admin-video__frame" src="' + escapeAttr(playable) + '#t=1"' +
+                ' preload="metadata" muted playsinline></video>';
+      } else {
+        inner = '<span class="admin-video__cover-empty">🎬</span>';
+      }
       var cover = playable
         ? '<button type="button" class="admin-video__cover admin-video__cover--play" data-play="' + i + '"' +
           ' title="Посмотреть ролик">' + inner + '<span class="admin-video__play">▶</span></button>'

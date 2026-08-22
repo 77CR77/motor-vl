@@ -483,9 +483,18 @@ document.addEventListener("DOMContentLoaded", function () {
             var label = typeof v === "string" ? v : (v.label || "Видео");
             var url = (typeof v === "object" && v.url) ? v.url : "";
             var poster = (typeof v === "object" && v.poster) ? v.poster : "";
+            // Обложка есть не у всех роликов: у загруженных через панель кадр
+            // иногда не снимается — браузер не всегда берётся декодировать файл
+            // на стороне менеджера. Тогда показываем кадр из самого ролика:
+            // preload=metadata и #t=1 заставляют браузер нарисовать секунду видео,
+            // не скачивая его целиком.
+            var coverInner = poster
+              ? '<img src="' + poster + '" alt="" loading="lazy">'
+              : (url ? '<video class="lightbox__video-frame" src="' + url + '#t=1"' +
+                       ' preload="metadata" muted playsinline></video>' : "");
             var cover =
-              '<span class="lightbox__video-cover' + (poster ? "" : " lightbox__video-cover--empty") + '">' +
-                (poster ? '<img src="' + poster + '" alt="" loading="lazy">' : "") +
+              '<span class="lightbox__video-cover' + (poster || url ? "" : " lightbox__video-cover--empty") + '">' +
+                coverInner +
                 '<span class="lightbox__video-play">▶</span>' +
                 (typeof v === "object" && v.duration ? '<span class="lightbox__video-time">' + formatTime(v.duration) + "</span>" : "") +
               "</span>" +

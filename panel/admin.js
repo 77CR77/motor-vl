@@ -556,6 +556,11 @@
     }
     statsLogBtn.textContent = "Скрыть журнал";
     statsLog.style.display = "block";
+    // Журнал внизу страницы: сам подводим к нему, иначе после нажатия
+    // кажется, что ничего не произошло.
+    setTimeout(function () {
+      statsLog.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
     statsLog.innerHTML = '<p style="color:var(--text-muted);">Загружаем…</p>';
 
     fetch("/api/stats.php?log=1", { headers: { "x-admin-password": password() } })
@@ -581,7 +586,7 @@
                    "</div>";
           }).join("") +
           '<p class="stats-log__note">Одна строка — один посетитель. Хранятся последние 300 визитов. ' +
-          "Какие страницы смотрят, видно в сводке ниже.</p>";
+          "Какие страницы смотрят, видно в сводке выше.</p>";
       })
       .catch(function (err) {
         statsLog.innerHTML = '<p style="color:var(--jp-red);">' + err.message + "</p>";

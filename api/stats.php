@@ -32,6 +32,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
 require_admin($_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? ($_GET['password'] ?? null));
 
+// Журнал последних заходов — по отдельному запросу, чтобы не тащить его
+// каждый раз вместе со сводкой.
+if (isset($_GET['log'])) {
+    $visits = load_json_file(PRIVATE_DIR . '/stats/visits.json');
+    json_out(200, ['visits' => array_slice($visits, 0, 150)]);
+}
+
 $days = (int) ($_GET['days'] ?? 30);
 $days = max(7, min(90, $days));
 

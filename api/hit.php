@@ -14,6 +14,10 @@ declare(strict_types=1);
 require __DIR__ . '/lib.php';
 
 const STATS_DIR = PRIVATE_DIR . '/stats';
+// Отдельный журнал последних заходов: сводка отвечает «сколько», а он —
+// «когда и откуда». Держим ограниченное число записей, чтобы файл не рос.
+const VISITS_FILE = PRIVATE_DIR . '/stats/visits.json';
+const VISITS_KEEP = 300;
 // Столько страниц и источников держим в списке, остальное — в «прочее».
 const TOP_KEEP = 40;
 
@@ -154,7 +158,8 @@ $today['pages'][$page] = ($today['pages'][$page] ?? 0) + 1;
 $today['sources'][$source] = ($today['sources'][$source] ?? 0) + 1;
 // Область считаем по людям, а не по просмотрам: иначе один посетитель,
 // открывший десять карточек, выглядит как десять человек из своего города.
-if (!isset($today['visitors'][$hash])) {
+$isNewVisitor = !isset($today['visitors'][$hash]);
+if ($isNewVisitor) {
     $today['regions'][$region] = ($today['regions'][$region] ?? 0) + 1;
 }
 $today['visitors'][$hash] = 1;
@@ -171,5 +176,20 @@ foreach (['pages', 'sources', 'regions'] as $key) {
 
 $stats['days'][$day] = $today;
 save_json_file($file, $stats);
+
+// Запись в журнал: время, страница, источник и область. Ни адреса, ни
+// отпечатка посетителя здесь нет — по журналу нельзя связать заходы
+// между собой и тем более с человеком.
+$visits = load_json_file(VISITS_FILE);
+array_unshift($visits, [
+    'at' => $now->format('c'),
+    'page' => $page,
+    'source' => $source,
+    'region' => $region,
+    // Первый заход посетителя за день отмечаем — так видно новых людей,
+    // а не просто перелистывание страниц.
+    'first' => $isNewVisitor,
+]);
+save_json_file(VISITS_FILE, array_slice($visits, 0, VISITS_KEEP));
 
 json_out(200, ['ok' => true]);

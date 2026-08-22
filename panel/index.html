@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css?v=ca9113d6">
-<link rel="stylesheet" href="admin.css?v=7d2b92cc">
+<link rel="stylesheet" href="admin.css?v=e6c2c352">
 </head>
 <body class="admin-body">
 
@@ -91,8 +91,10 @@
           <option value="30" selected>за месяц</option>
           <option value="90">за три месяца</option>
         </select>
+        <button type="button" id="statsLogBtn" class="admin-lead__btn">Журнал заходов</button>
         <button type="button" id="statsReset" class="admin-lead__btn admin-lead__btn--delete">Очистить статистику</button>
       </div>
+      <div id="statsLog" class="stats-log" style="display:none;"></div>
       <div id="statsCards" class="stats-cards"></div>
       <div id="statsChart" class="stats-chart"></div>
       <div class="stats-columns">
@@ -177,6 +179,6 @@
   </main>
 </div>
 
-<script src="admin.js?v=16ae8b10"></script>
+<script src="admin.js?v=6764fe7a"></script>
 </body>
 </html>

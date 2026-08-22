@@ -32,6 +32,8 @@
   var statsPages = document.getElementById("statsPages");
   var statsRegions = document.getElementById("statsRegions");
   var statsResetBtn = document.getElementById("statsReset");
+  var statsLogBtn = document.getElementById("statsLogBtn");
+  var statsLog = document.getElementById("statsLog");
   var currentSold = [];
   var leadsBadge = document.getElementById("leadsBadge");
   var leadsView = document.getElementById("leadsView");
@@ -197,6 +199,9 @@
   if (statsRange) {
     statsRange.addEventListener("change", loadStats);
   }
+  if (statsLogBtn) {
+    statsLogBtn.addEventListener("click", toggleVisitLog);
+  }
   if (statsResetBtn) {
     statsResetBtn.addEventListener("click", function () {
       if (!confirm("Обнулить всю статистику посещений?\n\nСчётчики начнутся с нуля. Заявки и каталог это не затронет.")) return;
@@ -213,6 +218,10 @@
         })
         .then(function () {
           showStatus("Статистика обнулена — счёт пошёл заново");
+          if (statsLog) {
+            statsLog.style.display = "none";
+            statsLogBtn.textContent = "Журнал заходов";
+          }
           loadStats();
         })
         .catch(function (err) { showStatus(err.message, true); });
@@ -535,6 +544,62 @@
     if (statsRegions) {
       statsRegions.innerHTML = renderStatRows(data.regions, "Пока не определено");
     }
+  }
+
+  // Журнал заходов: сводка отвечает «сколько», журнал — «когда и откуда».
+  // Открывается по кнопке, чтобы не мешать, когда нужны только цифры.
+  function toggleVisitLog() {
+    if (statsLog.style.display !== "none") {
+      statsLog.style.display = "none";
+      statsLogBtn.textContent = "Журнал заходов";
+      return;
+    }
+    statsLogBtn.textContent = "Скрыть журнал";
+    statsLog.style.display = "block";
+    statsLog.innerHTML = '<p style="color:var(--text-muted);">Загружаем…</p>';
+
+    fetch("/api/stats.php?log=1", { headers: { "x-admin-password": password() } })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok) throw new Error(data.error || "Не удалось получить журнал");
+          return data;
+        });
+      })
+      .then(function (data) {
+        var visits = data.visits || [];
+        if (!visits.length) {
+          statsLog.innerHTML = '<p style="color:var(--text-muted);">Заходов пока не было.</p>';
+          return;
+        }
+        statsLog.innerHTML =
+          '<div class="stats-log__head"><span>Когда</span><span>Страница</span><span>Откуда</span><span>Место</span></div>' +
+          visits.map(function (v) {
+            return '<div class="stats-log__row' + (v.first ? " is-first" : "") + '">' +
+                     "<span>" + formatVisitTime(v.at) + "</span>" +
+                     "<span>" + escapeAttr(pageName(v.page || "/")) + "</span>" +
+                     "<span>" + escapeAttr(v.source || "—") + "</span>" +
+                     "<span>" + escapeAttr(v.region || "—") + "</span>" +
+                   "</div>";
+          }).join("") +
+          '<p class="stats-log__note">Хранятся последние 300 заходов. Строки с золотой меткой — ' +
+          "первый заход человека за день, остальные — переходы по страницам.</p>";
+      })
+      .catch(function (err) {
+        statsLog.innerHTML = '<p style="color:var(--jp-red);">' + err.message + "</p>";
+      });
+  }
+
+  // «Сегодня, 14:32» читается быстрее, чем полная дата у каждой строки.
+  function formatVisitTime(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return "—";
+    var now = new Date();
+    var time = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+    var sameDay = d.toDateString() === now.toDateString();
+    var yesterday = new Date(now.getTime() - 86400000).toDateString() === d.toDateString();
+    if (sameDay) return "сегодня, " + time;
+    if (yesterday) return "вчера, " + time;
+    return ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + ", " + time;
   }
 
   function renderStatRows(map, empty, nameFn) {

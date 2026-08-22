@@ -428,6 +428,48 @@
 .stats-bar:hover .stats-bar__fill { opacity: .75; }
 .stats-bar__day { font-size: 10px; color: var(--navy); opacity: .45; padding-top: 4px; }
 
+/* Журнал заходов: плотная таблица, читается сверху вниз. */
+.stats-log {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(6,26,48,.06);
+  padding: 6px 4px 10px;
+  margin-bottom: 22px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.stats-log__head,
+.stats-log__row {
+  display: grid;
+  grid-template-columns: 130px 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 8px 14px;
+  font-size: 13px;
+  align-items: baseline;
+}
+.stats-log__head {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--navy);
+  opacity: .55;
+  border-bottom: 1px solid rgba(6,26,48,.08);
+}
+.stats-log__row { border-bottom: 1px solid rgba(6,26,48,.05); color: var(--navy-dark); }
+.stats-log__row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Первый заход человека за день выделяем — так видно новых посетителей. */
+.stats-log__row.is-first { border-left: 3px solid var(--accent); }
+.stats-log__note { font-size: 12px; color: var(--text-muted); padding: 10px 14px 0; margin: 0; }
+
+@media (max-width: 760px) {
+  .stats-log__head { display: none; }
+  .stats-log__row { grid-template-columns: 1fr 1fr; gap: 4px 10px; }
+}
+
 .stats-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .stats-columns--single { grid-template-columns: 1fr; margin-top: 22px; }
 .stats-title { font-size: 15px; margin: 0 0 12px; color: var(--navy-dark); }

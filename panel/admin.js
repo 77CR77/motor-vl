@@ -572,17 +572,16 @@
           return;
         }
         statsLog.innerHTML =
-          '<div class="stats-log__head"><span>Когда</span><span>Страница</span><span>Откуда</span><span>Место</span></div>' +
+          '<div class="stats-log__head"><span>Когда</span><span>Откуда пришёл</span><span>Место</span></div>' +
           visits.map(function (v) {
-            return '<div class="stats-log__row' + (v.first ? " is-first" : "") + '">' +
+            return '<div class="stats-log__row">' +
                      "<span>" + formatVisitTime(v.at) + "</span>" +
-                     "<span>" + escapeAttr(pageName(v.page || "/")) + "</span>" +
                      "<span>" + escapeAttr(v.source || "—") + "</span>" +
                      "<span>" + escapeAttr(v.region || "—") + "</span>" +
                    "</div>";
           }).join("") +
-          '<p class="stats-log__note">Хранятся последние 300 заходов. Строки с золотой меткой — ' +
-          "первый заход человека за день, остальные — переходы по страницам.</p>";
+          '<p class="stats-log__note">Одна строка — один посетитель. Хранятся последние 300 визитов. ' +
+          "Какие страницы смотрят, видно в сводке ниже.</p>";
       })
       .catch(function (err) {
         statsLog.innerHTML = '<p style="color:var(--jp-red);">' + err.message + "</p>";

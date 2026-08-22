@@ -177,19 +177,17 @@ foreach (['pages', 'sources', 'regions'] as $key) {
 $stats['days'][$day] = $today;
 save_json_file($file, $stats);
 
-// Запись в журнал: время, страница, источник и область. Ни адреса, ни
-// отпечатка посетителя здесь нет — по журналу нельзя связать заходы
-// между собой и тем более с человеком.
-$visits = load_json_file(VISITS_FILE);
-array_unshift($visits, [
-    'at' => $now->format('c'),
-    'page' => $page,
-    'source' => $source,
-    'region' => $region,
-    // Первый заход посетителя за день отмечаем — так видно новых людей,
-    // а не просто перелистывание страниц.
-    'first' => $isNewVisitor,
-]);
-save_json_file(VISITS_FILE, array_slice($visits, 0, VISITS_KEEP));
+// В журнал попадает сам факт визита — один раз на человека за день, без
+// указания страниц: сколько какую страницу смотрели, видно в сводке выше,
+// а прослеживать маршрут конкретного посетителя незачем.
+if ($isNewVisitor) {
+    $visits = load_json_file(VISITS_FILE);
+    array_unshift($visits, [
+        'at' => $now->format('c'),
+        'source' => $source,
+        'region' => $region,
+    ]);
+    save_json_file(VISITS_FILE, array_slice($visits, 0, VISITS_KEEP));
+}
 
 json_out(200, ['ok' => true]);

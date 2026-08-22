@@ -195,8 +195,12 @@ document.addEventListener("DOMContentLoaded", function () {
                "</div>";
       }).join("");
 
+      // Плашек три, цвет закреплён за надписью. У старых карточек цвет
+      // не сохранён — определяем его по тексту, чтобы каталог выглядел ровно.
+      var BADGE_TONES = { "Новый": "gold", "Хит продаж": "green", "Распродажа": "red" };
+      var badgeTone = m.badgeColor || BADGE_TONES[m.badge] || "";
       var badgeHtml = m.badge
-        ? '<span class="motor-card__badge' + (m.badge === "Новый" ? " motor-card__badge--new" : "") + '">' + m.badge + "</span>"
+        ? '<span class="motor-card__badge' + (badgeTone ? " motor-card__badge--" + badgeTone : "") + '">' + m.badge + "</span>"
         : "";
 
       var photos = (m.photos && m.photos.length) ? m.photos : [m.img];

@@ -11,8 +11,8 @@
 <meta name="theme-color" content="#051426">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=b9fddef7">
-<link rel="stylesheet" href="admin.css?v=40707a5b">
+<link rel="stylesheet" href="../css/style.css?v=b39444ea">
+<link rel="stylesheet" href="admin.css?v=c0c5a423">
 </head>
 <body class="admin-body">
 
@@ -103,7 +103,8 @@
           </div>
           <div class="admin-form__row">
             <label>Плашка (необязательно)</label>
-            <input type="text" id="fBadge" class="form-control" placeholder="Хит продаж / Новый">
+            <input type="hidden" id="fBadge">
+            <div id="badgeChoices" class="badge-choices"></div>
           </div>
         </div>
 
@@ -145,6 +146,6 @@
   </main>
 </div>
 
-<script src="admin.js?v=e337299d"></script>
+<script src="admin.js?v=e1e103bb"></script>
 </body>
 </html>

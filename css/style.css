@@ -867,6 +867,11 @@ nav.main-nav a.active {
   cursor: zoom-in;
   display: block;
 }
+/* Карточка целиком открывает фото и видео — курсор должен об этом говорить,
+   а таблица характеристик остаётся обычным текстом. */
+.motor-card { cursor: pointer; }
+.motor-card .spec-list { cursor: default; }
+
 .motor-card__badge {
   position: absolute;
   top: 14px;
@@ -880,7 +885,11 @@ nav.main-nav a.active {
   text-transform: uppercase;
   letter-spacing: .03em;
 }
-.motor-card__badge--new { background: var(--accent); }
+/* Цвета плашки — те же пять, что предлагает панель. */
+.motor-card__badge--new,
+.motor-card__badge--gold { background: var(--accent); }
+.motor-card__badge--green { background: var(--success); }
+.motor-card__badge--red { background: var(--jp-red); }
 .motor-card__meta {
   position: absolute;
   bottom: 12px;

@@ -74,7 +74,8 @@
         ""
       ]
     ],
-    "id": "m38"
+    "id": "m38",
+    "badgeColor": "green"
   },
   {
     "brand": "yamaha",
@@ -1581,7 +1582,8 @@
         ""
       ]
     ],
-    "id": "m100"
+    "id": "m100",
+    "badgeColor": "gold"
   },
   {
     "brand": "yamaha",
@@ -1638,7 +1640,8 @@
         ""
       ]
     ],
-    "id": "m49"
+    "id": "m49",
+    "badgeColor": "gold"
   },
   {
     "brand": "yamaha",
@@ -2150,7 +2153,8 @@
         ""
       ]
     ],
-    "id": "m95"
+    "id": "m95",
+    "badgeColor": "gold"
   },
   {
     "brand": "yamaha",
@@ -2209,7 +2213,8 @@
         ""
       ]
     ],
-    "id": "m93"
+    "id": "m93",
+    "badgeColor": "gold"
   },
   {
     "brand": "honda",
@@ -2446,7 +2451,8 @@
         ""
       ]
     ],
-    "id": "m70"
+    "id": "m70",
+    "badgeColor": "gold"
   },
   {
     "brand": "suzuki",

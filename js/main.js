@@ -498,6 +498,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("click", function (e) {
       var trigger = e.target.closest("[data-lightbox]");
+      if (!trigger) {
+        // По карточке мотора в каталоге можно нажать где угодно — на название,
+        // на цену, на пустое место. Исключение — таблица характеристик:
+        // её читают, а не нажимают, и случайное открытие окна там мешает.
+        // Ссылки и кнопки внутри карточки тоже работают по-своему.
+        var card = e.target.closest(".motor-card");
+        if (card && !e.target.closest(".spec-list, a, button")) {
+          trigger = card.querySelector("[data-lightbox]");
+        }
+      }
       if (trigger) openWith(trigger);
     });
     // Закрытие лайтбокса всегда глушит видео — иначе ролик продолжает играть за кадром.

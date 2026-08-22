@@ -42,6 +42,17 @@
   var fTitle = document.getElementById("fTitle");
   var fPrice = document.getElementById("fPrice");
   var fBadge = document.getElementById("fBadge");
+  var badgeChoicesEl = document.getElementById("badgeChoices");
+
+  // Плашек ровно три, каждая своего цвета. Свободный ввод убран намеренно:
+  // так в каталоге не появится десяток похожих надписей вроде «Хит!» и «ХИТ».
+  var BADGES = [
+    { text: "", tone: "", label: "Без плашки", css: "transparent" },
+    { text: "Новый", tone: "gold", css: "#d4af37" },
+    { text: "Хит продаж", tone: "green", css: "#2f9e58" },
+    { text: "Распродажа", tone: "red", css: "#bc002d" }
+  ];
+  var badgeColor = "";
 
   var photoDrop = document.getElementById("photoDrop");
   var photoInput = document.getElementById("photoInput");
@@ -282,6 +293,25 @@
     });
   }
 
+  // Три плашки кнопками: цвет показан кружком, выбранная подсвечена.
+  function renderBadgeChoices() {
+    if (!badgeChoicesEl) return;
+    badgeChoicesEl.innerHTML = BADGES.map(function (b) {
+      var active = (b.text || "") === (fBadge.value || "");
+      return '<button type="button" class="badge-choice' + (active ? " is-active" : "") +
+        '" data-text="' + escapeAttr(b.text) + '" data-tone="' + b.tone + '">' +
+        '<span class="badge-choice__dot" style="background:' + b.css + '"></span>' +
+        (b.label || b.text) + "</button>";
+    }).join("");
+    badgeChoicesEl.querySelectorAll(".badge-choice").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        fBadge.value = btn.getAttribute("data-text");
+        badgeColor = btn.getAttribute("data-tone");
+        renderBadgeChoices();
+      });
+    });
+  }
+
   function showStatus(text, isError) {
     statusMsg.textContent = text;
     statusMsg.className = "admin-status " + (isError ? "admin-status--error" : "admin-status--ok");
@@ -427,6 +457,8 @@
     fTitle.value = motor ? motor.title : "";
     fPrice.value = motor ? motor.price : "";
     fBadge.value = motor && motor.badge ? motor.badge : "";
+    badgeColor = motor && motor.badgeColor ? motor.badgeColor : "";
+    renderBadgeChoices();
     formTitle.textContent = motor ? "Редактирование мотора" : "Новый мотор";
     deleteBtn.style.display = motor ? "inline-block" : "none";
 
@@ -1001,6 +1033,7 @@
       title: fTitle.value.trim(),
       price: fPrice.value,
       badge: fBadge.value.trim(),
+      badgeColor: badgeColor,
       photos: photoState.map(function (p) {
         return p.type === "new"
           ? { type: "new", filename: p.filename, dataBase64: p.dataBase64, isMain: !!p.isMain }
